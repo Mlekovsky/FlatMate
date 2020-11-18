@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <RootNamespace>FlatMate_backend.Domain</RootNamespace>
+    <AssemblyName>FlatMate_backend.Domain</AssemblyName>
+  </PropertyGroup>
+
+</Project>
