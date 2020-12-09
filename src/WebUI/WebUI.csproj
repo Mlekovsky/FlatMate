@@ -45,6 +45,10 @@
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ClientApp\src\app\" />
+  </ItemGroup>
+
   <Target Name="NSwag" AfterTargets="Build" Condition="'$(Configuration)' == 'Debug'">
     <Copy SourceFiles="@(Reference)" DestinationFolder="$(OutDir)References" />
     <Exec Command="$(NSwagExe_Core31) run /variables:Configuration=$(Configuration)" />
