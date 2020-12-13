@@ -13,17 +13,19 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { Copyright } from './Copyright';
+import logo from '../../Resources/FlatMateLogo.png';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: '100vh',
+    height: '100%',
   },
   image: {
-    backgroundImage: 'url(https://source.unsplash.com/random)',
+    backgroundImage: `url(${logo})`,
     backgroundRepeat: 'no-repeat',
-    backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
-    backgroundSize: 'cover',
+    backgroundColor: '#FD3145',
+    backgroundSize: '400px 200px',
     backgroundPosition: 'center',
+    // padding: theme.spacing(10, 0, 0, 0),
   },
   paper: {
     margin: theme.spacing(8, 4),
@@ -41,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    backgroundColor: '#FD3145',
   },
 }));
 
@@ -58,7 +61,7 @@ export const Login = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Sign in to FlatMate
           </Typography>
           <form className={classes.form} noValidate>
             <TextField
@@ -67,11 +70,19 @@ export const Login = () => {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Login or Email address"
               name="email"
               autoComplete="email"
               autoFocus
             />
+            <Grid container>
+              <Grid item xs></Grid>
+              <Grid item>
+                <Link href="#" variant="body2">
+                  {'Forgot password?'}
+                </Link>
+              </Grid>
+            </Grid>
             <TextField
               variant="outlined"
               margin="normal"
@@ -85,14 +96,10 @@ export const Login = () => {
             />
             <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
             <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
-              Sign In
+              Log In
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
+              <Grid item xs></Grid>
               <Grid item>
                 <Link href="#" variant="body2">
                   {"Don't have an account? Sign Up"}
