@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#FD3145',
     backgroundSize: '400px 200px',
     backgroundPosition: 'center',
-    // padding: theme.spacing(10, 0, 0, 0),
   },
   paper: {
     margin: theme.spacing(8, 4),
