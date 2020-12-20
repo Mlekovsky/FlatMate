@@ -32,10 +32,9 @@ export const Layout = (props: {
 
   return (
     <div>
-      <Menu />
-      <Container maxWidth="lg" className={classes.container}>
-        {props.children}
-      </Container>
+        <Menu>
+            {props.children}
+        </Menu>
     </div>
   );
 };

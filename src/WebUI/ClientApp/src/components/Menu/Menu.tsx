@@ -12,6 +12,7 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
+import Container from '@material-ui/core/Container';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './ListItems';
@@ -97,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Menu = () => {
+export const Menu = (props) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -149,6 +150,9 @@ export const Menu = () => {
         <Divider />
         <List>{secondaryListItems}</List>
       </Drawer>
+    <Container maxWidth="lg" className={classes.container}>
+        {props.children}
+    </Container>
     </div>
   );
 };
