@@ -4,6 +4,7 @@ using FlatMate_backend.Infrastructure;
 using FlatMate_backend.Infrastructure.Persistence;
 using FlatMate_backend.WebUI.Filters;
 using FlatMate_backend.WebUI.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -44,6 +45,13 @@ namespace FlatMate_backend.WebUI
                 options.Filters.Add(new ApiExceptionFilter()));
 
             services.AddRazorPages();
+
+            services.AddAuthentication().AddFacebook(options =>
+            {
+                options.AppId = Configuration["Authentication:Facebook:AppId"];
+                options.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                options.AccessDeniedPath = "/AccessDeniedPathInfo";
+            });
 
             // Customise default API behaviour
             services.Configure<ApiBehaviorOptions>(options =>
