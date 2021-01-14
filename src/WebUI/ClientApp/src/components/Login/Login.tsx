@@ -14,6 +14,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { Copyright } from './Copyright';
 import logo from '../../Resources/FlatMateLogo.png';
+import FacebookLogin from 'react-facebook-login';
+// import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,6 +47,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#FD3145',
   },
 }));
+
+const responseFacebook = (response) => {
+  console.log(response);
+};
 
 export const Login = () => {
   const displayName = Login.name;
@@ -100,9 +106,13 @@ export const Login = () => {
             <Grid container>
               <Grid item xs></Grid>
               <Grid item>
-                <Link href="FacebookLoginPage" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
+                <FacebookLogin
+                  appId="399635261114470"
+                  autoLoad={true}
+                  fields="name,email,picture"
+                  callback={responseFacebook}
+                  // render={(renderProps) => <Link variant="body2">{"Don't have an account? Sign Up"}</Link>}
+                />
               </Grid>
             </Grid>
             <Box mt={5}>

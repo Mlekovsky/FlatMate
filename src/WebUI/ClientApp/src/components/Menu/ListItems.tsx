@@ -15,6 +15,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import { NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import './Styles.css';
+import { LoginMenu } from '../api-authorization/LoginMenu';
 
 const checkActive = (match, location) => {
   //some additional logic to verify you are in the home URI
@@ -80,6 +81,7 @@ export const secondaryListItems = (
         <ListItemText primary="Settings" />
       </ListItem>
     </NavLink>
+    {/* <LoginMenu></LoginMenu> */}
     <NavLink tag={Link} className="text-dark" to="/Login" isActive={checkActive}>
       <ListItem button>
         <ListItemIcon>

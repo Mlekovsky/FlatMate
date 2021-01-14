@@ -1,6 +1,7 @@
 using FlatMate_backend.Application;
 using FlatMate_backend.Application.Common.Interfaces;
 using FlatMate_backend.Infrastructure;
+using FlatMate_backend.Infrastructure.Identity;
 using FlatMate_backend.Infrastructure.Persistence;
 using FlatMate_backend.WebUI.Filters;
 using FlatMate_backend.WebUI.Services;
@@ -41,7 +42,7 @@ namespace FlatMate_backend.WebUI
             services.AddHealthChecks()
                 .AddDbContextCheck<ApplicationDbContext>();
 
-            services.AddControllersWithViews(options => 
+            services.AddControllersWithViews(options =>
                 options.Filters.Add(new ApiExceptionFilter()));
 
             services.AddRazorPages();
