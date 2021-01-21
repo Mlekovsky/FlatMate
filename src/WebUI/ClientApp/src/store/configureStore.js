@@ -1,6 +1,6 @@
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
-import { routerReducer, routerMiddleware } from 'react-router-redux';
+import { connectRouter, routerMiddleware } from 'connected-react-router'
 import * as Todo from '../reducer/Todo/TodoReducer';
 import * as Loader from '../reducer/common/loaderReducer';
 import * as MainList from '../reducer/menu/MainListItemReducer';
@@ -25,8 +25,8 @@ export default function configureStore(history, initialState) {
   // }
 
   const rootReducer = combineReducers({
+    router: connectRouter(history),
     ...reducers,
-    routing: routerReducer,
   });
 
   return createStore(rootReducer, initialState, compose(applyMiddleware(...middleware), ...enhancers));

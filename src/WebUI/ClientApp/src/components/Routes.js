@@ -1,5 +1,5 @@
-import React, { Component, FC } from 'react';
-import { Switch, Route, Router } from 'react-router-dom';
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Home } from '../components/Home';
@@ -8,22 +8,16 @@ import { Dashboard } from '../components/Homepage/Dashboard';
 import { FacebookLoginPage } from '../components/Login/FacebookLoginPage';
 import { actionCreators as loaderActionsCreator } from '../actions/common/loaderAction';
 
-class Routes extends Component {
-  render() {
-    return (
-      <Router history={this.props.history}>
-        <div>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/login" component={Login} />
-            <Route path="/home" component={Dashboard} />
-            <Route path="/FacebookLoginPage" component={FacebookLoginPage} />
-          </Switch>
-        </div>
-      </Router>
-    );
-  }
-}
+const Routes = () => (
+    <>
+        <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/login" component={Login} />
+        <Route path="/home" component={Dashboard} />
+        <Route path="/FacebookLoginPage" component={FacebookLoginPage} />
+        </Switch>
+    </>
+);
 
 export default connect(
   (state) => ({}),
