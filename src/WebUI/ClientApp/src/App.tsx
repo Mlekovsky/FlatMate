@@ -1,24 +1,26 @@
-import React, { Component } from 'react';
-import { Route, Switch } from 'react-router';
+import React, { Component, FC, memo } from 'react';
+import { withRouter } from 'react-router';
 import { Layout } from './components/Layout';
-import { Home } from './components/Home';
 import './custom.css';
-import { Login } from './components/Login/Login';
-import { Dashboard } from './components/Homepage/Dashboard';
-import {FacebookLoginPage} from './components/Login/FacebookLoginPage';
-export default class App extends Component {
-  static displayName = App.name;
+import { createBrowserHistory } from 'history';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import Routes from './components/Routes';
 
-  render() {
-    return (
-      <Layout>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/login" component={Login} />
-          <Route path="/home" component={Dashboard} />
-          <Route path="/FacebookLoginPage" component={FacebookLoginPage}/>
-        </Switch>
-      </Layout>
-    );
-  }
-}
+interface IApp {}
+
+const App: FC<IApp> = () => {
+  const renderRoutes = () => {
+    const history = createBrowserHistory();
+    //@ts-ignore
+    return <Routes history={history} />;
+  };
+
+  return <Layout>{renderRoutes()}</Layout>;
+};
+
+const mapStateToProps = (state: any) => ({});
+
+const mapDispatchToProps = (dispatch: any) => bindActionCreators({}, dispatch);
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(memo(App)));
