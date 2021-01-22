@@ -18,8 +18,13 @@ const MenuLink: FC<IMenuLink> = ({ value, selectedValue, onChange, text, to, ico
   };
 
   return (
-    <NavLink tag={Link} className={classNames('text-dark', { active: value == selectedValue })} to={to}>
-      <ListItem button selected>
+    <NavLink
+      tag={Link}
+      className={classNames('text-dark', { active: value == selectedValue })}
+      to={to}
+      onClick={onChangeHandler}
+    >
+      <ListItem button>
         <ListItemIcon>{icon}</ListItemIcon>
         <ListItemText primary={text} />
       </ListItem>

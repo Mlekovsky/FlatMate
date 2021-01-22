@@ -61,7 +61,7 @@ const MainListItems: FC<IMainListItems> = ({ selectedValue, onChange }) => {
         selectedValue={selectedValue}
         text={MainListItemsValues.HomeTasks}
         value={MainListItemsValues.HomeTasks}
-        to="/"
+        to="/Todo"
       />
     </div>
   );

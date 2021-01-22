@@ -1,0 +1,43 @@
+.task-title {
+  color: black;
+  margin: auto;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.list-item {
+  cursor: pointer;
+  position: relative;
+  padding: 12px 8px 12px 15px;
+  background: #eee;
+  font-size: 18px;
+  transition: 0.2s;
+
+  /* make the list items unselectable */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.list-item:nth-child(odd) {
+  background: white;
+}
+
+.list-item:hover {
+  background: #3f51b5;
+}
+
+.item-value {
+  padding-left: 10px;
+}
+
+.todo-list {
+  list-style-type: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.125);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.input-container {
+  margin-top: 25px;
+}

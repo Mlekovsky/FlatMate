@@ -16,6 +16,8 @@ import Container from '@material-ui/core/Container';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './ListItems';
+import MainListItemsContainer from './MainListItemsContainer';
+import SecondaryListItemsContainer from './SecondaryListItemsContainer';
 
 const drawerWidth = 240;
 
@@ -146,13 +148,15 @@ export const Menu = (props) => {
           </IconButton>
         </div>
         <Divider />
-        <List>{mainListItems}</List>
+        {/* <List>{mainListItems}</List> */}
+        <MainListItemsContainer></MainListItemsContainer>
         <Divider />
-        <List>{secondaryListItems}</List>
+        {/* <List>{secondaryListItems}</List> */}
+        <SecondaryListItemsContainer></SecondaryListItemsContainer>
       </Drawer>
-    <Container maxWidth="lg" className={classes.container}>
+      <Container maxWidth="lg" className={classes.container}>
         {props.children}
-    </Container>
+      </Container>
     </div>
   );
 };
