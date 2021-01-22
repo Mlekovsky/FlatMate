@@ -1,10 +1,24 @@
 import React from 'react';
+import produce from 'immer';
+import { FETCH_DATA } from 'src/actions/Todo/TodoActionTypes';
+import { ITodosVM } from 'src/types/ToDoItem';
 
-export const reducer = (state: any, action: { type: any; }) => {
-    switch (action.type){
-        case 'FETCH_DATA':
-            return {...state, value: action.payload.testObject};
-        default:
-            return state;
-    }
+interface ITodoState {
+  todoItems: ITodosVM[];
 }
+
+const initialState: ITodoState = {
+  todoItems: [],
+};
+
+export const reducer = (state: ITodoState, action) => {
+  state = state || initialState;
+
+  return produce(state, (nextState) => {
+    switch (action.type) {
+      case FETCH_DATA:
+        nextState.todoItems = action.payload.todoItems;
+        break;
+    }
+  });
+};

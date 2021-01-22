@@ -17,17 +17,9 @@ import { Link } from 'react-router-dom';
 import './Styles.css';
 import { LoginMenu } from '../api-authorization/LoginMenu';
 
-const checkActive = (match, location) => {
-  //some additional logic to verify you are in the home URI
-  if (!location) return false;
-  const { pathname } = location;
-  console.log(pathname);
-  return pathname === '/';
-};
-
 export const mainListItems = (
   <div>
-    <NavLink tag={Link} className="text-dark" to="/Home" isActive={checkActive}>
+    <NavLink tag={Link} className="text-dark" to="/Home">
       <ListItem button selected>
         <ListItemIcon>
           <HomeIcon />
@@ -35,7 +27,7 @@ export const mainListItems = (
         <ListItemText primary="Home" />
       </ListItem>
     </NavLink>
-    <NavLink tag={Link} className="text-dark" to="/" isActive={checkActive}>
+    <NavLink tag={Link} className="text-dark" to="/">
       <ListItem button>
         <ListItemIcon>
           <ChatIcon />
@@ -43,7 +35,7 @@ export const mainListItems = (
         <ListItemText primary="Chat" />
       </ListItem>
     </NavLink>
-    <NavLink tag={Link} className="text-dark" to="/" isActive={checkActive}>
+    <NavLink tag={Link} className="text-dark" to="/">
       <ListItem button>
         <ListItemIcon>
           <ReceiptIcon />
@@ -51,7 +43,7 @@ export const mainListItems = (
         <ListItemText primary="Shopping list" />
       </ListItem>
     </NavLink>
-    <NavLink tag={Link} className="text-dark" to="/" isActive={checkActive}>
+    <NavLink tag={Link} className="text-dark" to="/">
       <ListItem button>
         <ListItemIcon>
           <MonetizationOnIcon />
@@ -59,7 +51,7 @@ export const mainListItems = (
         <ListItemText primary="Receipts" />
       </ListItem>
     </NavLink>
-    <NavLink tag={Link} className="text-dark" to="/" isActive={checkActive}>
+    <NavLink tag={Link} className="text-dark" to="/">
       <ListItem button>
         <ListItemIcon>
           <AssignmentIcon />
@@ -73,7 +65,7 @@ export const mainListItems = (
 export const secondaryListItems = (
   <div>
     <ListSubheader inset>System</ListSubheader>
-    <NavLink tag={Link} className="text-dark" to="/" isActive={checkActive}>
+    <NavLink tag={Link} className="text-dark" to="/">
       <ListItem button>
         <ListItemIcon>
           <SettingsIcon />
@@ -81,8 +73,7 @@ export const secondaryListItems = (
         <ListItemText primary="Settings" />
       </ListItem>
     </NavLink>
-    {/* <LoginMenu></LoginMenu> */}
-    <NavLink tag={Link} className="text-dark" to="/Login" isActive={checkActive}>
+    <NavLink tag={Link} className="text-dark" to="/Login">
       <ListItem button>
         <ListItemIcon>
           <AccountCircleIcon />

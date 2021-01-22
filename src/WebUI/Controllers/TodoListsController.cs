@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FlatMate_backend.WebUI.Controllers
 {
-    [Authorize]
+
     public class TodoListsController : ApiController
     {
         [HttpGet]
