@@ -1,8 +1,11 @@
-﻿using FlatMate_backend.Application.Common.Interfaces;
+﻿using FlatMate_backend.Application.Common.Helpers;
+using FlatMate_backend.Application.Common.Interfaces;
+using FlatMate_backend.Application.Common.Models;
 using FlatMate_backend.Domain.Entities;
 using MediatR;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,10 +23,16 @@ namespace FlatMate_backend.Application.Users.Commands.CreateUser
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, bool>
     {
         private readonly IApplicationDbContext _context;
+        private readonly IPasswordEncryptorService _passwordService;
+        private readonly SecretKeySettings _secretKeySettings;
 
-        public CreateUserCommandHandler(IApplicationDbContext context)
+        public CreateUserCommandHandler(IApplicationDbContext context,
+            IPasswordEncryptorService passwordEncryptorService,
+            SecretKeySettings secretKeySettings)
         {
             _context = context;
+            _passwordService = passwordEncryptorService;
+            _secretKeySettings = secretKeySettings;
         }
 
         public async Task<bool> Handle(CreateUserCommand request, CancellationToken cancellationToken)
@@ -32,12 +41,14 @@ namespace FlatMate_backend.Application.Users.Commands.CreateUser
             {
                 FirstName = request.FirstName,
                 LastName = request.LastName,
-                Email = request.Email,
-                Password = GeneratePassword(request.Password)
+                Email = request.Email
             };
 
             try
             {
+                byte[] passwordKey = NullableStringHelper.GetBytesFromHexString(_secretKeySettings.PasswordSecretKey);
+                (user.PasswordHash, user.PasswordKey) = _passwordService.EncryptPasswordWithAes(request.Password, passwordKey);
+
                 _context.Users.Add(user);
 
                 await _context.SaveChangesAsync(cancellationToken);

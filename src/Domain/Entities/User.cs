@@ -11,7 +11,8 @@ namespace FlatMate_backend.Domain.Entities
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Password { get; set; }
+        public byte[] PasswordHash { get; set; }
+        public byte[] PasswordKey { get; set; }
 
         public IList<RefreshToken> RefreshTokens { get; set; }
     }

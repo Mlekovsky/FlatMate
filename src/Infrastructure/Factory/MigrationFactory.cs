@@ -24,7 +24,8 @@ namespace FlatMate_backend.Infrastructure.Factory
 
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
             //TODO: Zmienic na pobieranie z settings, nie wiem czemu to teraz nie chce działać 
-            optionsBuilder.UseSqlServer("Server=MLEKOMASZINA\\SQLEXPRESS;Database=FlatMateDB;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer("Server=NE-LA-IPOPH396;Database=FlatMateDB;Integrated Security=True;");
+            //optionsBuilder.UseSqlServer("Server=MLEKOMASZINA\\SQLEXPRESS;Database=FlatMateDB;Trusted_Connection=True;");
 
             return new ApplicationDbContext(optionsBuilder.Options);
         }

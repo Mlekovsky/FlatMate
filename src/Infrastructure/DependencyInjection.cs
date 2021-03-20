@@ -1,6 +1,7 @@
 ﻿using FlatMate_backend.Application.Common.Interfaces;
 using FlatMate_backend.Infrastructure.Files;
 using FlatMate_backend.Infrastructure.Persistence;
+using FlatMate_backend.Infrastructure.Services;
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
@@ -29,12 +30,10 @@ namespace FlatMate_backend.Infrastructure
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
 
             services.AddTransient<ICsvFileBuilder, CsvFileBuilder>();
+            services.AddTransient<IPasswordEncryptorService, PasswordEncryptorService>();
 
             var storeOptions = new ConfigurationStoreOptions();
             services.AddSingleton(storeOptions);
-
-            //services.AddAuthentication()
-            //    .AddIdentityServerJwt();
 
             return services;
         }
