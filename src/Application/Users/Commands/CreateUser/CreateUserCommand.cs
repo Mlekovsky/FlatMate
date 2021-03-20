@@ -1,4 +1,5 @@
 ﻿using FlatMate_backend.Application.Common.Interfaces;
+using FlatMate_backend.Domain.Entities;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -27,8 +28,32 @@ namespace FlatMate_backend.Application.Users.Commands.CreateUser
 
         public async Task<bool> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            
-            throw new NotImplementedException();
+            var user = new User
+            {
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Email = request.Email,
+                Password = GeneratePassword(request.Password)
+            };
+
+            try
+            {
+                _context.Users.Add(user);
+
+                await _context.SaveChangesAsync(cancellationToken);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        private string GeneratePassword(string password)
+        {
+            //Replace it with algorithm
+            return password;
         }
     }
 }
+

@@ -21,6 +21,15 @@ namespace FlatMate_backend.Application.Users.Commands.CreateUser
                 .NotEmpty().WithMessage("Email is required")
                 .MaximumLength(200).WithMessage("Mail can't be longer than 200 characters")
                 .MustAsync(BeUniqueEmail).WithMessage("Mail already exist");
+
+            RuleFor(x => x.FirstName)
+                .NotEmpty().WithMessage("First name is required");
+
+            RuleFor(x => x.LastName)
+                .NotEmpty().WithMessage("Last name is required");
+
+            RuleFor(x => x.Password)
+                .NotEmpty().WithMessage("Password is required");
         }
 
         public async Task<bool> BeUniqueEmail(string email, CancellationToken cancellationToken)

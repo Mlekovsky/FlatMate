@@ -11,9 +11,9 @@ namespace FlatMate_backend.WebUI.Controllers
     public class UserController : ApiController
     {
         [HttpPost]
-        public async Task<UserDTO> CreateUser(CreateUserCommand command)
+        public async Task<bool> CreateUser(CreateUserCommand command)
         {
-            throw new Exception();
+            return await Mediator.Send(command);
         }
     }
 }
