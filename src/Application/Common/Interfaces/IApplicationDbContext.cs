@@ -10,7 +10,9 @@ namespace FlatMate_backend.Application.Common.Interfaces
         DbSet<TodoList> TodoLists { get; set; }
 
         DbSet<TodoItem> TodoItems { get; set; }
-
+        DbSet<User> Users { get; set; }
+        DbSet<UserRole> UserRoles { get; set; }
+        DbSet<RefreshToken> RefreshTokens { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

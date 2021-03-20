@@ -1,22 +1,21 @@
 using FlatMate_backend.Application;
-using FlatMate_backend.Application.Common.Interfaces;
 using FlatMate_backend.Infrastructure;
-using FlatMate_backend.Infrastructure.Identity;
 using FlatMate_backend.Infrastructure.Persistence;
 using FlatMate_backend.WebUI.Filters;
-using FlatMate_backend.WebUI.Services;
-using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using NSwag;
-using NSwag.Generation.Processors.Security;
+using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace FlatMate_backend.WebUI
 {
@@ -34,8 +33,6 @@ namespace FlatMate_backend.WebUI
         {
             services.AddApplication();
             services.AddInfrastructure(Configuration);
-
-            services.AddScoped<ICurrentUserService, CurrentUserService>();
 
             services.AddHttpContextAccessor();
 
@@ -66,18 +63,46 @@ namespace FlatMate_backend.WebUI
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            services.AddOpenApiDocument(configure =>
-            {
-                configure.Title = "FlatMate_backend API";
-                configure.AddSecurity("JWT", Enumerable.Empty<string>(), new OpenApiSecurityScheme
-                {
-                    Type = OpenApiSecuritySchemeType.ApiKey,
-                    Name = "Authorization",
-                    In = OpenApiSecurityApiKeyLocation.Header,
-                    Description = "Type into the textbox: Bearer {your JWT token}."
-                });
+            // Register the Swagger generator, defining 1 or more Swagger documents
+            services.AddSwaggerGen();
 
-                configure.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+              .AddJwtBearer(options =>
+              {
+                  options.TokenValidationParameters = new TokenValidationParameters
+                  {
+                      ValidateIssuer = true,
+                      ValidateAudience = false,
+                      ValidateLifetime = true,
+                      ValidateIssuerSigningKey = true,
+                      ValidIssuer = Configuration["FlatMateIssuer"],
+                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["FlatMateKey"])),
+                      ClockSkew = TimeSpan.FromMinutes(1),
+                  };
+
+                  options.Events = new JwtBearerEvents
+                  {
+                      OnMessageReceived = context =>
+                      {
+                          if (string.IsNullOrWhiteSpace(context.Request.Headers["Authorization"]))
+                          {
+                              var token = context.Request.Query["access_token"];
+                              if (!string.IsNullOrEmpty(token))
+                              {
+                                  context.Token = token;
+                              }
+                          }
+
+                          return Task.CompletedTask;
+                      },
+                  };
+               });
+
+            services.AddAuthorization(options =>
+            {
+                options.DefaultPolicy = new AuthorizationPolicyBuilder()
+                  .RequireAuthenticatedUser()
+                  .Build();
             });
         }
 
@@ -104,17 +129,19 @@ namespace FlatMate_backend.WebUI
                 app.UseSpaStaticFiles();
             }
 
-            app.UseSwaggerUi3(settings =>
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
             {
-                settings.Path = "/api";
-                settings.DocumentPath = "/api/specification.json";
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
 
             app.UseRouting();
 
-            app.UseAuthentication();
-            app.UseIdentityServer();
-            app.UseAuthorization();
+            //app.UseAuthentication();
+            //app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

@@ -1,4 +1,3 @@
-using FlatMate_backend.Infrastructure.Identity;
 using FlatMate_backend.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -28,11 +27,8 @@ namespace FlatMate_backend.WebUI
                     if (context.Database.IsSqlServer())
                     {
                         context.Database.Migrate();
-                    }                   
+                    }
 
-                    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-
-                    await ApplicationDbContextSeed.SeedDefaultUserAsync(userManager);
                     await ApplicationDbContextSeed.SeedSampleDataAsync(context);
                 }
                 catch (Exception ex)

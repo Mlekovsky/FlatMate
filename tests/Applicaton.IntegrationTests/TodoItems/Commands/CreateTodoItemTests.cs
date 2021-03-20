@@ -25,8 +25,6 @@ namespace FlatMate_backend.Application.IntegrationTests.TodoItems.Commands
         [Test]
         public async Task ShouldCreateTodoItem()
         {
-            var userId = await RunAsDefaultUserAsync();
-
             var listId = await SendAsync(new CreateTodoListCommand
             {
                 Title = "New List"
@@ -45,7 +43,6 @@ namespace FlatMate_backend.Application.IntegrationTests.TodoItems.Commands
             item.Should().NotBeNull();
             item.ListId.Should().Be(command.ListId);
             item.Title.Should().Be(command.Title);
-            item.CreatedBy.Should().Be(userId);
             item.Created.Should().BeCloseTo(DateTime.Now, 10000);
             item.LastModifiedBy.Should().BeNull();
             item.LastModified.Should().BeNull();

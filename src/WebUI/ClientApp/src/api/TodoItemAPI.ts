@@ -6,6 +6,7 @@ import { ITodoItemSave } from 'src/types/ToDoItem';
 
 /** Klasa API do modułu roomCodesTranslations */
 class TodoItemAPI extends BaseAPI {
+  
   public async getTodoLists(): Promise<IResponse<any>> {
     return await super.get<any>(
       new Request({
@@ -15,13 +16,6 @@ class TodoItemAPI extends BaseAPI {
     );
   }
 
-  /**
-   * saveRoomCodesTranslations - funkcja zapisujące zmiany występujące w translacjach kodów pokoi,
-   * a następnie zwracająca liste zupdateowanych translacji kodów pokoi
-   * @param {string} languageCode - kod języka dla jakiego zostaną zapisane zmiany translacji kodów pokoi
-   * @param {any} roomCodesTranslations - kolekcja zmienionych translacji kodów pokoi
-   * @returns {Promise<IResponse<any>>} - promise odpowiedzi,
-   */
   public async saveTodoItem(item: ITodoItemSave): Promise<IResponse<any>> {
     return await super.post<any>(
       new PostRequest({

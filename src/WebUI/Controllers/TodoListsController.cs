@@ -13,6 +13,7 @@ namespace FlatMate_backend.WebUI.Controllers
     public class TodoListsController : ApiController
     {
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<TodosVm>> Get()
         {
             return await Mediator.Send(new GetTodosQuery());

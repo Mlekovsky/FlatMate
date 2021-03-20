@@ -15,7 +15,7 @@ export interface ITodoInterface {
 const Todo: FC<ITodoInterface> = ({ getTodoLists, todoLists, saveTodoItem }) => {
   useEffect(() => {
     getTodoLists();
-  }, [todoLists]);
+  }, []);
 
   const onSaveHandler = useCallback((value: string, listId: number): void => {
     saveTodoItem({ title: value, listId: listId });

@@ -1,5 +1,4 @@
 ﻿using FlatMate_backend.Application.Common.Interfaces;
-using FlatMate_backend.Infrastructure.Identity;
 using FlatMate_backend.Infrastructure.Persistence;
 using FlatMate_backend.WebUI;
 using MediatR;
@@ -82,26 +81,6 @@ public class Testing
         var mediator = scope.ServiceProvider.GetService<IMediator>();
 
         return await mediator.Send(request);
-    }
-
-    public static async Task<string> RunAsDefaultUserAsync()
-    {
-        return await RunAsUserAsync("test@local", "Testing1234!");
-    }
-
-    public static async Task<string> RunAsUserAsync(string userName, string password)
-    {
-        using var scope = _scopeFactory.CreateScope();
-
-        var userManager = scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
-
-        var user = new ApplicationUser { UserName = userName, Email = userName };
-
-        var result = await userManager.CreateAsync(user, password);
-
-        _currentUserId = user.Id;
-
-        return _currentUserId;
     }
 
     public static async Task ResetState()

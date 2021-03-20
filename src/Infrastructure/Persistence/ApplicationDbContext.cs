@@ -1,12 +1,12 @@
 ﻿using FlatMate_backend.Application.Common.Interfaces;
 using FlatMate_backend.Domain.Common;
 using FlatMate_backend.Domain.Entities;
-using FlatMate_backend.Infrastructure.Identity;
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Options;
+using System;
 using System.Data;
 using System.Reflection;
 using System.Threading;
@@ -14,25 +14,21 @@ using System.Threading.Tasks;
 
 namespace FlatMate_backend.Infrastructure.Persistence
 {
-    public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, IApplicationDbContext
+    public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
-        private readonly ICurrentUserService _currentUserService;
-        private readonly IDateTime _dateTime;
         private IDbContextTransaction _currentTransaction;
 
         public ApplicationDbContext(
-            DbContextOptions options,
-            IOptions<OperationalStoreOptions> operationalStoreOptions,
-            ICurrentUserService currentUserService,
-            IDateTime dateTime) : base(options, operationalStoreOptions)
+            DbContextOptions options) : base(options)
         {
-            _currentUserService = currentUserService;
-            _dateTime = dateTime;
         }
 
         public DbSet<TodoList> TodoLists { get; set; }
 
         public DbSet<TodoItem> TodoItems { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
@@ -41,12 +37,10 @@ namespace FlatMate_backend.Infrastructure.Persistence
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.CreatedBy = _currentUserService.UserId;
-                        entry.Entity.Created = _dateTime.Now;
+                        entry.Entity.Created = DateTime.Now;
                         break;
                     case EntityState.Modified:
-                        entry.Entity.LastModifiedBy = _currentUserService.UserId;
-                        entry.Entity.LastModified = _dateTime.Now;
+                        entry.Entity.LastModified = DateTime.Now;
                         break;
                 }
             }
