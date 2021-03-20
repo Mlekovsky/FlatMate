@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FlatMate_backend.Application.Users.Commands.CreateUser
 {
-    public class CreateUserCommand : IRequest<UserDTO>
+    public class CreateUserCommand : IRequest<bool>
     {
         public string Email { get; set; }
         public string Password { get; set; }
@@ -16,7 +16,7 @@ namespace FlatMate_backend.Application.Users.Commands.CreateUser
         public string LastName { get; set; }
     }
 
-    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, UserDTO>
+    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, bool>
     {
         private readonly IApplicationDbContext _context;
 
@@ -25,9 +25,9 @@ namespace FlatMate_backend.Application.Users.Commands.CreateUser
             _context = context;
         }
 
-        public async Task<UserDTO> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            //TODO: Dokończyć tworzenie usera
+            
             throw new NotImplementedException();
         }
     }
