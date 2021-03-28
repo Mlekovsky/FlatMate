@@ -15,5 +15,6 @@ namespace FlatMate_backend.Domain.Entities
         public byte[] PasswordKey { get; set; }
 
         public ICollection<UserApartament> UserApartaments { get; set; }
+        public ICollection<ApartamentModule> ApartamentModules { get; set; }
     }
 }

@@ -17,5 +17,6 @@ namespace FlatMate_backend.Domain.Entities
         public string Colour { get; set; }
 
         public IList<TodoItem> Items { get; set; }
+        public Apartament Apartament { get; set; }
     }
 }

@@ -113,6 +113,19 @@ namespace FlatMate_backend.Infrastructure.Persistence
                 .WithMany(a => a.UserApartaments)
                 .HasForeignKey(ua => ua.ApartamentId);
 
+            builder.Entity<ApartamentModule>()
+                .HasKey(am => new { am.ApartamentId, am.ModuleId });
+
+            builder.Entity<ApartamentModule>()
+                .HasOne(am => am.Apartament)
+                .WithMany(a => a.ApartamentModules)
+                .HasForeignKey(am => am.ApartamentId);
+
+            builder.Entity<ApartamentModule>()
+                .HasOne(am => am.Module)
+                .WithMany(m => m.ApartamentModules)
+                .HasForeignKey(am => am.ModuleId);
+
             base.OnModelCreating(builder);
         }
     }
