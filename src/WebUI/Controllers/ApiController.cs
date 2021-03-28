@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
 using System.Security.Claims;
 
 namespace FlatMate_backend.WebUI.Controllers
@@ -13,6 +14,6 @@ namespace FlatMate_backend.WebUI.Controllers
 
         protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
 
-        protected int UserId => int.Parse(User.FindFirst(ClaimTypes.Sid).Value);
+        protected int UserId => int.Parse(((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(x => x.Type == "sid").Value);
     }
 }

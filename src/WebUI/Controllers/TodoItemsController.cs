@@ -2,18 +2,23 @@
 using FlatMate_backend.Application.TodoItems.Commands.DeleteTodoItem;
 using FlatMate_backend.Application.TodoItems.Commands.UpdateTodoItem;
 using FlatMate_backend.Application.TodoItems.Commands.UpdateTodoItemDetail;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace FlatMate_backend.WebUI.Controllers
 {
- 
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class TodoItemsController : ApiController
     {
         [HttpPost]
         public async Task<ActionResult<int>> Create(CreateTodoItemCommand command)
         {
+            command.UserId = UserId;
             return await Mediator.Send(command);
         }
 

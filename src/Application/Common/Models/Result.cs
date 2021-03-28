@@ -3,26 +3,24 @@ using System.Linq;
 
 namespace FlatMate_backend.Application.Common.Models
 {
-    public class Result
+    public class Result<T>
     {
-        internal Result(bool succeeded, IEnumerable<string> errors)
+        public Result(bool succeeded, IEnumerable<string> errors)
         {
             Succeeded = succeeded;
             Errors = errors.ToArray();
+        }
+
+        public Result(bool succeeded, T response)
+        {
+            Succeeded = succeeded;
+            Response = response;
         }
 
         public bool Succeeded { get; set; }
 
         public string[] Errors { get; set; }
 
-        public static Result Success()
-        {
-            return new Result(true, new string[] { });
-        }
-
-        public static Result Failure(IEnumerable<string> errors)
-        {
-            return new Result(false, errors);
-        }
+        public T Response { get; set; }
     }
 }

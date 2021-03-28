@@ -1,11 +1,8 @@
 ﻿using FlatMate_backend.Application.Common.Interfaces;
 using FlatMate_backend.Domain.Common;
 using FlatMate_backend.Domain.Entities;
-using IdentityServer4.EntityFramework.Options;
-using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.Extensions.Options;
 using System;
 using System.Data;
 using System.Reflection;
@@ -29,6 +26,8 @@ namespace FlatMate_backend.Infrastructure.Persistence
         public DbSet<User> Users { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<UserApartament> UserApartaments { get; set; }
+        public DbSet<Apartament> Apartaments { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
@@ -100,6 +99,19 @@ namespace FlatMate_backend.Infrastructure.Persistence
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+            builder.Entity<UserApartament>()
+                .HasKey(ua => new { ua.ApartamentId, ua.UserId });
+
+            builder.Entity<UserApartament>()
+                .HasOne(ua => ua.User)
+                .WithMany(u => u.UserApartaments)
+                .HasForeignKey(ua => ua.UserId);
+
+            builder.Entity<UserApartament>()
+                .HasOne(ua => ua.Apartament)
+                .WithMany(a => a.UserApartaments)
+                .HasForeignKey(ua => ua.ApartamentId);
 
             base.OnModelCreating(builder);
         }

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace FlatMate_backend.Application.Users.Commands.CreateUser
 {
-    public class CreateUserCommand : IRequest<bool>
+    public class CreateUserCommand : BaseRequest, IRequest<Result<bool>>
     {
         public string Email { get; set; }
         public string Password { get; set; }
@@ -20,22 +20,22 @@ namespace FlatMate_backend.Application.Users.Commands.CreateUser
         public string LastName { get; set; }
     }
 
-    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, bool>
+    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Result<bool>>
     {
         private readonly IApplicationDbContext _context;
         private readonly IPasswordEncryptorService _passwordService;
-        private readonly SecretKeySettings _secretKeySettings;
+        private readonly PasswordSettings _secretKeySettings;
 
         public CreateUserCommandHandler(IApplicationDbContext context,
             IPasswordEncryptorService passwordEncryptorService,
-            SecretKeySettings secretKeySettings)
+            PasswordSettings secretKeySettings)
         {
             _context = context;
             _passwordService = passwordEncryptorService;
             _secretKeySettings = secretKeySettings;
         }
 
-        public async Task<bool> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<Result<bool>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             var user = new User
             {
@@ -52,19 +52,14 @@ namespace FlatMate_backend.Application.Users.Commands.CreateUser
                 _context.Users.Add(user);
 
                 await _context.SaveChangesAsync(cancellationToken);
-                return true;
+                return new Result<bool>(true, true);
             }
             catch (Exception ex)
             {
-                return false;
+                return new Result<bool>(succeeded: false, errors: new List<string> { ex.Message });
             }
         }
 
-        private string GeneratePassword(string password)
-        {
-            //Replace it with algorithm
-            return password;
-        }
     }
 }
 

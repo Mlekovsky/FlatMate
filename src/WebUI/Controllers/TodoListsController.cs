@@ -3,17 +3,17 @@ using FlatMate_backend.Application.TodoLists.Commands.DeleteTodoList;
 using FlatMate_backend.Application.TodoLists.Commands.UpdateTodoList;
 using FlatMate_backend.Application.TodoLists.Queries.ExportTodos;
 using FlatMate_backend.Application.TodoLists.Queries.GetTodos;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace FlatMate_backend.WebUI.Controllers
 {
-
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class TodoListsController : ApiController
     {
         [HttpGet]
-        [AllowAnonymous]
         public async Task<ActionResult<TodosVm>> Get()
         {
             return await Mediator.Send(new GetTodosQuery());

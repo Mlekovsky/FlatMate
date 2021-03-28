@@ -1,4 +1,5 @@
 ﻿using FlatMate_backend.Application.Common.Interfaces;
+using FlatMate_backend.Infrastructure.Factory;
 using FlatMate_backend.Infrastructure.Files;
 using FlatMate_backend.Infrastructure.Persistence;
 using FlatMate_backend.Infrastructure.Services;
@@ -14,6 +15,8 @@ namespace FlatMate_backend.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
+            #region datebase
+
             if (configuration.GetValue<bool>("UseInMemoryDatabase"))
             {
                 services.AddDbContext<ApplicationDbContext>(options =>
@@ -29,8 +32,19 @@ namespace FlatMate_backend.Infrastructure
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
 
+            #endregion
+
+            #region services
+
             services.AddTransient<ICsvFileBuilder, CsvFileBuilder>();
             services.AddTransient<IPasswordEncryptorService, PasswordEncryptorService>();
+
+            ConnectionStrings connectionStrings = new ConnectionStrings();
+            configuration.GetSection("ConnectionStrings").Bind(connectionStrings);
+            services.AddSingleton(connectionStrings);
+
+            #endregion
+
 
             var storeOptions = new ConfigurationStoreOptions();
             services.AddSingleton(storeOptions);

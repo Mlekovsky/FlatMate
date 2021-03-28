@@ -105,8 +105,8 @@ namespace FlatMate_backend.WebUI
                       ValidateAudience = false,
                       ValidateLifetime = true,
                       ValidateIssuerSigningKey = true,
-                      ValidIssuer = Configuration["FlatMateIssuer"],
-                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["FlatMateKey"])),
+                      ValidIssuer = Configuration["JwtSettings:FlatMateIssuer"],
+                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["JwtSettings:FlatMateKey"])),
                       ClockSkew = TimeSpan.FromMinutes(1),
                   };
 
@@ -169,9 +169,9 @@ namespace FlatMate_backend.WebUI
             });
 
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
-            //app.UseAuthentication();
-            //app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

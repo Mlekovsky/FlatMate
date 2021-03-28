@@ -1,4 +1,5 @@
 ﻿using FlatMate_backend.Application.Common.Interfaces;
+using FlatMate_backend.Application.Common.Models;
 using FlatMate_backend.Domain.Entities;
 using MediatR;
 using System.Threading;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FlatMate_backend.Application.TodoItems.Commands.CreateTodoItem
 {
-    public class CreateTodoItemCommand : IRequest<int>
+    public class CreateTodoItemCommand : BaseRequest, IRequest<int>
     {
         public int ListId { get; set; }
 
