@@ -19,6 +19,7 @@ namespace FlatMate_backend.Application.Common.Mappings
                     i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IMapFrom<>)))
                 .ToList();
 
+            
             foreach (var type in types)
             {
                 var instance = Activator.CreateInstance(type);
@@ -30,5 +31,6 @@ namespace FlatMate_backend.Application.Common.Mappings
 
             }
         }
+
     }
 }

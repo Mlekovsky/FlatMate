@@ -8,7 +8,6 @@ namespace FlatMate_backend.Application.Common.Models
 {
     public abstract class BaseRequest
     {  
-        [JsonIgnore]
         public int UserId { get; set; }
     }
 }
