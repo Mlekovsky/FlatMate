@@ -7,7 +7,17 @@ using System.Text;
 namespace FlatMate_backend.Application.Common.Models
 {
     public abstract class BaseRequest
-    {  
-        public int UserId { get; set; }
+    {
+        protected int UserId { get; set; }
+
+        public void SetUser(int id)
+        {
+            UserId = id;
+        }
+
+        public int GetUser()
+        {
+            return UserId;
+        }
     }
 }

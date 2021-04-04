@@ -15,6 +15,8 @@ namespace FlatMate_backend.Application.Common.Interfaces
         DbSet<RefreshToken> RefreshTokens { get; set; }
         DbSet<UserApartament> UserApartaments { get; set; }
         DbSet<Apartament> Apartaments { get; set; }
+        DbSet<ApartamentModule> ApartamentModule { get; set; }
+        DbSet<Module> Modules { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

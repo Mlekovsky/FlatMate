@@ -44,7 +44,8 @@ namespace FlatMate_backend.Application.Apartaments.Commands.CreateApartament
             var errors = new List<string>();
             try
             {
-                var user = _context.Users.FirstOrDefault(x => x.Id == request.UserId);
+                int userId = request.GetUser();
+                var user = _context.Users.FirstOrDefault(x => x.Id == userId);
 
                 if (user == null)
                 {
@@ -57,7 +58,7 @@ namespace FlatMate_backend.Application.Apartaments.Commands.CreateApartament
                 {
                     Address = request.Address,
                     City = request.City,
-                    CreatedBy = request.UserId.ToString(),
+                    CreatedBy = userId.ToString(),
                     ShortName = request.ShortName
                 };
 
@@ -75,9 +76,12 @@ namespace FlatMate_backend.Application.Apartaments.Commands.CreateApartament
                 _context.UserApartaments.Add(userApartaments);
 
                 await _context.SaveChangesAsync(cancellationToken);
-                
-                return new Result<ApartamentModulesDTO>(true, new ApartamentModulesDTO 
-                { });
+
+                return new Result<ApartamentModulesDTO>(true, new ApartamentModulesDTO
+                {
+                    ApartamentId = apartament.Id,
+                    CurrentModules = new List<ModuleDTO>() //Nowe mieszkanie nie ma modułów
+                });
 
             }
             catch (Exception ex)

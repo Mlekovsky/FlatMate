@@ -18,7 +18,7 @@ namespace FlatMate_backend.WebUI.Controllers
         [HttpPost]
         public async Task<ActionResult<int>> Create(CreateTodoItemCommand command)
         {
-            command.UserId = UserId;
+            command.SetUser(UserId);
             return await Mediator.Send(command);
         }
 
