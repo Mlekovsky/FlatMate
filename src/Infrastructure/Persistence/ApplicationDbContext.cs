@@ -29,7 +29,7 @@ namespace FlatMate_backend.Infrastructure.Persistence
         public DbSet<UserApartament> UserApartaments { get; set; }
         public DbSet<Apartament> Apartaments { get; set; }
         public DbSet<ApartamentModule> ApartamentModule { get; set; }
-        public DbSet<Domain.Entities.Module> Modules { get; set; }
+        public DbSet<Domain.Entities.Module> Module { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {

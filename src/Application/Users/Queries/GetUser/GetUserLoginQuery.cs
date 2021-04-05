@@ -44,49 +44,57 @@ namespace FlatMate_backend.Application.Users.Queries.GetUser
         {
             var user = new UserDTO();
             List<string> errors = new List<string>();
-            var dbUser = await _context.Users.FirstOrDefaultAsync(x => x.Email == request.Email);
 
-            if (dbUser == null)
+            try
             {
-                errors.Add("User does not exists");
-                return new Result<UserDTO>(false, errors);
-            }
+                var dbUser = await _context.Users.FirstOrDefaultAsync(x => x.Email == request.Email);
 
-            byte[] passwordKey = NullableStringHelper.GetBytesFromHexString(_secretKeySettings.PasswordSecretKey);
-            var password = _passwordService.DecryptPasswordWithAes(dbUser.PasswordHash, passwordKey, dbUser.PasswordKey);
-
-            if (password.Equals(request.Password))
-            {
-                user.Id = dbUser.Id;
-                user.Email = dbUser.Email;
-                user.FirstName = dbUser.FirstName;
-                user.LastName = dbUser.LastName;
-            }
-            else
-            {
-                errors.Add("Password does not match!");
-                return new Result<UserDTO>(false, errors);
-            }
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_jwtSettings.FlatMateKey);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Issuer = _jwtSettings.FlatMateIssuer,
-                Subject = new ClaimsIdentity(new []
+                if (dbUser == null)
                 {
+                    errors.Add("User does not exists");
+                    return new Result<UserDTO>(false, errors);
+                }
+
+                byte[] passwordKey = NullableStringHelper.GetBytesFromHexString(_secretKeySettings.PasswordSecretKey);
+                var password = _passwordService.DecryptPasswordWithAes(dbUser.PasswordHash, passwordKey, dbUser.PasswordKey);
+
+                if (password.Equals(request.Password))
+                {
+                    user.Id = dbUser.Id;
+                    user.Email = dbUser.Email;
+                    user.FirstName = dbUser.FirstName;
+                    user.LastName = dbUser.LastName;
+                }
+                else
+                {
+                    errors.Add("Password does not match!");
+                    return new Result<UserDTO>(false, errors);
+                }
+
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(_jwtSettings.FlatMateKey);
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Issuer = _jwtSettings.FlatMateIssuer,
+                    Subject = new ClaimsIdentity(new[]
+                    {
                     new Claim(JwtRegisteredClaimNames.Sid, user.Id.ToString()),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.Email, user.Email)
                 }),
-                Expires = DateTime.UtcNow.AddMinutes(60),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)                    
-            };
+                    Expires = DateTime.UtcNow.AddMinutes(60),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                };
 
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            user.Token = tokenHandler.WriteToken(token);
+                var token = tokenHandler.CreateToken(tokenDescriptor);
+                user.Token = tokenHandler.WriteToken(token);
 
-            return new Result<UserDTO>(true, user);
+                return new Result<UserDTO>(true, user);
+            }
+            catch (Exception ex)
+            {
+                return new Result<UserDTO>(false, new List<string> { ex.Message });
+            }
         }
     }
 }

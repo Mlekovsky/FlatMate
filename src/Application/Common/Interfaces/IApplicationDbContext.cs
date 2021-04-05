@@ -8,7 +8,6 @@ namespace FlatMate_backend.Application.Common.Interfaces
     public interface IApplicationDbContext
     {
         DbSet<TodoList> TodoLists { get; set; }
-
         DbSet<TodoItem> TodoItems { get; set; }
         DbSet<User> Users { get; set; }
         DbSet<UserRole> UserRoles { get; set; }
@@ -16,7 +15,7 @@ namespace FlatMate_backend.Application.Common.Interfaces
         DbSet<UserApartament> UserApartaments { get; set; }
         DbSet<Apartament> Apartaments { get; set; }
         DbSet<ApartamentModule> ApartamentModule { get; set; }
-        DbSet<Module> Modules { get; set; }
+        DbSet<Module> Module { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

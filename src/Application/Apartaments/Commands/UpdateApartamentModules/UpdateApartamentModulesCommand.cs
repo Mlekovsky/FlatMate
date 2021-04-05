@@ -55,7 +55,7 @@ namespace FlatMate_backend.Application.Apartaments.Commands.UpdateApartamentModu
                         continue; //Moduł już dodany do mieszkania
                     }
 
-                    var module = await _context.Modules.FirstOrDefaultAsync(x => x.Id == moduleId);
+                    var module = await _context.Module.FirstOrDefaultAsync(x => x.Id == moduleId);
 
                     if (module == null)
                     {

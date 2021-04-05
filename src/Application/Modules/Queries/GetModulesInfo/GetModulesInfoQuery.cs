@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace FlatMate_backend.Application.Modules.Queries.GetModulesInfo
 {
-    public class GetModulesInfoQuery : BaseRequest, IRequest<Result<ModuleInfoListDTO>>
+    public class GetModulesInfoQuery : IRequest<Result<ModuleInfoListDTO>>
     {
 
     }
@@ -33,7 +33,7 @@ namespace FlatMate_backend.Application.Modules.Queries.GetModulesInfo
         {
             try
             {
-                var modules = await _context.Modules.ToListAsync();
+                var modules = await _context.Module.ToListAsync();
                 var returnModules = new List<ModuleInfoDTO>();
 
                 foreach (var module in modules)

@@ -8,6 +8,5 @@ namespace FlatMate_backend.Application.Apartaments
     {
         public int Id { get; set; }
         public string Name { get; set; }
-
     }
 }
