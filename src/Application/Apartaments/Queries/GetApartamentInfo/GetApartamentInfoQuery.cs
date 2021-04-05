@@ -28,11 +28,21 @@ namespace FlatMate_backend.Application.Apartaments.Queries.GetApartamentInfo
         {
             try
             {
-                var apartamentDb = await _context.Apartaments.FirstOrDefaultAsync(x => x.Id == request.ApartamentId);
+                var apartamentDb = await _context.Apartaments
+                    .Include(x => x.ApartamentModules).ThenInclude(x => x.Module)
+                    .Include(x => x.UserApartaments)
+                    .FirstOrDefaultAsync(x => x.Id == request.ApartamentId);
 
                 if (apartamentDb == null)
                 {
                     return new Result<ApartamentInfoDTO>(false, new List<string> { $"No apartament was found for ID: {request.ApartamentId}" });
+                }
+
+                var userId = request.GetUser();
+
+                if (!apartamentDb.UserApartaments.Any(x => x.UserId == userId))
+                {
+                    return new Result<ApartamentInfoDTO>(false, new List<string> { "User does not belong to edited apartament" });
                 }
 
                 var apartamentInfo = new ApartamentInfoDTO

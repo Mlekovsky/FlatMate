@@ -5,6 +5,7 @@ using FlatMate_backend.Domain.Entities;
 using FlatMate_backend.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,7 @@ using System.Threading.Tasks;
 
 namespace FlatMate_backend.Application.Apartaments.Queries
 {
-    [BindProperties]
-    public class GetApartamentsListQuery : IRequest<Result<ApartamentsListDTO>>
+    public class GetApartamentsListQuery : BaseRequest, IRequest<Result<ApartamentsListDTO>>
     {
         public SortingOrder Order { get; set; }
         public string SearchField { get; set; }
@@ -41,7 +41,7 @@ namespace FlatMate_backend.Application.Apartaments.Queries
 
                 if (!string.IsNullOrEmpty(request.SearchField))
                 {
-                    apartamentsDb = _context.Apartaments.Where(x => x.Address.Contains(request.SearchField)
+                    apartamentsDb = _context.Apartaments.Include(x => x.UserApartaments).Where(x => x.Address.Contains(request.SearchField)
                     || x.City.Contains(request.SearchField)
                     || x.ShortName.Contains(request.SearchField)).ToList();
 
@@ -75,7 +75,7 @@ namespace FlatMate_backend.Application.Apartaments.Queries
                         break;
                 }
 
-                return new Result<ApartamentsListDTO>(false, new ApartamentsListDTO { Apartaments = apartaments });
+                return new Result<ApartamentsListDTO>(true, new ApartamentsListDTO { Apartaments = apartaments });
             }
             catch (Exception ex)
             {

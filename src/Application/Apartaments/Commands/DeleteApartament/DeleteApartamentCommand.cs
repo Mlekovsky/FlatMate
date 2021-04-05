@@ -31,7 +31,7 @@ namespace FlatMate_backend.Application.Apartaments.Commands.DeleteApartament
 
             try
             {
-                var apartamentDb = await _context.Apartaments.FirstOrDefaultAsync(x => x.Id == request.ApartamentId);
+                var apartamentDb = await _context.Apartaments.Include(x => x.UserApartaments).FirstOrDefaultAsync(x => x.Id == request.ApartamentId);
                 if (apartamentDb == null)
                 {
                     return new Result<bool>(false, new List<string> { "Apartament already deleted!" });

@@ -30,7 +30,10 @@ namespace FlatMate_backend.Application.Apartaments.Commands.UpdateApartamentModu
         {
             try
             {
-                var apartamentDb = await _context.Apartaments.FirstOrDefaultAsync(x => x.Id == request.ApartamentId);
+                var apartamentDb = await _context.Apartaments
+                    .Include(x => x.UserApartaments)
+                    .Include(x => x.ApartamentModules).ThenInclude(x => x.Module)
+                    .FirstOrDefaultAsync(x => x.Id == request.ApartamentId);
 
                 var userId = request.GetUser();
 
@@ -44,6 +47,23 @@ namespace FlatMate_backend.Application.Apartaments.Commands.UpdateApartamentModu
                     return new Result<ApartamentModulesDTO>(false, new List<string> { "User does not belong to edited apartament" });
                 }
 
+                //Najpierw usuwamy 
+                var modulesToRemove = apartamentDb?.ApartamentModules?.Select(x => x.ModuleId).Except(request.Modules).ToList();
+
+                if (modulesToRemove.Any())
+                {
+                    foreach (var toRemove in modulesToRemove)
+                    {
+                        var moduleToRemove = await _context.ApartamentModule
+                            .FirstOrDefaultAsync(x => x.ModuleId == toRemove && x.ApartamentId == apartamentDb.Id);
+
+                        if (modulesToRemove != null)
+                        {
+                            apartamentDb.ApartamentModules.Remove(moduleToRemove);
+                        }
+                    }
+                }
+
                 var returnModules = new List<ModuleDTO>();
 
                 foreach (var moduleId in request.Modules)
@@ -52,6 +72,12 @@ namespace FlatMate_backend.Application.Apartaments.Commands.UpdateApartamentModu
 
                     if (aparatmentModule != null)
                     {
+                        returnModules.Add(new ModuleDTO
+                        {
+                            Id = aparatmentModule.Module.Id,
+                            Name = aparatmentModule.Module.Name
+                        });
+
                         continue; //Moduł już dodany do mieszkania
                     }
 
@@ -68,27 +94,16 @@ namespace FlatMate_backend.Application.Apartaments.Commands.UpdateApartamentModu
                         Apartament = apartamentDb
                     });
 
-                    returnModules.Add(new ModuleDTO 
-                    { 
+                    returnModules.Add(new ModuleDTO
+                    {
                         Id = module.Id,
                         Name = module.Name
                     });
                 }
 
-                var modulesToRemove = apartamentDb?.ApartamentModules?.Select(x => x.ModuleId).Except(request.Modules);
-
-                if (modulesToRemove.Any())
-                {
-                    foreach (var toRemove in modulesToRemove)
-                    {
-                        var moduleToRemove = apartamentDb.ApartamentModules.FirstOrDefault(x => x.ModuleId == toRemove);
-                        apartamentDb.ApartamentModules.Remove(moduleToRemove);
-                    }
-                }
-
                 apartamentDb.LastModified = DateTime.Now;
                 apartamentDb.LastModifiedBy = userId.ToString();
-                
+
                 await _context.SaveChangesAsync(cancellationToken);
 
                 return new Result<ApartamentModulesDTO>(true, new ApartamentModulesDTO
