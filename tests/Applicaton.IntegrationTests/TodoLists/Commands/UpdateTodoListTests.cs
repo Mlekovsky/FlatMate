@@ -41,7 +41,7 @@ namespace FlatMate_backend.Application.IntegrationTests.TodoLists.Commands
 
             var command = new UpdateTodoListCommand
             {
-                Id = listId,
+                Id = listId.Response,
                 Title = "Other List"
             };
 
@@ -61,13 +61,13 @@ namespace FlatMate_backend.Application.IntegrationTests.TodoLists.Commands
 
             var command = new UpdateTodoListCommand
             {
-                Id = listId,
+                Id = listId.Response,
                 Title = "Updated List Title"
             };
 
             await SendAsync(command);
 
-            var list = await FindAsync<TodoList>(listId);
+            var list = await FindAsync<TodoList>(listId.Response);
 
             list.Title.Should().Be(command.Title);
             list.LastModifiedBy.Should().NotBeNull();

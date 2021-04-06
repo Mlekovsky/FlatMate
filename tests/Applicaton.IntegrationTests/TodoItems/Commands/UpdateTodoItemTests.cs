@@ -37,19 +37,19 @@ namespace FlatMate_backend.Application.IntegrationTests.TodoItems.Commands
 
             var itemId = await SendAsync(new CreateTodoItemCommand
             {
-                ListId = listId,
+                ListId = listId.Response,
                 Title = "New Item"
             });
 
             var command = new UpdateTodoItemCommand
             {
-                Id = itemId,
+                Id = itemId.Response,
                 Title = "Updated Item Title"
             };
 
             await SendAsync(command);
 
-            var item = await FindAsync<TodoItem>(itemId);
+            var item = await FindAsync<TodoItem>(itemId.Response);
 
             item.Title.Should().Be(command.Title);
             item.LastModifiedBy.Should().NotBeNull(); 

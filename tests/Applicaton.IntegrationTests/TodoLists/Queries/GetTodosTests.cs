@@ -18,7 +18,7 @@ namespace FlatMate_backend.Application.IntegrationTests.TodoLists.Queries
 
             var result = await SendAsync(query);
 
-            result.PriorityLevels.Should().NotBeEmpty();
+            result.Response.PriorityLevels.Should().NotBeEmpty();
         }
 
         [Test]
@@ -43,8 +43,8 @@ namespace FlatMate_backend.Application.IntegrationTests.TodoLists.Queries
 
             var result = await SendAsync(query);
 
-            result.Lists.Should().HaveCount(1);
-            result.Lists.First().Items.Should().HaveCount(7);
+            result.Response.Lists.Should().HaveCount(1);
+            result.Response.Lists.First().Items.Should().HaveCount(7);
         }
     }
 }

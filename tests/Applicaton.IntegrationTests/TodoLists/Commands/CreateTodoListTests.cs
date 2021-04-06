@@ -48,7 +48,7 @@ namespace FlatMate_backend.Application.IntegrationTests.TodoLists.Commands
 
             var id = await SendAsync(command);
 
-            var list = await FindAsync<TodoList>(id);
+            var list = await FindAsync<TodoList>(id.Response);
 
             list.Should().NotBeNull();
             list.Title.Should().Be(command.Title);

@@ -14,44 +14,77 @@ namespace FlatMate_backend.WebUI.Controllers
     public class TodoListsController : ApiController
     {
         [HttpGet]
-        public async Task<ActionResult<TodosVm>> Get()
+        public async Task<ActionResult<TodosVm>> Get(int apartamentId)
         {
-            return await Mediator.Send(new GetTodosQuery());
+            var request = new GetTodosQuery();
+            request.SetUser(UserId);
+            request.ApartamentId = apartamentId;
+            var result = await Mediator.Send(request);
+
+            if (result.Succeeded)
+            {
+                return Ok(result.Response);
+            }
+
+            return BadRequest(result.Errors);
         }
 
-        [HttpGet("{id}")]
-        public async Task<FileResult> Get(int id)
-        {
-            var vm = await Mediator.Send(new ExportTodosQuery { ListId = id });
+        //[HttpGet("{id}")]
+        //public async Task<FileResult> Get(int id)
+        //{
+        //    var vm = await Mediator.Send(new ExportTodosQuery { ListId = id });
 
-            return File(vm.Content, vm.ContentType, vm.FileName);
-        }
+        //    return File(vm.Content, vm.ContentType, vm.FileName);
+        //}
 
         [HttpPost]
-        public async Task<ActionResult<int>> Create(CreateTodoListCommand command)
+        public async Task<ActionResult> Create(CreateTodoListCommand command)
         {
-            return await Mediator.Send(command);
+            command.SetUser(UserId);
+            var result = await Mediator.Send(command);
+
+            if (result.Succeeded)
+            {
+                return Ok(result.Response);
+            }
+
+            return BadRequest(result.Errors);
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(int id, UpdateTodoListCommand command)
         {
+            command.SetUser(UserId);
+
             if (id != command.Id)
             {
                 return BadRequest();
             }
 
-            await Mediator.Send(command);
+            var result = await Mediator.Send(command);
 
-            return NoContent();
+            if (result.Succeeded)
+            {
+                return Ok(result.Response);
+            }
+
+            return BadRequest(result.Errors);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult> Delete(int id, int apartamentId)
         {
-            await Mediator.Send(new DeleteTodoListCommand { Id = id });
+            var request = new DeleteTodoListCommand { Id = id, ApartamentId = apartamentId };
+            request.SetUser(UserId);
 
-            return NoContent();
+            var result = await Mediator.Send(request);
+
+            if (result.Succeeded)
+            {
+                return Ok(result.Response);
+            }
+
+            return BadRequest(result.Errors);
         }
     }
 }

@@ -3,6 +3,7 @@ using FlatMate_backend.Application.Common.Models;
 using FlatMate_backend.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,6 +32,7 @@ namespace FlatMate_backend.Application.TodoLists.Commands.CreateTodoList
         {
             var apartamentDb = await _context.Apartaments
                 .Include(x => x.UserApartaments)
+                .Include(x => x.ApartamentModules)
                 .FirstOrDefaultAsync(x => x.Id == request.ApartamentId);
 
             var userId = request.GetUser();
@@ -54,6 +56,10 @@ namespace FlatMate_backend.Application.TodoLists.Commands.CreateTodoList
             var entity = new TodoList();
 
             entity.Title = request.Title;
+            entity.Apartament = apartamentDb;
+
+            entity.Created = DateTime.Now;
+            entity.CreatedBy = userId.ToString();
 
             _context.TodoLists.Add(entity);
 

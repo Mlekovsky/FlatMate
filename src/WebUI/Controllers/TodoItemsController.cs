@@ -16,10 +16,17 @@ namespace FlatMate_backend.WebUI.Controllers
     public class TodoItemsController : ApiController
     {
         [HttpPost]
-        public async Task<ActionResult<int>> Create(CreateTodoItemCommand command)
+        public async Task<ActionResult> Create(CreateTodoItemCommand command)
         {
             command.SetUser(UserId);
-            return await Mediator.Send(command);
+            var result = await Mediator.Send(command);
+
+            if (result.Succeeded)
+            {
+                return Ok(result.Response);
+            }
+
+            return BadRequest(result.Errors);
         }
 
         [HttpPut("{id}")]
@@ -30,9 +37,15 @@ namespace FlatMate_backend.WebUI.Controllers
                 return BadRequest();
             }
 
-            await Mediator.Send(command);
+            command.SetUser(UserId);
+            var result = await Mediator.Send(command);
 
-            return NoContent();
+            if (result.Succeeded)
+            {
+                return Ok(result.Response);
+            }
+
+            return BadRequest(result.Errors);
         }
 
         [HttpPut("[action]")]
@@ -43,17 +56,31 @@ namespace FlatMate_backend.WebUI.Controllers
                 return BadRequest();
             }
 
-            await Mediator.Send(command);
+            command.SetUser(UserId);
+            var result = await Mediator.Send(command);
 
-            return NoContent();
+            if (result.Succeeded)
+            {
+                return Ok(result.Response);
+            }
+
+            return BadRequest(result.Errors);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult> Delete(int id, int apartamentId)
         {
-            await Mediator.Send(new DeleteTodoItemCommand { Id = id });
+            var request = new DeleteTodoItemCommand { Id = id, ApartamentId = apartamentId };
+            request.SetUser(UserId);
 
-            return NoContent();
+            var result = await Mediator.Send(request);
+
+            if (result.Succeeded)
+            {
+                return Ok(result.Response);
+            }
+
+            return BadRequest(result.Errors);
         }
     }
 }

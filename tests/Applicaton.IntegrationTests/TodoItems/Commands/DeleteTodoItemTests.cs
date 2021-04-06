@@ -32,16 +32,16 @@ namespace FlatMate_backend.Application.IntegrationTests.TodoItems.Commands
 
             var itemId = await SendAsync(new CreateTodoItemCommand
             {
-                ListId = listId,
+                ListId = listId.Response,
                 Title = "New Item"
             });
 
             await SendAsync(new DeleteTodoItemCommand
             {
-                Id = itemId
+                Id = itemId.Response
             });
 
-            var list = await FindAsync<TodoItem>(listId);
+            var list = await FindAsync<TodoItem>(listId.Response);
 
             list.Should().BeNull();
         }

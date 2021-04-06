@@ -31,10 +31,10 @@ namespace FlatMate_backend.Application.IntegrationTests.TodoLists.Commands
 
             await SendAsync(new DeleteTodoListCommand 
             { 
-                Id = listId 
+                Id = listId.Response
             });
 
-            var list = await FindAsync<TodoList>(listId);
+            var list = await FindAsync<TodoList>(listId.Response);
 
             list.Should().BeNull();
         }
