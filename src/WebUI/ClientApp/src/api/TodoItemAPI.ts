@@ -6,7 +6,6 @@ import { ITodoItemSave } from 'src/types/ToDoItem';
 
 /** Klasa API do modułu roomCodesTranslations */
 class TodoItemAPI extends BaseAPI {
-  
   public async getTodoLists(): Promise<IResponse<any>> {
     return await super.get<any>(
       new Request({

@@ -15,7 +15,6 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import { NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import './Styles.css';
-import { LoginMenu } from '../api-authorization/LoginMenu';
 
 export const mainListItems = (
   <div>

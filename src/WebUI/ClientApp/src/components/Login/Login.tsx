@@ -75,7 +75,7 @@ export const Login = () => {
               required
               fullWidth
               id="email"
-              label="Login or Email address"
+              label="Email address"
               name="email"
               autoComplete="email"
               autoFocus
@@ -99,11 +99,11 @@ export const Login = () => {
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
+            {/* <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" /> */}
             <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
               Log In
             </Button>
-            <Grid container>
+            {/* <Grid container>
               <Grid item xs></Grid>
               <Grid item>
                 <FacebookLogin
@@ -114,7 +114,7 @@ export const Login = () => {
                   // render={(renderProps) => <Link variant="body2">{"Don't have an account? Sign Up"}</Link>}
                 />
               </Grid>
-            </Grid>
+            </Grid> */}
             <Box mt={5}>
               <Copyright />
             </Box>

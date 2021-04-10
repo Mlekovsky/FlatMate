@@ -32,9 +32,7 @@ export const Layout = (props: {
 
   return (
     <div>
-        <Menu>
-            {props.children}
-        </Menu>
+      <Menu>{props.children}</Menu>
     </div>
   );
 };
