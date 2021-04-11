@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component, FC, useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -98,9 +98,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Menu = (props) => {
-
-  const [token, setToken] = useState();
+export interface IMenuInterface {
+  firstName: string;
+  lastName: string;
+  email: string;
+}
+export const Menu: FC<IMenuInterface> = (props, { firstName, lastName, email }) => {
+  const getToken = () => {
+    const token = localStorage.getItem('token');
+    return token;
+  };
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -112,52 +119,52 @@ export const Menu = (props) => {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-if(!token){
-  return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
-        <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            FlatMate
-          </Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        variant="permanent"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-        }}
-        open={open}
-      >
-        <div className={classes.toolbarIcon}>
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </div>
-        <Divider />
-        <SecondaryListItemsContainer></SecondaryListItemsContainer>
-      </Drawer>
-      <Container maxWidth="lg" className={classes.container}>
-        {props.children}
-      </Container>
-    </div>
-  );
-}
+  if (!getToken()) {
+    return (
+      <div className={classes.root}>
+        <CssBaseline />
+        <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+          <Toolbar className={classes.toolbar}>
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+              FlatMate
+            </Typography>
+            <IconButton color="inherit">
+              <Badge badgeContent={4} color="secondary">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+        <Drawer
+          variant="permanent"
+          classes={{
+            paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+          }}
+          open={open}
+        >
+          <div className={classes.toolbarIcon}>
+            <IconButton onClick={handleDrawerClose}>
+              <ChevronLeftIcon />
+            </IconButton>
+          </div>
+          <Divider />
+          <SecondaryListItemsContainer></SecondaryListItemsContainer>
+        </Drawer>
+        <Container maxWidth="lg" className={classes.container}>
+          {props.children}
+        </Container>
+      </div>
+    );
+  }
 
   return (
     <div className={classes.root}>

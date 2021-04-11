@@ -11,6 +11,9 @@ class TodoItemAPI extends BaseAPI {
       new Request({
         url: TodoListsUrl,
         querySearchParams: {},
+        headers: {
+          Bearer: sessionStorage.getItem('token'),
+        },
       }),
     );
   }
@@ -23,6 +26,9 @@ class TodoItemAPI extends BaseAPI {
           listId: item.listId,
           title: item.title,
         }),
+        headers: {
+          Bearer: sessionStorage.getItem('token'),
+        },
       }),
     );
   }

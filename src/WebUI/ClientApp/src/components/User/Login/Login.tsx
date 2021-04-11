@@ -1,21 +1,18 @@
-import React, { Component } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { Copyright } from './Copyright';
-import logo from '../../Resources/FlatMateLogo.png';
-import FacebookLogin from 'react-facebook-login';
-// import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+import logo from '../../../Resources/FlatMateLogo.png';
+import { IUserLoginRequest } from 'src/types/User';
+import { Copyright } from '../Copyright';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,13 +45,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const responseFacebook = (response) => {
-  console.log(response);
-};
+export interface ILoginInterface {
+  loginUser: (item: IUserLoginRequest) => void;
+}
 
-export const Login = () => {
-  const displayName = Login.name;
+export const Login: FC<ILoginInterface> = ({ loginUser }) => {
   const classes = useStyles();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassowrd] = useState('');
+
+  const onUserLogin = useCallback((): void => {
+    loginUser({ email: email, password: password });
+  }, [email, password]);
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -79,14 +82,11 @@ export const Login = () => {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={(e) => setEmail(e.target.value)}
             />
             <Grid container>
               <Grid item xs></Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {'Forgot password?'}
-                </Link>
-              </Grid>
+              <Grid item></Grid>
             </Grid>
             <TextField
               variant="outlined"
@@ -98,23 +98,28 @@ export const Login = () => {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={(e) => setPassowrd(e.target.value)}
             />
-            {/* <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" /> */}
-            <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={onUserLogin}
+            >
               Log In
             </Button>
-            {/* <Grid container>
-              <Grid item xs></Grid>
-              <Grid item>
-                <FacebookLogin
-                  appId="399635261114470"
-                  autoLoad={true}
-                  fields="name,email,picture"
-                  callback={responseFacebook}
-                  // render={(renderProps) => <Link variant="body2">{"Don't have an account? Sign Up"}</Link>}
-                />
-              </Grid>
-            </Grid> */}
+            <Button
+              component={Link}
+              to="/Register"
+              fullWidth
+              variant="contained"
+              color="secondary"
+              className={classes.submit}
+            >
+              Don't have an account? Create one!
+            </Button>
             <Box mt={5}>
               <Copyright />
             </Box>

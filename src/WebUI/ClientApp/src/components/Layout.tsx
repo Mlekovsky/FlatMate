@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import { Menu } from './Menu/Menu';
+import MenuContainer from './Menu/MenuContainer';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -32,7 +32,7 @@ export const Layout = (props: {
 
   return (
     <div>
-      <Menu>{props.children}</Menu>
+      <MenuContainer>{props.children}</MenuContainer>
     </div>
   );
 };

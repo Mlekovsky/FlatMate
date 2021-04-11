@@ -1,10 +1,11 @@
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
-import { connectRouter, routerMiddleware } from 'connected-react-router'
+import { connectRouter, routerMiddleware } from 'connected-react-router';
 import * as Todo from '../reducer/Todo/TodoReducer';
 import * as Loader from '../reducer/common/loaderReducer';
 import * as MainList from '../reducer/menu/MainListItemReducer';
 import * as SecondaryList from '../reducer/menu/SecondaryListItemReducer';
+import * as user from '../reducer/common/userReducer';
 
 export default function configureStore(history, initialState) {
   const reducers = {
@@ -12,6 +13,7 @@ export default function configureStore(history, initialState) {
     loader: Loader.reducer,
     mainList: MainList.reducer,
     secondaryList: SecondaryList.reducer,
+    user: user.reducer,
   };
 
   const middleware = [thunk, routerMiddleware(history)];
