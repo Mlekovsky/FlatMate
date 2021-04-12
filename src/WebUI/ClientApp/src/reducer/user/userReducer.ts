@@ -1,10 +1,11 @@
-import { LOGIN, REGISTER } from '../../actions/user/UserActionTypes';
+import { LOGIN, SWITCH_APARTAMENT } from '../../actions/user/UserActionTypes';
 
 const initialState = {
   currentApartamentId: 0,
   firstName: '',
   lastName: '',
   email: '',
+  token: '',
 };
 
 export const reducer = (state, action) => {
@@ -17,6 +18,12 @@ export const reducer = (state, action) => {
         firstName: action.payload.firstName,
         lastName: action.payload.lastName,
         email: action.payload.email,
+        token: action.payload.token,
+      };
+    case SWITCH_APARTAMENT:
+      return {
+        ...state,
+        currentApartamentId: action.payload.selectedApartamentId,
       };
     default:
       return state;

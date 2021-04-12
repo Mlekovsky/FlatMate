@@ -5,7 +5,8 @@ import * as Todo from '../reducer/Todo/TodoReducer';
 import * as Loader from '../reducer/common/loaderReducer';
 import * as MainList from '../reducer/menu/MainListItemReducer';
 import * as SecondaryList from '../reducer/menu/SecondaryListItemReducer';
-import * as user from '../reducer/common/userReducer';
+import * as User from '../reducer/user/userReducer';
+import * as Apartament from '../reducer/apartament/apartamentReducer';
 
 export default function configureStore(history, initialState) {
   const reducers = {
@@ -13,7 +14,8 @@ export default function configureStore(history, initialState) {
     loader: Loader.reducer,
     mainList: MainList.reducer,
     secondaryList: SecondaryList.reducer,
-    user: user.reducer,
+    user: User.reducer,
+    currentApartament: Apartament.reducer,
   };
 
   const middleware = [thunk, routerMiddleware(history)];

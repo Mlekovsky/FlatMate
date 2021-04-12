@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading;
@@ -64,6 +65,7 @@ namespace FlatMate_backend.Application.Users.Queries.GetUser
                     user.Email = dbUser.Email;
                     user.FirstName = dbUser.FirstName;
                     user.LastName = dbUser.LastName;
+                    user.AssignedApartaments = _context.UserApartaments.Where(x => x.UserId == dbUser.Id).Select(x => x.ApartamentId).ToArray();
                 }
                 else
                 {

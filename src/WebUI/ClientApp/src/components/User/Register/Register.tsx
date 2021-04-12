@@ -73,83 +73,81 @@ export const Register: FC<IRegisterInterface> = ({ registerUser }) => {
           <Typography component="h1" variant="h5">
             Create your account in FlatMate!
           </Typography>
-          <form className={classes.form} noValidate>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <Grid container>
-              <Grid item xs></Grid>
-              <Grid item></Grid>
-            </Grid>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              onChange={(e) => setPassowrd(e.target.value)}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="firstName"
-              label="First name"
-              name="firstName"
-              autoComplete="firstName"
-              autoFocus
-              onChange={(e) => setFirstName(e.target.value)}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="lastName"
-              label="Last name"
-              name="lastName"
-              autoComplete="lastName"
-              autoFocus
-              onChange={(e) => setLastName(e.target.value)}
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              onClick={onRegisterUser}
-            >
-              Create account
-            </Button>
-            <Button
-              component={Link}
-              to="/Login"
-              fullWidth
-              variant="contained"
-              color="secondary"
-              className={classes.submit}
-            >
-              Already have an account? Sign in!
-            </Button>
-            <Box mt={5}>
-              <Copyright />
-            </Box>
-          </form>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email address"
+            name="email"
+            autoComplete="email"
+            autoFocus
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Grid container>
+            <Grid item xs></Grid>
+            <Grid item></Grid>
+          </Grid>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            onChange={(e) => setPassowrd(e.target.value)}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="firstName"
+            label="First name"
+            name="firstName"
+            autoComplete="firstName"
+            autoFocus
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="lastName"
+            label="Last name"
+            name="lastName"
+            autoComplete="lastName"
+            autoFocus
+            onChange={(e) => setLastName(e.target.value)}
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            onClick={onRegisterUser}
+          >
+            Create account
+          </Button>
+          <Button
+            component={Link}
+            to="/Login"
+            fullWidth
+            variant="contained"
+            color="secondary"
+            className={classes.submit}
+          >
+            Already have an account? Sign in!
+          </Button>
+          <Box mt={5}>
+            <Copyright />
+          </Box>
         </div>
       </Grid>
     </Grid>

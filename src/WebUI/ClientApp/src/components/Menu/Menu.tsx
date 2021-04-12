@@ -103,6 +103,7 @@ export interface IMenuInterface {
   lastName: string;
   email: string;
 }
+
 export const Menu: FC<IMenuInterface> = (props, { firstName, lastName, email }) => {
   const getToken = () => {
     const token = localStorage.getItem('token');

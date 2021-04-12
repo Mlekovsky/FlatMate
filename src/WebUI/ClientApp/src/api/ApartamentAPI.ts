@@ -21,9 +21,9 @@ import {
   IRemoveUserApartamentReuqest,
 } from 'src/types/Apartament';
 
-/** Klasa API do zarządzania użytkownikiem */
+/** Klasa API do zarządzania mieszkaniem */
 class ApartamentAPI extends BaseAPI {
-  public async createApartament(item: IApartamentCreateRequest, userId: number): Promise<IResponse<any>> {
+  public async createApartament(item: IApartamentCreateRequest): Promise<IResponse<any>> {
     return await super.post<any>(
       new PostRequest({
         url: ApartamentCreateUrl,
@@ -40,7 +40,7 @@ class ApartamentAPI extends BaseAPI {
     );
   }
 
-  public async updateApartament(item: IApartamentUpdateRequest, userId: number): Promise<IResponse<any>> {
+  public async updateApartament(item: IApartamentUpdateRequest): Promise<IResponse<any>> {
     return await super.post<any>(
       new PostRequest({
         url: ApartamentUpdateUrl,
@@ -57,7 +57,7 @@ class ApartamentAPI extends BaseAPI {
     );
   }
 
-  public async updateApartamentModules(item: IApartamentUpdateMoudlesRequest, userId: number): Promise<IResponse<any>> {
+  public async updateApartamentModules(item: IApartamentUpdateMoudlesRequest): Promise<IResponse<any>> {
     return await super.post<any>(
       new PostRequest({
         url: ApartamentUpdateModulesUrl,
@@ -72,7 +72,7 @@ class ApartamentAPI extends BaseAPI {
     );
   }
 
-  public async assignUserApartament(item: IApartamentAssignUserRequest, userId: number): Promise<IResponse<any>> {
+  public async assignUserApartament(item: IApartamentAssignUserRequest): Promise<IResponse<any>> {
     return await super.post<any>(
       new PostRequest({
         url: ApartamentAssignUserUrl,
@@ -87,7 +87,7 @@ class ApartamentAPI extends BaseAPI {
     );
   }
 
-  public async removeUserApartament(item: IRemoveUserApartamentReuqest, userId: number): Promise<IResponse<any>> {
+  public async removeUserApartament(item: IRemoveUserApartamentReuqest): Promise<IResponse<any>> {
     return await super.post<any>(
       new PostRequest({
         url: ApartamentRemoveUserUrl,
@@ -101,7 +101,7 @@ class ApartamentAPI extends BaseAPI {
     );
   }
 
-  public async deleteApartament(item: IDeleteApartamentRequest, userId: number): Promise<IResponse<any>> {
+  public async deleteApartament(item: IDeleteApartamentRequest): Promise<IResponse<any>> {
     return await super.post<any>(
       new PostRequest({
         url: ApartamentDeleteUrl,
@@ -115,7 +115,7 @@ class ApartamentAPI extends BaseAPI {
     );
   }
 
-  public async getApartamentList(item: IGetApartamentListRequest, userId: number): Promise<IResponse<any>> {
+  public async getApartamentList(item: IGetApartamentListRequest): Promise<IResponse<any>> {
     return await super.get<any>(
       new Request({
         url: ApartamentListUrl,
@@ -130,7 +130,7 @@ class ApartamentAPI extends BaseAPI {
     );
   }
 
-  public async getApartamentInfo(apartamentId: number, userId: number): Promise<IResponse<any>> {
+  public async getApartamentInfo(apartamentId: number): Promise<IResponse<any>> {
     return await super.get<any>(
       new Request({
         url: ApartamentInfoUrl,
