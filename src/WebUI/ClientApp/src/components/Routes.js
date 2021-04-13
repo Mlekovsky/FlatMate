@@ -12,9 +12,9 @@ import TodoContainer from '../components/ToDo/TodoContainer';
 const Routes = () => (
   <>
     <Switch>
-      <Route exact path="/" component={Home} />
+      <Route path="/home" component={Home} />
       <Route path="/login" component={LoginContainer} />
-      <Route path="/home" component={Dashboard} />
+      <Route path="/dashboard" component={Dashboard} />
       <Route path="/Todo" component={TodoContainer} />
       <Route path="/Register" component={RegisterContainer} />
     </Switch>

@@ -39,6 +39,7 @@ namespace FlatMate_backend.Infrastructure
             services.AddTransient<ICsvFileBuilder, CsvFileBuilder>();
             services.AddTransient<IPasswordEncryptorService, PasswordEncryptorService>();
             services.AddTransient<ITodoModuleVerificationService, TodoModuleVerificationService>();
+            services.AddTransient<ITokenValidator, TokenValidator>();
 
             ConnectionStrings connectionStrings = new ConnectionStrings();
             configuration.GetSection("ConnectionStrings").Bind(connectionStrings);

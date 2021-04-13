@@ -8,3 +8,7 @@ export interface IModuleInfoDto {
   name: string;
   description: string;
 }
+
+export enum Modules {
+  TODO_MODULE = 1,
+}

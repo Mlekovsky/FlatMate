@@ -1,13 +1,17 @@
 import { connect } from 'react-redux';
+import { actionCreatos } from 'src/actions/user/UserAction';
 import { Menu } from './Menu';
+import { bindActionCreators } from 'redux';
 
-const mapStateToProps = (state: any) => ({
-  firstName: state.user.firstName,
-  lastName: state.user.lastName,
-  email: state.user.email,
-});
+const mapStateToProps = (state: any) => ({});
 
-const mapDispatchToProps = (dispatch: any) => ({});
+const mapDispatchToProps = (dispatch: any) =>
+  bindActionCreators(
+    {
+      authorize: actionCreatos.authorizeToken,
+    },
+    dispatch,
+  );
 
 const IndexContainer = connect(mapStateToProps, mapDispatchToProps)(Menu);
 export default IndexContainer;

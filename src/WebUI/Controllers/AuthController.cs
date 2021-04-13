@@ -1,4 +1,5 @@
 ﻿using FlatMate_backend.Application.Users;
+using FlatMate_backend.Application.Users.Commands.Authorize;
 using FlatMate_backend.Application.Users.Commands.CreateUser;
 using FlatMate_backend.Application.Users.Queries.GetUser;
 using Microsoft.AspNetCore.Authorization;
@@ -24,6 +25,14 @@ namespace FlatMate_backend.WebUI.Controllers
         [AllowAnonymous]
         [Route("Register")]
         public async Task<ActionResult> Register(CreateUserCommand command)
+        {
+            return Ok(await Mediator.Send(command));
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("Authorize")]
+        public async Task<ActionResult> Authorize(AuthorizeCommand command)
         {
             return Ok(await Mediator.Send(command));
         }

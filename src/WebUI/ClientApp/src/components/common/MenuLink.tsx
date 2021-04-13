@@ -8,22 +8,13 @@ export interface IMenuLink {
   to: string;
   text: string;
   value: string | number;
-  selectedValue: string | number;
-  onChange: (value: string | number) => void;
+  // selectedValue: string | number;
+  // onChange: (value: string | number) => void;
 }
 
-const MenuLink: FC<IMenuLink> = ({ value, selectedValue, onChange, text, to, icon }) => {
-  const onChangeHandler = () => {
-    if (value != selectedValue) onChange(value);
-  };
-
+const MenuLink: FC<IMenuLink> = ({ value, text, to, icon }) => {
   return (
-    <NavLink
-      tag={Link}
-      className={classNames('text-dark', { active: value == selectedValue })}
-      to={to}
-      onClick={onChangeHandler}
-    >
+    <NavLink tag={Link} className={classNames('text-dark')} to={to}>
       <ListItem button>
         <ListItemIcon>{icon}</ListItemIcon>
         <ListItemText primary={text} />

@@ -1,7 +1,7 @@
 import { PostRequest, Request } from './base/Requests';
 import { IResponse } from './base/Responses';
 import { BaseAPI } from './base/BaseAPI';
-import { LoginUrl, RegisterUrl } from './base/EndpointsAPI';
+import { AuthorizeUrl, LoginUrl, RegisterUrl } from './base/EndpointsAPI';
 import { IUserLoginRequest, IUserRegisterRequest } from 'src/types/User';
 
 /** Klasa API do zarządzania użytkownikiem */
@@ -27,6 +27,17 @@ class UserAPI extends BaseAPI {
           password: item.password,
           firstName: item.firstName,
           lastName: item.lastName,
+        }),
+      }),
+    );
+  }
+
+  public async authorize(token: string): Promise<IResponse<any>> {
+    return await super.post<any>(
+      new PostRequest({
+        url: AuthorizeUrl,
+        body: JSON.stringify({
+          token: token,
         }),
       }),
     );

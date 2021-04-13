@@ -4,6 +4,7 @@ export const TodoListsUrl = 'api/TodoLists';
 
 export const LoginUrl = 'api/Auth/Login';
 export const RegisterUrl = 'api/Auth/Register';
+export const AuthorizeUrl = 'api/Auth/Authorize';
 
 export const ApartamentCreateUrl = 'api/Apartament/Create';
 export const ApartamentUpdateUrl = 'api/Apartament/Update';
