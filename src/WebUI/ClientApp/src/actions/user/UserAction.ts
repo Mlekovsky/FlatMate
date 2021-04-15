@@ -85,10 +85,18 @@ export const actionCreatos = {
         dispatch({
           type: LOGOUT,
         });
-        dispatch(push('/login'));
       }
     } catch (e) {
       console.log(e);
     }
+  },
+
+  logout: () => (dispatch, getState) => {
+    localStorage.removeItem('token');
+    dispatch({
+      type: LOGOUT,
+    });
+
+    dispatch(push('/'));
   },
 };

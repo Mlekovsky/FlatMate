@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, FC } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Menu } from './Menu/Menu';
 import MenuContainer from './Menu/MenuContainer';
@@ -10,29 +10,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Layout = (props: {
-  children:
-    | string
-    | number
-    | boolean
-    | {}
-    | React.ReactElement<
-        any,
-        | string
-        | ((
-            props: any,
-          ) => React.ReactElement<any, string | any | (new (props: any) => React.Component<any, any, any>)> | null)
-        | (new (props: any) => React.Component<any, any, any>)
-      >
-    | React.ReactNodeArray
-    | React.ReactPortal;
-}) => {
+export interface ILayout {
+  token: string;
+}
+
+export const Layout: FC<ILayout> = ({ token, children }) => {
   const displayName = Layout.name;
   const classes = useStyles();
 
   return (
     <div>
-      <MenuContainer>{props.children}</MenuContainer>
+      <Menu token={token}>{children}</Menu>
     </div>
   );
 };

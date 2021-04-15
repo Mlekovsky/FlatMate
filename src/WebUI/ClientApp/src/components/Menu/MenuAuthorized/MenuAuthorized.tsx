@@ -28,6 +28,7 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    height: '100vh',
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
@@ -112,17 +113,20 @@ export interface IMenuAuthroizedInterface {
   city: string;
   address: string;
   currentModules: number[];
+  logout: () => void;
 }
 
-export const MenuAuthorized: FC<IMenuAuthroizedInterface> = (
-  props,
-  { firstName, lastName, email, shortName, city, address, currentModules },
-) => {
-  const getToken = () => {
-    const token = localStorage.getItem('token');
-    return token;
-  };
-
+export const MenuAuthorized: FC<IMenuAuthroizedInterface> = ({
+  firstName,
+  lastName,
+  email,
+  shortName,
+  city,
+  address,
+  currentModules,
+  logout,
+  children,
+}) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -131,7 +135,6 @@ export const MenuAuthorized: FC<IMenuAuthroizedInterface> = (
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
     <div className={classes.root}>
@@ -148,7 +151,7 @@ export const MenuAuthorized: FC<IMenuAuthroizedInterface> = (
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            FlatMate - {shortName}
+            FlatMate {shortName}
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
@@ -207,16 +210,19 @@ export const MenuAuthorized: FC<IMenuAuthroizedInterface> = (
             value={MenuAuthorizedValues.Settings}
             to="/Settings"
           />
-          <MenuLink
-            icon={<AccountCircleIcon />}
-            text={MenuAuthorizedValues.Logout}
-            value={MenuAuthorizedValues.Logout}
-            to="/Logout"
-          />
+          <div onClick={logout}>
+            <MenuLink
+              icon={<AccountCircleIcon />}
+              text={MenuAuthorizedValues.Logout}
+              value={MenuAuthorizedValues.Logout}
+              to="/Logout"
+            />
+          </div>
         </div>
+        <div></div>
       </Drawer>
       <Container maxWidth="lg" className={classes.container}>
-        {props.children}
+        {children}
       </Container>
     </div>
   );

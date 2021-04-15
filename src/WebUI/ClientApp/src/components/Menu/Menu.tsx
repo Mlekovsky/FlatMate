@@ -3,23 +3,13 @@ import MenuAuthorizedContainer from './MenuAuthorized/MenuAuthorizedContainer';
 import MenuUnauthorizedContainer from './MenuUnauthroized/MenuUnauthorizedContainer';
 
 export interface IMenu {
-  authorize: (token: string) => void;
+  token: string;
 }
 
-export const Menu: FC<IMenu> = ({ authorize }, props) => {
-  const getToken = () => {
-    const token = localStorage.getItem('token');
-
-    if (token) {
-      authorize(token);
-    }
-
-    return token;
-  };
-
-  if (!getToken()) {
-    return <MenuUnauthorizedContainer>{props.children}</MenuUnauthorizedContainer>;
+export const Menu: FC<IMenu> = ({ token, children }) => {
+  if (!token) {
+    return <MenuUnauthorizedContainer>{children}</MenuUnauthorizedContainer>;
   }
 
-  return <MenuAuthorizedContainer>{props.children}</MenuAuthorizedContainer>;
+  return <MenuAuthorizedContainer>{children}</MenuAuthorizedContainer>;
 };

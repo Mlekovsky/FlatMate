@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -6,6 +6,7 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { Copyright } from '../User/Copyright';
+import ApartamentListContainer from '../Apartaments/ApartamentList/ApartamentListContainer';
 
 const drawerWidth = 240;
 
@@ -88,7 +89,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Dashboard = () => {
+export interface IDashboard {
+  getUserInfo: () => void;
+  getApartamentList: () => void;
+}
+
+export const Dashboard: FC<IDashboard> = ({}) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -105,16 +111,19 @@ export const Dashboard = () => {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Grid container spacing={3}>
-          <Grid item xs={12} md={8} lg={9}>
-            <Paper className={fixedHeightPaper}></Paper>
-          </Grid>
-
-          <Grid item xs={12} md={4} lg={3}>
-            <Paper className={fixedHeightPaper}></Paper>
-          </Grid>
-
           <Grid item xs={12}>
-            <Paper className={classes.paper}></Paper>
+            <Paper className={classes.paper}>Witaj User!</Paper>
+          </Grid>
+
+          <Grid item xs={12} md={6} lg={6}>
+            <Paper className={fixedHeightPaper}>Twoje dostępne mieszkania</Paper>
+          </Grid>
+
+          <Grid item xs={12} md={6} lg={6}>
+            <Paper className={fixedHeightPaper}>
+              Wybierz mieszkanie, do którego chcesz dołączyć!
+              <ApartamentListContainer></ApartamentListContainer>
+            </Paper>
           </Grid>
         </Grid>
         <Box pt={4}>

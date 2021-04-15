@@ -115,7 +115,7 @@ class ApartamentAPI extends BaseAPI {
     );
   }
 
-  public async getApartamentList(item: IGetApartamentListRequest): Promise<IResponse<any>> {
+  public async getApartamentList(item: IGetApartamentListRequest, token: string | null): Promise<IResponse<any>> {
     return await super.get<any>(
       new Request({
         url: ApartamentListUrl,
@@ -123,9 +123,7 @@ class ApartamentAPI extends BaseAPI {
           order: item.order,
           searchField: item.searchField,
         },
-        headers: {
-          Bearer: sessionStorage.getItem('token'),
-        },
+        headers: { Authorization: 'Bearer ' + token },
       }),
     );
   }

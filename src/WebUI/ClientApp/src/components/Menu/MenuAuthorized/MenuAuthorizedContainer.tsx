@@ -1,5 +1,7 @@
 import { connect } from 'react-redux';
 import { MenuAuthorized } from './MenuAuthorized';
+import { bindActionCreators } from 'redux';
+import { actionCreatos } from 'src/actions/user/UserAction';
 
 const mapStateToProps = (state: any) => ({
   firstName: state.user.firstName,
@@ -11,7 +13,13 @@ const mapStateToProps = (state: any) => ({
   currentModules: state.currentApartament.currentModules,
 });
 
-const mapDispatchToProps = (dispatch: any) => ({});
+const mapDispatchToProps = (dispatch: any) =>
+  bindActionCreators(
+    {
+      logout: actionCreatos.logout,
+    },
+    dispatch,
+  );
 
 const IndexContainer = connect(mapStateToProps, mapDispatchToProps)(MenuAuthorized);
 export default IndexContainer;

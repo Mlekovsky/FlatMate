@@ -1,5 +1,10 @@
 import { IModuleDto } from './Module';
 
+export interface IAvailableApartament {
+  id: number;
+  name: string;
+}
+
 export interface IApartamentDto {
   id: number;
   name: string;

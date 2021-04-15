@@ -5,6 +5,7 @@ import * as Todo from '../reducer/Todo/TodoReducer';
 import * as Loader from '../reducer/common/loaderReducer';
 import * as User from '../reducer/user/userReducer';
 import * as Apartament from '../reducer/apartament/apartamentReducer';
+import * as Dashboard from '../reducer/dashboard/dashboardReducer';
 
 export default function configureStore(history, initialState) {
   const reducers = {
@@ -12,6 +13,7 @@ export default function configureStore(history, initialState) {
     loader: Loader.reducer,
     user: User.reducer,
     currentApartament: Apartament.reducer,
+    dashboard: Dashboard.reducer,
   };
 
   const middleware = [thunk, routerMiddleware(history)];
