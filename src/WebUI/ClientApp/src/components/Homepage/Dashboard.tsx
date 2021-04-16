@@ -7,66 +7,14 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { Copyright } from '../User/Copyright';
 import ApartamentListContainer from '../Apartaments/ApartamentList/ApartamentListContainer';
+import AvailableApartamentListContainer from '../Apartaments/AvailableApartaments/AvailableApartamentListContainer';
+import CreateApartamentContainer from '../Apartaments/CreateApartament/CreateApartamentContainer';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-  },
-  toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
-  },
-  toolbarIcon: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginRight: 36,
-  },
-  menuButtonHidden: {
-    display: 'none',
-  },
-  title: {
-    flexGrow: 1,
-  },
-  drawerPaper: {
-    position: 'relative',
-    whiteSpace: 'nowrap',
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerPaperClose: {
-    overflowX: 'hidden',
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    width: theme.spacing(7),
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9),
-    },
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
@@ -96,35 +44,34 @@ export interface IDashboard {
 
 export const Dashboard: FC<IDashboard> = ({}) => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
   return (
     <div className={classes.root}>
       <CssBaseline />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <Grid container spacing={3}>
+        <Grid container spacing={2}>
           <Grid item xs={12}>
             <Paper className={classes.paper}>Witaj User!</Paper>
           </Grid>
-
-          <Grid item xs={12} md={6} lg={6}>
-            <Paper className={fixedHeightPaper}>Twoje dostępne mieszkania</Paper>
+          <Grid item xs={12}>
+            <Paper className={classes.paper}>
+              <h4 style={{paddingBottom: 10}}>Dodaj nowe mieszkanie!</h4>
+              <CreateApartamentContainer></CreateApartamentContainer>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} md={6} lg={4}>
+            <Paper className={classes.paper}>
+              <h4 style={{paddingBottom: 10}}>Twoje dostępne mieszkania!</h4>
+            <AvailableApartamentListContainer></AvailableApartamentListContainer></Paper>
           </Grid>
 
-          <Grid item xs={12} md={6} lg={6}>
-            <Paper className={fixedHeightPaper}>
-              Wybierz mieszkanie, do którego chcesz dołączyć!
+          <Grid item xs={12} md={6} lg={8}>
+            <Paper className={classes.paper}>
+              <h4 style={{paddingBottom: 10}}>Wybierz mieszkanie, do którego chcesz dołączyć!</h4>
               <ApartamentListContainer></ApartamentListContainer>
             </Paper>
           </Grid>
+          
         </Grid>
         <Box pt={4}>
           <Copyright />

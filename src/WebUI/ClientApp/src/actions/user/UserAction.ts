@@ -99,4 +99,15 @@ export const actionCreatos = {
 
     dispatch(push('/'));
   },
+
+  refreshInfo: () => (dispatch, getState) => {
+    const token = localStorage.getItem('token');
+    if(token){
+      try{
+
+      }catch(e){
+        console.log(e);
+      }
+    }
+  } 
 };

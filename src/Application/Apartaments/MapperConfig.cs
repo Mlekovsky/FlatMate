@@ -10,8 +10,8 @@ namespace FlatMate_backend.Application.Apartaments
     {
         public MapperConfig()
         {
-            CreateMap<Apartament, ApartamentDTO>().ReverseMap();
-            CreateMap<Apartament, ApartamentDTO>();
+            CreateMap<Apartament, ApartamentDTO>().ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.ShortName)).ReverseMap();
+            CreateMap<Apartament, ApartamentDTO>().ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.ShortName));
         }
     }
 }

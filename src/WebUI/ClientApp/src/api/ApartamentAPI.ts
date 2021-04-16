@@ -10,6 +10,7 @@ import {
   ApartamentRemoveUserUrl,
   ApartamentUpdateModulesUrl,
   ApartamentUpdateUrl,
+  AvailableAparatamentsListUrl
 } from './base/EndpointsAPI';
 import {
   IApartamentAssignUserRequest,
@@ -19,11 +20,11 @@ import {
   IDeleteApartamentRequest,
   IGetApartamentListRequest,
   IRemoveUserApartamentReuqest,
-} from 'src/types/Apartament';
+} from '../types/Apartament';
 
 /** Klasa API do zarządzania mieszkaniem */
 class ApartamentAPI extends BaseAPI {
-  public async createApartament(item: IApartamentCreateRequest): Promise<IResponse<any>> {
+  public async createApartament(item: IApartamentCreateRequest, token: string): Promise<IResponse<any>> {
     return await super.post<any>(
       new PostRequest({
         url: ApartamentCreateUrl,
@@ -33,14 +34,11 @@ class ApartamentAPI extends BaseAPI {
           address: item.address,
           password: item.password,
         }),
-        headers: {
-          Bearer: sessionStorage.getItem('token'),
-        },
-      }),
+      }, { Authorization: 'Bearer ' + token}),
     );
   }
 
-  public async updateApartament(item: IApartamentUpdateRequest): Promise<IResponse<any>> {
+  public async updateApartament(item: IApartamentUpdateRequest, token: string): Promise<IResponse<any>> {
     return await super.post<any>(
       new PostRequest({
         url: ApartamentUpdateUrl,
@@ -50,14 +48,11 @@ class ApartamentAPI extends BaseAPI {
           city: item.city,
           address: item.address,
         }),
-        headers: {
-          Bearer: sessionStorage.getItem('token'),
-        },
-      }),
+      }, { Authorization: 'Bearer ' + token}),
     );
   }
 
-  public async updateApartamentModules(item: IApartamentUpdateMoudlesRequest): Promise<IResponse<any>> {
+  public async updateApartamentModules(item: IApartamentUpdateMoudlesRequest, token: string): Promise<IResponse<any>> {
     return await super.post<any>(
       new PostRequest({
         url: ApartamentUpdateModulesUrl,
@@ -65,14 +60,11 @@ class ApartamentAPI extends BaseAPI {
           apartamentId: item.apartamentId,
           modules: item.modules,
         }),
-        headers: {
-          Bearer: sessionStorage.getItem('token'),
-        },
-      }),
+      }, { Authorization: 'Bearer ' + token}),
     );
   }
 
-  public async assignUserApartament(item: IApartamentAssignUserRequest): Promise<IResponse<any>> {
+  public async assignUserApartament(item: IApartamentAssignUserRequest, token: string): Promise<IResponse<any>> {
     return await super.post<any>(
       new PostRequest({
         url: ApartamentAssignUserUrl,
@@ -80,38 +72,29 @@ class ApartamentAPI extends BaseAPI {
           apartamentId: item.apartamentId,
           apartamentPassword: item.apartamentPassword,
         }),
-        headers: {
-          Bearer: sessionStorage.getItem('token'),
-        },
-      }),
+      }, { Authorization: 'Bearer ' + token}),
     );
   }
 
-  public async removeUserApartament(item: IRemoveUserApartamentReuqest): Promise<IResponse<any>> {
+  public async removeUserApartament(item: IRemoveUserApartamentReuqest, token: string): Promise<IResponse<any>> {
     return await super.post<any>(
       new PostRequest({
         url: ApartamentRemoveUserUrl,
         body: JSON.stringify({
           apartamentId: item.apartamentId,
         }),
-        headers: {
-          Bearer: sessionStorage.getItem('token'),
-        },
-      }),
+      }, { Authorization: 'Bearer ' + token}),
     );
   }
 
-  public async deleteApartament(item: IDeleteApartamentRequest): Promise<IResponse<any>> {
+  public async deleteApartament(item: IDeleteApartamentRequest, token: string): Promise<IResponse<any>> {
     return await super.post<any>(
       new PostRequest({
         url: ApartamentDeleteUrl,
         body: JSON.stringify({
           apartamentId: item.apartamentId,
         }),
-        headers: {
-          Bearer: sessionStorage.getItem('token'),
-        },
-      }),
+      }, { Authorization: 'Bearer ' + token}),
     );
   }
 
@@ -128,18 +111,25 @@ class ApartamentAPI extends BaseAPI {
     );
   }
 
-  public async getApartamentInfo(apartamentId: number): Promise<IResponse<any>> {
+  public async getApartamentInfo(apartamentId: number, token: string): Promise<IResponse<any>> {
     return await super.get<any>(
       new Request({
         url: ApartamentInfoUrl,
         querySearchParams: {
           apartamentId: apartamentId,
         },
-        headers: {
-          Bearer: sessionStorage.getItem('token'),
-        },
+        headers: { Authorization: 'Bearer ' + token },
       }),
     );
+  }
+
+  public async getAvailableApartaments(token: string) : Promise<IResponse<any>> {
+    return await super.get<any>(
+      new Request({
+        url: AvailableAparatamentsListUrl,
+        headers: { Authorization: 'Bearer ' + token} 
+      })
+    )
   }
 }
 

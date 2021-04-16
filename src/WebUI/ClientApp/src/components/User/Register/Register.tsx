@@ -135,16 +135,14 @@ export const Register: FC<IRegisterInterface> = ({ registerUser }) => {
           >
             Create account
           </Button>
-          <Button
-            component={Link}
-            to="/Login"
-            fullWidth
-            variant="contained"
-            color="secondary"
-            className={classes.submit}
-          >
-            Already have an account? Sign in!
-          </Button>
+          <Grid container>
+            <Grid item xs></Grid>
+            <Grid item>
+              <Link to="/login" href="/login" variant="contained">
+                {' Already have an account? Sign in!'}
+              </Link>
+            </Grid>
+          </Grid>
           <Box mt={5}>
             <Copyright />
           </Box>

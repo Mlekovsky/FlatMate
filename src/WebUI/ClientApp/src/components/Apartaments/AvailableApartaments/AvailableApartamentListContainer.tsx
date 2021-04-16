@@ -1,21 +1,19 @@
 import { connect } from 'react-redux';
-import { ApartamentList } from './ApartamentList';
+import { AvailableApartamentList} from './AvailableApartamentList';
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../../actions/apartament/apartamentAction';
 
 const mapStateToProps = (state: any) => ({
-  apartamentList: state.dashboard.apartamentList,
   availableApartamentList: state.dashboard.availableApartamentList,
 });
 
 const mapDispatchToProps = (dispatch: any) =>
   bindActionCreators(
     {
-      getApartamentList: actionCreators.getApartamentList,
-      getAvailableApartaments: actionCreators.getAvailableApartamentsList, //Do podmiany
+      getAvailableApartaments: actionCreators.getAvailableApartamentsList,
     },
     dispatch,
   );
 
-const IndexContainer = connect(mapStateToProps, mapDispatchToProps)(ApartamentList);
+const IndexContainer = connect(mapStateToProps, mapDispatchToProps)(AvailableApartamentList);
 export default IndexContainer;

@@ -6,6 +6,7 @@ using FlatMate_backend.Application.Apartaments.Commands.UpdateApartament;
 using FlatMate_backend.Application.Apartaments.Commands.UpdateApartamentModules;
 using FlatMate_backend.Application.Apartaments.Queries;
 using FlatMate_backend.Application.Apartaments.Queries.GetApartamentInfo;
+using FlatMate_backend.Application.Apartaments.Queries.GetAvailableApartaments;
 using FlatMate_backend.Domain.Enums;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -26,10 +27,10 @@ namespace FlatMate_backend.WebUI.Controllers
 
             if (result.Succeeded)
             {
-                return Ok(result.Response);
+                return Ok(result);
             }
 
-            return BadRequest(result.Errors);
+            return BadRequest(result);
         }
 
         [HttpPost]
@@ -41,10 +42,10 @@ namespace FlatMate_backend.WebUI.Controllers
 
             if (result.Succeeded)
             {
-                return Ok(result.Response);
+                return Ok(result);
             }
 
-            return BadRequest(result.Errors);
+            return BadRequest(result);
         }
 
         [HttpPost]
@@ -56,10 +57,10 @@ namespace FlatMate_backend.WebUI.Controllers
 
             if (result.Succeeded)
             {
-                return Ok(result.Response);
+                return Ok(result);
             }
 
-            return BadRequest(result.Errors);
+            return BadRequest(result);
         }
 
         [HttpPost]
@@ -71,10 +72,10 @@ namespace FlatMate_backend.WebUI.Controllers
 
             if (result.Succeeded)
             {
-                return Ok(result.Response);
+                return Ok(result);
             }
 
-            return BadRequest(result.Errors);
+            return BadRequest(result);
         }
 
         [HttpPost]
@@ -86,10 +87,10 @@ namespace FlatMate_backend.WebUI.Controllers
 
             if (result.Succeeded)
             {
-                return Ok(result.Response);
+                return Ok(result);
             }
 
-            return BadRequest(result.Errors);
+            return BadRequest(result);
         }
 
         [HttpDelete]
@@ -101,10 +102,10 @@ namespace FlatMate_backend.WebUI.Controllers
 
             if (result.Succeeded)
             {
-                return Ok(result.Response);
+                return Ok(result);
             }
 
-            return BadRequest(result.Errors);
+            return BadRequest(result);
         }
 
         [HttpGet]
@@ -119,10 +120,10 @@ namespace FlatMate_backend.WebUI.Controllers
 
             if (result.Succeeded)
             {
-                return Ok(result.Response);
+                return Ok(result);
             }
 
-            return BadRequest(result.Errors);
+            return BadRequest(result);
         }
 
         [HttpGet]
@@ -146,6 +147,16 @@ namespace FlatMate_backend.WebUI.Controllers
             }
 
             return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("AvailableList")]
+        public async Task<ActionResult> GetAvailableApartamentsList()
+        {
+            var request = new GetAvailableApartamentsQuery();
+            request.SetUser(UserId);
+
+            return Ok(await Mediator.Send(request));
         }
     }
 }

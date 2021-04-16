@@ -1,12 +1,13 @@
 import { ApartamentsAPI } from '../../api/ApartamentAPI';
 import { SET_INFO, UPDATE_MODULES } from './apartamentActionTypes';
-import {} from 'src/types/Apartament';
-import { SET_LIST } from '../dashboard/dashboardActionTypes';
+import { SET_AVAILABLE_LIST, SET_LIST } from '../dashboard/dashboardActionTypes';
+import { IApartamentCreateRequest } from '../../types/Apartament';
 
 export const actionCreators = {
   getApartamentInfo: (apartamentId: number) => async (dispatch, getState) => {
     try {
-      const result = await ApartamentsAPI.getApartamentInfo(apartamentId);
+      const token = localStorage.getItem('token');
+      const result = await ApartamentsAPI.getApartamentInfo(apartamentId, token);
 
       if (result.data.succeeded) {
         dispatch({
@@ -44,4 +45,37 @@ export const actionCreators = {
       console.log(e);
     }
   },
+
+  getAvailableApartamentsList: () => async(dispatch, getState) => {
+    try {
+      const token = localStorage.getItem('token');
+      const result = await ApartamentsAPI.getAvailableApartaments(token);
+
+      if (result.data.succeeded) {
+        dispatch({
+          type: SET_AVAILABLE_LIST,
+          payload: {
+            availableApartamentList: result.data.response,
+          },
+        });
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  },
+
+  createApartament: (request: IApartamentCreateRequest) => async(dispatch, getState) => {
+    try{
+      const token = localStorage.getItem('token');
+      const result = await ApartamentsAPI.createApartament(request, token);
+
+      if(result.data.succeeded){
+        dispatch(actionCreators.getApartamentList());
+        dispatch(actionCreators.getAvailableApartamentsList());
+      }
+    }
+    catch(e){
+      console.log(e);
+    }
+  }
 };

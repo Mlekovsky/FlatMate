@@ -109,16 +109,14 @@ export const Login: FC<ILoginInterface> = ({ loginUser }) => {
           >
             Log In
           </Button>
-          <Button
-            component={Link}
-            to="/Register"
-            fullWidth
-            variant="contained"
-            color="secondary"
-            className={classes.submit}
-          >
-            Don't have an account? Create one!
-          </Button>
+          <Grid container>
+            <Grid item xs></Grid>
+            <Grid item>
+              <Link to="/register" href="/Register" variant="contained">
+                {"Don't have an account? Create one!"}
+              </Link>
+            </Grid>
+          </Grid>
           <Box mt={5}>
             <Copyright />
           </Box>

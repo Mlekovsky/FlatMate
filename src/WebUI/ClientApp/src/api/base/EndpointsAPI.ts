@@ -14,5 +14,6 @@ export const ApartamentRemoveUserUrl = 'api/Apartament/RemoveUserApartament';
 export const ApartamentDeleteUrl = 'api/Apartament/Delete';
 export const ApartamentInfoUrl = 'api/Apartament/Info/';
 export const ApartamentListUrl = 'api/Apartament/List';
+export const AvailableAparatamentsListUrl = 'api/Apartament/AvailableList';
 
 export const ModulesUrl = 'api/Modules';

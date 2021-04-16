@@ -6,19 +6,17 @@ import { ITodoItemSave } from 'src/types/ToDoItem';
 
 /** Klasa API do modułu roomCodesTranslations */
 class TodoItemAPI extends BaseAPI {
-  public async getTodoLists(): Promise<IResponse<any>> {
+  public async getTodoLists(token: string): Promise<IResponse<any>> {
     return await super.get<any>(
       new Request({
         url: TodoListsUrl,
         querySearchParams: {},
-        headers: {
-          Bearer: sessionStorage.getItem('token'),
-        },
+        headers: { Authorization: 'Bearer ' + token},
       }),
     );
   }
 
-  public async saveTodoItem(item: ITodoItemSave): Promise<IResponse<any>> {
+  public async saveTodoItem(item: ITodoItemSave, token: string): Promise<IResponse<any>> {
     return await super.post<any>(
       new PostRequest({
         url: TodoItemsUrl,
@@ -26,10 +24,7 @@ class TodoItemAPI extends BaseAPI {
           listId: item.listId,
           title: item.title,
         }),
-        headers: {
-          Bearer: sessionStorage.getItem('token'),
-        },
-      }),
+      }, { Authorization: 'Bearer ' + token}),
     );
   }
 }

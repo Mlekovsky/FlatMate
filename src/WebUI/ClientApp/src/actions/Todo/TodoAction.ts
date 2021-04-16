@@ -8,7 +8,8 @@ export const actionCreatos = {
     dispatch(loaderActionsCreator.showLoaderWithPleaseWaitText());
 
     try {
-      const result = await TodoItemsAPI.getTodoLists();
+      const token = localStorage.getItem('token');
+      const result = await TodoItemsAPI.getTodoLists(token);
 
       dispatch({
         type: FETCH_DATA,
@@ -25,8 +26,8 @@ export const actionCreatos = {
 
   saveTodoItem: (item: ITodoItemSave) => async (dispatch, getState) => {
     dispatch(loaderActionsCreator.showLoaderWithPleaseWaitText());
-
-    await TodoItemsAPI.saveTodoItem(item);
+    const token = localStorage.getItem('token');
+    await TodoItemsAPI.saveTodoItem(item, token);
 
     dispatch(actionCreatos.getTodoLists());
 
