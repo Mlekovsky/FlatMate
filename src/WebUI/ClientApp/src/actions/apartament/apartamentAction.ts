@@ -1,7 +1,11 @@
 import { ApartamentsAPI } from '../../api/ApartamentAPI';
 import { SET_INFO, UPDATE_MODULES } from './apartamentActionTypes';
 import { SET_AVAILABLE_LIST, SET_LIST } from '../dashboard/dashboardActionTypes';
-import { IApartamentCreateRequest } from '../../types/Apartament';
+import {
+  IApartamentCreateRequest,
+  IApartamentUpdateMoudlesRequest,
+  IApartamentUpdateRequest,
+} from '../../types/Apartament';
 
 export const actionCreators = {
   getApartamentInfo: (apartamentId: number) => async (dispatch, getState) => {
@@ -99,5 +103,37 @@ export const actionCreators = {
     } catch (e) {
       console.log(e);
     }
+  },
+
+  updateApartament: (request: IApartamentUpdateRequest) => async (dispatch, getState) => {
+    try {
+      const token = localStorage.getItem('token');
+      const result = await ApartamentsAPI.updateApartament(request, token);
+
+      if (result.data.succeeded) {
+        dispatch(actionCreators.getApartamentList());
+        dispatch(actionCreators.getAvailableApartamentsList());
+        dispatch(actionCreators.getApartamentInfo(request.apartamentId));
+        return true;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
+
+  updateApartamentModules: (request: IApartamentUpdateMoudlesRequest) => async (dispatch, getState) => {
+    try {
+      const token = localStorage.getItem('token');
+      const result = await ApartamentsAPI.updateApartamentModules(request, token);
+
+      if (result.data.succeeded) {
+        dispatch(actionCreators.getApartamentInfo(request.apartamentId));
+        return true;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
   },
 };

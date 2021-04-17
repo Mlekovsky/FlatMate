@@ -1,21 +1,16 @@
 import { connect } from 'react-redux';
 import { ApartamentSettings } from './ApartamentSettings';
 import { bindActionCreators } from 'redux';
-import { actionCreatos } from '../../actions/user/UserAction';
 
 const mapStateToProps = (state: any) => ({
-  firstName: state.user.firstName,
-  lastName: state.user.lastName,
-  email: state.user.email,
+  shortName: state.currentApartament.shortName,
+  currentModules: state.currentApartament.currentModules,
+  apartamentId: state.currentApartament.id,
+  city: state.currentApartament.city,
+  address: state.currentApartament.address,
 });
 
-const mapDispatchToProps = (dispatch: any) =>
-  bindActionCreators(
-    {
-      getUserInfo: actionCreatos.refreshInfo
-    },
-    dispatch,
-  );
+const mapDispatchToProps = (dispatch: any) => bindActionCreators({}, dispatch);
 
 const IndexContainer = connect(mapStateToProps, mapDispatchToProps)(ApartamentSettings);
 export default IndexContainer;

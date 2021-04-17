@@ -1,4 +1,4 @@
-import React, { Component, FC, useEffect, useState } from 'react';
+import React, { Component, FC, useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -22,7 +22,7 @@ import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import { MenuAuthorizedValues } from './MenuAuthorizedValues';
 import MenuLink from '../../common/MenuLink';
-import { Modules } from '../../../types/Module';
+import { IModuleDto, Modules } from '../../../types/Module';
 
 const drawerWidth = 240;
 

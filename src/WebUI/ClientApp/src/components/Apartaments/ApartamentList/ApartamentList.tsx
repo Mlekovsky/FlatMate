@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
 import { FC } from 'react';
-import { IApartamentDto, IAvailableApartament } from '../../../types/Apartament';
+import { IApartamentDto } from '../../../types/Apartament';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { ColumnGroup } from 'primereact/columngroup';
-import { Row } from 'primereact/row';
-import { Button } from '@material-ui/core';
 import { JoinApartamentModal } from './JoinApartamentModal';
 
 export interface IApartamentList {

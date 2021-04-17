@@ -20,10 +20,10 @@ namespace FlatMate_backend.WebUI.Controllers
 
             if (result.Succeeded)
             {
-                return Ok(result.Response);
+                return Ok(result);
             }
 
-            return BadRequest(result.Errors);
+            return BadRequest(result);
         }
     }
 }

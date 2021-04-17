@@ -8,6 +8,7 @@ import RegisterContainer from './User/Register/RegisterContainer';
 import DashboardContainer  from '../components/Homepage/DashboardContainer';
 import { actionCreators as loaderActionsCreator } from '../actions/common/loaderAction';
 import TodoContainer from '../components/ToDo/TodoContainer';
+import ApartamentSettingsContainer from './Apartaments/ApartamentSettings/ApartamentSettingsContainer';
 
 const Routes = () => (
   <>
@@ -17,6 +18,7 @@ const Routes = () => (
       <Route path="/dashboard" component={DashboardContainer} />
       <Route path="/Todo" component={TodoContainer} />
       <Route path="/Register" component={RegisterContainer} />
+      <Route path="/Settings" component={ApartamentSettingsContainer}/>
     </Switch>
   </>
 );

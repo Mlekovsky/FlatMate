@@ -6,6 +6,7 @@ import * as Loader from '../reducer/common/loaderReducer';
 import * as User from '../reducer/user/userReducer';
 import * as Apartament from '../reducer/apartament/apartamentReducer';
 import * as Dashboard from '../reducer/dashboard/dashboardReducer';
+import * as Module from '../reducer/module/modulesReducer';
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
  
@@ -17,6 +18,7 @@ export default function configureStore(history, initialState) {
     user: User.reducer,
     currentApartament: Apartament.reducer,
     dashboard: Dashboard.reducer,
+    modules: Module.reducer
   };
 
   const middleware = [thunk, routerMiddleware(history)];

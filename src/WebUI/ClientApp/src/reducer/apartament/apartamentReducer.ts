@@ -1,4 +1,4 @@
-import { CLEAR_INFO, SET_INFO, UPDATE_MODULES } from '../../actions/apartament/apartamentActionTypes';
+import { CLEAR_INFO, SET_INFO, UPDATE_INFO, UPDATE_MODULES } from '../../actions/apartament/apartamentActionTypes';
 
 const initialState = {
   id: 0,
@@ -35,6 +35,14 @@ export const reducer = (state, action) => {
         address: '',
         currentModules: [],
       };
+      case UPDATE_INFO:
+        return {
+          ...state,
+          shortName: action.payload.shortName,
+          city: action.payload.city,
+          address: action.payload.address
+        };
+      
     default:
       return state;
   }
