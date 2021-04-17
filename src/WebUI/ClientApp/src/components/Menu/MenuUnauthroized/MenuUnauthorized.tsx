@@ -11,11 +11,11 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Container from '@material-ui/core/Container';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import MenuLink from 'src/components/common/MenuLink';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import HomeIcon from '@material-ui/icons/Home';
 
 import { MenuUnauthorizedValues } from './MenuUnauthroizedValues';
+import MenuLink from '../../common/MenuLink';
 
 const drawerWidth = 240;
 
@@ -148,12 +148,15 @@ export const MenuUnauthorized: FC = (props) => {
             text={MenuUnauthorizedValues.Home}
             value={MenuUnauthorizedValues.Home}
             to="/Home"
+            alwaysDisplay={true}
+            
           />
           <MenuLink
             icon={<AccountCircleIcon />}
             text={MenuUnauthorizedValues.Login}
             value={MenuUnauthorizedValues.Login}
             to="/Login"
+            alwaysDisplay={true}
           />
         </div>
       </Drawer>

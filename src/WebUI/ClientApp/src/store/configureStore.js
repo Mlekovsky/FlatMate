@@ -6,6 +6,9 @@ import * as Loader from '../reducer/common/loaderReducer';
 import * as User from '../reducer/user/userReducer';
 import * as Apartament from '../reducer/apartament/apartamentReducer';
 import * as Dashboard from '../reducer/dashboard/dashboardReducer';
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
+ 
 
 export default function configureStore(history, initialState) {
   const reducers = {
@@ -31,5 +34,14 @@ export default function configureStore(history, initialState) {
     ...reducers,
   });
 
-  return createStore(rootReducer, initialState, compose(applyMiddleware(...middleware), ...enhancers));
+  const persistConfig = {
+    key: 'root',
+    storage
+  }
+
+  const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+  let store = createStore(persistedReducer, initialState, compose(applyMiddleware(...middleware), ...enhancers));
+  let persistor = persistStore(store);
+  return {store, persistor}
 }

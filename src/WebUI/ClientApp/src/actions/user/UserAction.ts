@@ -1,8 +1,9 @@
 import { actionCreators as loaderActionsCreator } from '../common/loaderAction';
 import { UsersAPI } from '../../api/UserAPI';
-import { LOGIN, REGISTER, SWITCH_APARTAMENT, LOGOUT } from './UserActionTypes';
-import { IUserLoginRequest, IUserRegisterRequest } from 'src/types/User';
+import { LOGIN, REGISTER, SWITCH_APARTAMENT, LOGOUT, SET_USER_INFO } from './UserActionTypes';
+import { IUserLoginRequest, IUserRegisterRequest } from '../../types/User';
 import { push } from 'connected-react-router';
+import { CLEAR_INFO } from '../apartament/apartamentActionTypes';
 
 export const actionCreatos = {
   loginUser: (request: IUserLoginRequest) => async (dispatch, getState) => {
@@ -25,8 +26,7 @@ export const actionCreatos = {
       } else {
         console.log(result.data.errors);
       }
-
-      console.log(result);
+      dispatch(push('/dashboard'));
     } catch (response) {
       console.log(response);
     } finally {
@@ -93,21 +93,36 @@ export const actionCreatos = {
 
   logout: () => (dispatch, getState) => {
     localStorage.removeItem('token');
+    
     dispatch({
       type: LOGOUT,
+    });
+
+    dispatch({
+      type: CLEAR_INFO,
     });
 
     dispatch(push('/'));
   },
 
-  refreshInfo: () => (dispatch, getState) => {
+  refreshInfo: () => async (dispatch, getState) => {
     const token = localStorage.getItem('token');
-    if(token){
-      try{
-
-      }catch(e){
+    if (token) {
+      try {
+        const user = await UsersAPI.refreshInfo(token);
+        if (!user.data.succeeded) {
+          dispatch({
+            type: SET_USER_INFO,
+            payload: {
+              firstName: user.data.response.firstName,
+              lastName: user.data.response.lastName,
+              email: user.data.response.email,
+            },
+          });
+        }
+      } catch (e) {
         console.log(e);
       }
     }
-  } 
+  },
 };

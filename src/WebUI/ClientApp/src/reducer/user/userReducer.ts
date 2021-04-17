@@ -1,4 +1,4 @@
-import { LOGIN, SWITCH_APARTAMENT, LOGOUT } from '../../actions/user/UserActionTypes';
+import { LOGIN, SWITCH_APARTAMENT, LOGOUT, SET_USER_INFO, SET_CURRENT_APARTAMENT } from '../../actions/user/UserActionTypes';
 
 const initialState = {
   currentApartamentId: 0,
@@ -34,6 +34,18 @@ export const reducer = (state, action) => {
         email: '',
         token: '',
       };
+    case SET_USER_INFO:
+      return {
+        ...state,
+        firstName: action.payload.firstName,
+        lastName: action.payload.lastName,
+        email: action.payload.email,
+      };
+      case SET_CURRENT_APARTAMENT:
+        return {
+          ...state,
+          currentApartamentId: action.payload.currentApartamentId
+        }
     default:
       return state;
   }

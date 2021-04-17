@@ -10,12 +10,15 @@ export const actionCreators = {
       const result = await ApartamentsAPI.getApartamentInfo(apartamentId, token);
 
       if (result.data.succeeded) {
+        let modulesIds = result.data.response.currentModules.map((x) => x.id);
         dispatch({
           type: SET_INFO,
           payload: {
             shortName: result.data.response.shortName,
             city: result.data.response.city,
             address: result.data.response.address,
+            id: result.data.response.id,
+            currentModules: modulesIds,
           },
         });
       } else {
@@ -46,7 +49,7 @@ export const actionCreators = {
     }
   },
 
-  getAvailableApartamentsList: () => async(dispatch, getState) => {
+  getAvailableApartamentsList: () => async (dispatch, getState) => {
     try {
       const token = localStorage.getItem('token');
       const result = await ApartamentsAPI.getAvailableApartaments(token);
@@ -64,18 +67,37 @@ export const actionCreators = {
     }
   },
 
-  createApartament: (request: IApartamentCreateRequest) => async(dispatch, getState) => {
-    try{
+  joinApartament: (id: number, password: string) => async (dispatch, getState) => {
+    try {
+      const token = localStorage.getItem('token');
+      const result = await ApartamentsAPI.assignUserApartament(
+        { apartamentId: id, apartamentPassword: password },
+        token,
+      );
+
+      if (result.data.succeeded) {
+        dispatch(actionCreators.getAvailableApartamentsList());
+        dispatch(actionCreators.getApartamentList());
+        return true;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+
+    return false;
+  },
+
+  createApartament: (request: IApartamentCreateRequest) => async (dispatch, getState) => {
+    try {
       const token = localStorage.getItem('token');
       const result = await ApartamentsAPI.createApartament(request, token);
 
-      if(result.data.succeeded){
+      if (result.data.succeeded) {
         dispatch(actionCreators.getApartamentList());
         dispatch(actionCreators.getAvailableApartamentsList());
       }
-    }
-    catch(e){
+    } catch (e) {
       console.log(e);
     }
-  }
+  },
 };

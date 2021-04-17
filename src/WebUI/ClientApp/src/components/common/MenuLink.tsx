@@ -8,19 +8,25 @@ export interface IMenuLink {
   to: string;
   text: string;
   value: string | number;
-  // selectedValue: string | number;
-  // onChange: (value: string | number) => void;
+  moduleId?: number | null;
+  currentModules?: number[] | null;
+  apartamentId?: number | null;
+  alwaysDisplay?: boolean | null;
 }
 
-const MenuLink: FC<IMenuLink> = ({ value, text, to, icon }) => {
-  return (
-    <NavLink tag={Link} className={classNames('text-dark')} to={to}>
-      <ListItem button>
-        <ListItemIcon>{icon}</ListItemIcon>
-        <ListItemText primary={text} />
-      </ListItem>
-    </NavLink>
-  );
+const MenuLink: FC<IMenuLink> = ({ value, text, to, icon, moduleId, currentModules, apartamentId, alwaysDisplay }) => {
+  if ((currentModules && moduleId && currentModules.includes(moduleId)) || apartamentId || alwaysDisplay) {
+    return (
+      <NavLink tag={Link} className={classNames('text-dark')} to={to}>
+        <ListItem button>
+          <ListItemIcon>{icon}</ListItemIcon>
+          <ListItemText primary={text} />
+        </ListItem>
+      </NavLink>
+    );
+  } else {
+    return <></>;
+  }
 };
 
 export default memo(MenuLink);

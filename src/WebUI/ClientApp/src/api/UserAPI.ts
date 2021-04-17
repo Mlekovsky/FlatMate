@@ -1,8 +1,8 @@
 import { PostRequest, Request } from './base/Requests';
 import { IResponse } from './base/Responses';
 import { BaseAPI } from './base/BaseAPI';
-import { AuthorizeUrl, LoginUrl, RegisterUrl } from './base/EndpointsAPI';
-import { IUserLoginRequest, IUserRegisterRequest } from 'src/types/User';
+import { AuthorizeUrl, LoginUrl, RegisterUrl, UserInfoUrl } from './base/EndpointsAPI';
+import { IUserLoginRequest, IUserRegisterRequest } from '../types/User';
 
 /** Klasa API do zarządzania użytkownikiem */
 class UserAPI extends BaseAPI {
@@ -39,6 +39,15 @@ class UserAPI extends BaseAPI {
         body: JSON.stringify({
           token: token,
         }),
+      }),
+    );
+  }
+
+  public async refreshInfo(token: string): Promise<IResponse<any>> {
+    return await super.get<any>(
+      new Request({
+        url: UserInfoUrl,
+        headers: { Authorization: 'Bearer ' + token },
       }),
     );
   }

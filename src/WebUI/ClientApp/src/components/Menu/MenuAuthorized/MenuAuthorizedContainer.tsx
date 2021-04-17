@@ -1,22 +1,19 @@
 import { connect } from 'react-redux';
 import { MenuAuthorized } from './MenuAuthorized';
 import { bindActionCreators } from 'redux';
-import { actionCreatos } from 'src/actions/user/UserAction';
+import { actionCreatos } from '../../../actions/user/UserAction';
 
 const mapStateToProps = (state: any) => ({
-  firstName: state.user.firstName,
-  lastName: state.user.lastName,
-  email: state.user.email,
   shortName: state.currentApartament.shortName,
-  city: state.currentApartament.city,
-  address: state.currentApartament.address,
   currentModules: state.currentApartament.currentModules,
+  apartamentId: state.currentApartament.id
 });
 
 const mapDispatchToProps = (dispatch: any) =>
   bindActionCreators(
     {
       logout: actionCreatos.logout,
+      userInfo: actionCreatos.refreshInfo
     },
     dispatch,
   );

@@ -11,4 +11,5 @@ export interface IModuleInfoDto {
 
 export enum Modules {
   TODO_MODULE = 1,
+  SHOPPING_LIST = 2
 }

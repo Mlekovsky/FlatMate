@@ -5,14 +5,13 @@ import { actionCreators } from '../../../actions/apartament/apartamentAction';
 
 const mapStateToProps = (state: any) => ({
   apartamentList: state.dashboard.apartamentList,
-  availableApartamentList: state.dashboard.availableApartamentList,
 });
 
 const mapDispatchToProps = (dispatch: any) =>
   bindActionCreators(
     {
       getApartamentList: actionCreators.getApartamentList,
-      getAvailableApartaments: actionCreators.getAvailableApartamentsList, //Do podmiany
+      joinApartament: actionCreators.joinApartament
     },
     dispatch,
   );

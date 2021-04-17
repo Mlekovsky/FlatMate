@@ -11,6 +11,7 @@ const mapDispatchToProps = (dispatch: any) =>
   bindActionCreators(
     {
       getAvailableApartaments: actionCreators.getAvailableApartamentsList,
+      chooseApartament: actionCreators.getApartamentInfo
     },
     dispatch,
   );

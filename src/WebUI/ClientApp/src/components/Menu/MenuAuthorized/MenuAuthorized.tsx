@@ -1,4 +1,4 @@
-import React, { Component, FC, useState } from 'react';
+import React, { Component, FC, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,7 +13,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Container from '@material-ui/core/Container';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import MenuLink from 'src/components/common/MenuLink';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import SettingsIcon from '@material-ui/icons/Settings';
 import HomeIcon from '@material-ui/icons/Home';
@@ -22,6 +21,8 @@ import ReceiptIcon from '@material-ui/icons/Receipt';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import { MenuAuthorizedValues } from './MenuAuthorizedValues';
+import MenuLink from '../../common/MenuLink';
+import { Modules } from '../../../types/Module';
 
 const drawerWidth = 240;
 
@@ -106,26 +107,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export interface IMenuAuthroizedInterface {
-  firstName: string;
-  lastName: string;
-  email: string;
   shortName: string;
-  city: string;
-  address: string;
   currentModules: number[];
   logout: () => void;
+  userInfo: () => void;
+  apartamentId: number;
 }
 
 export const MenuAuthorized: FC<IMenuAuthroizedInterface> = ({
-  firstName,
-  lastName,
-  email,
   shortName,
-  city,
-  address,
   currentModules,
   logout,
   children,
+  userInfo,
+  apartamentId
 }) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -135,6 +130,10 @@ export const MenuAuthorized: FC<IMenuAuthroizedInterface> = ({
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    userInfo();
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -180,12 +179,15 @@ export const MenuAuthorized: FC<IMenuAuthroizedInterface> = ({
             text={MenuAuthorizedValues.Home}
             value={MenuAuthorizedValues.Home}
             to="/Dashboard"
+            alwaysDisplay={true}
           />
           <MenuLink
             icon={<MonetizationOnIcon />}
             text={MenuAuthorizedValues.ShoppingList}
             value={MenuAuthorizedValues.ShoppingList}
             to="/"
+            moduleId={Modules.SHOPPING_LIST}
+            currentModules = {currentModules}
           />
           <MenuLink
             icon={<ReceiptIcon />}
@@ -198,6 +200,8 @@ export const MenuAuthorized: FC<IMenuAuthroizedInterface> = ({
             text={MenuAuthorizedValues.HomeTasks}
             value={MenuAuthorizedValues.HomeTasks}
             to="/Todo"
+            moduleId={Modules.TODO_MODULE}
+            currentModules={currentModules}
           />
         </div>
 
@@ -209,6 +213,7 @@ export const MenuAuthorized: FC<IMenuAuthroizedInterface> = ({
             text={MenuAuthorizedValues.Settings}
             value={MenuAuthorizedValues.Settings}
             to="/Settings"
+            apartamentId={apartamentId}
           />
           <div onClick={logout}>
             <MenuLink
@@ -216,6 +221,7 @@ export const MenuAuthorized: FC<IMenuAuthroizedInterface> = ({
               text={MenuAuthorizedValues.Logout}
               value={MenuAuthorizedValues.Logout}
               to="/Logout"
+              alwaysDisplay={true}
             />
           </div>
         </div>

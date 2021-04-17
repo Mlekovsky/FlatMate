@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -39,10 +39,17 @@ const useStyles = makeStyles((theme) => ({
 
 export interface IDashboard {
   getUserInfo: () => void;
-  getApartamentList: () => void;
+  firstName: string,
+  lastName: string,
+  email: string
 }
 
-export const Dashboard: FC<IDashboard> = ({}) => {
+export const Dashboard: FC<IDashboard> = ({getUserInfo, firstName, lastName, email}) => {
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
+
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -51,7 +58,7 @@ export const Dashboard: FC<IDashboard> = ({}) => {
         <div className={classes.appBarSpacer} />
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Paper className={classes.paper}>Witaj User!</Paper>
+            <Paper className={classes.paper}><h3>Witaj {firstName} {lastName}!</h3></Paper>
           </Grid>
           <Grid item xs={12}>
             <Paper className={classes.paper}>

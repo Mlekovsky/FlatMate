@@ -109,8 +109,8 @@ namespace FlatMate_backend.WebUI.Controllers
         }
 
         [HttpGet]
-        [Route("Info/{apartamentId}")]
-        public async Task<ActionResult> GetApartamentInfo(int apartamentId)
+        [Route("Info")]
+        public async Task<ActionResult> GetApartamentInfo([System.Web.Http.FromUri] int apartamentId)
         {
             var request = new GetApartamentInfoQuery();
             request.SetUser(UserId);

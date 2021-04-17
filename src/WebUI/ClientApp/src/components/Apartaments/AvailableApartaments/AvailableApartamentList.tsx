@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { FC } from 'react';
 import { IApartamentDto, IAvailableApartament } from '../../../types/Apartament';
 import { DataTable } from 'primereact/datatable';
@@ -10,26 +10,32 @@ import { Button } from '@material-ui/core';
 export interface IAvailableApartamentList {
   availableApartamentList:  IApartamentDto[];
   getAvailableApartaments: () => void;
+  chooseApartament:(id: number) => void;
 }
 
 export const AvailableApartamentList: FC<IAvailableApartamentList> = ({
   getAvailableApartaments,
   availableApartamentList,
+  chooseApartament
 }) => {
   useEffect(() => {
     getAvailableApartaments();
   }, []);
 
   const joinTemplate = (rowData) => {
-    console.log(rowData);
-    return <Button>{rowData.id}</Button>
+    
+    const onChooseHandler = () => {
+      chooseApartament(rowData.id);
+    }
+
+    return (<button type="button" className="btn btn-success" onClick={onChooseHandler}>Wybierz</button>)
   }
 
   return (
     <>
-      <DataTable value={availableApartamentList} className="table table-striped">
-        <Column field="name" header="Nazwa"></Column>
-        <Column header="Wybierz" field="id" body={joinTemplate}></Column>
+      <DataTable tableClassName="table-paper" value={availableApartamentList} className="table table-striped">
+        <Column field="name" header="Nazwa" headerStyle={{padding: '0.5rem'}} style={{width: '70%', padding: '0.3rem', verticalAlign: 'baseline'}}></Column>
+        <Column header="Wybierz" field="id" headerStyle={{padding: '0.5rem'}} style={{width: '30%', padding: '0.3rem', verticalAlign: 'baseline'}} body={joinTemplate}></Column>
       </DataTable>
     </>
   );
