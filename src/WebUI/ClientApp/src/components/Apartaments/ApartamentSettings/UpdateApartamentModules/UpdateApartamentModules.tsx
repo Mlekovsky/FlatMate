@@ -67,15 +67,15 @@ export const UpdateApartamentModules: FC<IUpdateApartamentModules> = ({
     <>
       <Form>
         <Container>
-          <Row>
-            <Col xs={4}>Obowiązki domowe:</Col>
+          <Row style={{marginBottom: 10}}>
+            <Col xs={4}><strong>Obowiązki domowe:</strong></Col>
             <Col xs={6}>{modulesList?.find(x => x.id == Modules.TODO_MODULE)?.description}</Col>
             <Col xs={2}>
               <Switch onChange={handleTodoCheck} checked={todoCheck}></Switch>
             </Col>
           </Row>
-          <Row>
-            <Col xs={4}>Lista zakupów:</Col>
+          <Row style={{marginBottom: 10}}>
+            <Col xs={4}><strong>Lista zakupów:</strong></Col>
             <Col xs={6}>{modulesList?.find(x => x.id == Modules.SHOPPING_LIST)?.description}</Col>
             <Col xs={2}>
               <Switch onChange={handleShoppingListCheck} checked={shoppingListCheck}></Switch>

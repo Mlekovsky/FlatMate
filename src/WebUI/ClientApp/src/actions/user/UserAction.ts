@@ -85,6 +85,11 @@ export const actionCreatos = {
         dispatch({
           type: LOGOUT,
         });
+        dispatch({
+          type: CLEAR_INFO
+        });
+
+        dispatch(push('/'));
       }
     } catch (e) {
       console.log(e);
@@ -102,7 +107,7 @@ export const actionCreatos = {
       type: CLEAR_INFO,
     });
 
-    dispatch(push('/'));
+    dispatch(push('/home'));
   },
 
   refreshInfo: () => async (dispatch, getState) => {

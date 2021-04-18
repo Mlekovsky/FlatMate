@@ -194,4 +194,13 @@ export class DeleteRequest extends Request {
   method: Method = 'DELETE';
   responseType: ResponseType = 'json';
   headers: any = { 'Content-Type': 'application/json' };
+
+  constructor(request: IRequest, additionalHeaders?: any) {
+    super(request);
+
+    this.headers = {
+      ...this.headers,
+      ...additionalHeaders,
+    };
+  }
 }

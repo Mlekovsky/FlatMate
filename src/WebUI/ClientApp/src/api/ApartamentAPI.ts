@@ -1,4 +1,4 @@
-import { PostRequest, Request } from './base/Requests';
+import { DeleteRequest, PostRequest, Request } from './base/Requests';
 import { IResponse } from './base/Responses';
 import { BaseAPI } from './base/BaseAPI';
 import {
@@ -89,12 +89,13 @@ class ApartamentAPI extends BaseAPI {
 
   public async deleteApartament(item: IDeleteApartamentRequest, token: string): Promise<IResponse<any>> {
     return await super.post<any>(
-      new PostRequest({
+      new DeleteRequest({
         url: ApartamentDeleteUrl,
-        body: JSON.stringify({
-          apartamentId: item.apartamentId,
-        }),
-      }, { Authorization: 'Bearer ' + token}),
+        body: JSON.stringify ({
+          apartamentId: item.apartamentId
+        })
+      }, 
+      { Authorization: 'Bearer ' + token}),
     );
   }
 

@@ -8,6 +8,7 @@ import Paper from '@material-ui/core/Paper';
 import { Copyright } from '../../User/Copyright';
 import ApartamentUpdateContainer from './UpdateApartament/ApartamentUpdateContainer';
 import UpdateApartamentModulesContainer from './UpdateApartamentModules/UpdateApartamentModulesContainer';
+import DeleteApartamentContainer from './DeleteApartament/DeleteApartamentContainer';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -85,7 +86,7 @@ export const ApartamentSettings: FC<IApartamentSettings> = ({
             <Grid item xs={12} md={6} lg={6}>
               <Paper className={classes.paper}>
                 <h4 style={{ paddingBottom: 10 }}>Wypisz się lub usuń mieszkanie</h4>
-                {/* <ApartamentListContainer></ApartamentListContainer> */}
+                <DeleteApartamentContainer id={apartamentId}></DeleteApartamentContainer>
               </Paper>
             </Grid>
           </Grid>

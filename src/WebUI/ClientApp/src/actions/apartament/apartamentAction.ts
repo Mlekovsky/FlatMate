@@ -1,11 +1,14 @@
 import { ApartamentsAPI } from '../../api/ApartamentAPI';
-import { SET_INFO, UPDATE_MODULES } from './apartamentActionTypes';
+import { CLEAR_INFO, SET_INFO, UPDATE_MODULES } from './apartamentActionTypes';
 import { SET_AVAILABLE_LIST, SET_LIST } from '../dashboard/dashboardActionTypes';
 import {
   IApartamentCreateRequest,
   IApartamentUpdateMoudlesRequest,
   IApartamentUpdateRequest,
+  IDeleteApartamentRequest,
+  IRemoveUserApartamentReuqest,
 } from '../../types/Apartament';
+import { push } from 'connected-react-router';
 
 export const actionCreators = {
   getApartamentInfo: (apartamentId: number) => async (dispatch, getState) => {
@@ -136,4 +139,38 @@ export const actionCreators = {
     }
     return false;
   },
+
+  deleteApartament: (request: IDeleteApartamentRequest) => async (dispatch, getState) => {
+    try {
+      const token = localStorage.getItem('token');
+      const result = await ApartamentsAPI.deleteApartament(request, token);
+
+      if (result.data.succeeded && result.data.response) {
+        dispatch({
+          type: CLEAR_INFO
+        });
+        dispatch(push('/dashboard'));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  },
+
+  removeUserFromApartament: (request: IRemoveUserApartamentReuqest) => async (dispatch, getState) => {
+    try {
+      const token = localStorage.getItem('token');
+      const result = await ApartamentsAPI.removeUserApartament(request, token);
+
+      if (result.data.succeeded && result.data.response) {
+        dispatch({
+          type: CLEAR_INFO
+        });
+        dispatch(actionCreators.getApartamentList());
+        dispatch(actionCreators.getAvailableApartamentsList());
+        dispatch(push('/dashboard'));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
 };
