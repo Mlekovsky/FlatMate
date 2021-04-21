@@ -41,3 +41,10 @@
 .input-container {
   margin-top: 25px;
 }
+
+.title-buttons {
+  margin: auto;
+  margin-bottom: 10px;
+  padding: 10px;
+  text-align: center;
+}

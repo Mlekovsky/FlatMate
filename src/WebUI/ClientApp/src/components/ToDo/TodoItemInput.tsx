@@ -1,4 +1,5 @@
 import React, { ChangeEvent, FC, memo, useCallback, useState } from 'react';
+import { Button, Form } from 'react-bootstrap';
 
 interface ITodoItemInput {
   listId: number;
@@ -14,12 +15,21 @@ const TodoItemInput: FC<ITodoItemInput> = ({ listId, onSave }) => {
 
   const onSaveClick = useCallback((): void => {
     onSave(name, listId);
+    setName('');
   }, [name, listId]);
 
   return (
     <>
-      <input className="input-field" type="text" value={name} onChange={onChangeHandler} />
-      <button onClick={onSaveClick}>Add</button>
+      <div style={{ padding: 5 }}>
+        <Form >
+          <Form.Group controlId="formName" style={{ width: '50%' }}>
+            <Form.Control type="name" placeholder="Podaj tytuł zadania" onChange={onChangeHandler} />
+          </Form.Group>
+        </Form>
+        <button className="btn btn-success" onClick={onSaveClick}>
+          Dodaj!
+        </button>
+      </div>
     </>
   );
 };

@@ -152,11 +152,6 @@ export const MenuAuthorized: FC<IMenuAuthroizedInterface> = ({
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             FlatMate {shortName}
           </Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -185,7 +180,7 @@ export const MenuAuthorized: FC<IMenuAuthroizedInterface> = ({
             icon={<MonetizationOnIcon />}
             text={MenuAuthorizedValues.ShoppingList}
             value={MenuAuthorizedValues.ShoppingList}
-            to="/"
+            to="/ShoppingList"
             moduleId={Modules.SHOPPING_LIST}
             currentModules = {currentModules}
           />

@@ -71,10 +71,10 @@ namespace FlatMate_backend.WebUI.Controllers
             return BadRequest(result.Errors);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id, int apartamentId)
+        [HttpDelete]
+        public async Task<ActionResult> Delete(DeleteTodoListCommand request)
         {
-            var request = new DeleteTodoListCommand { Id = id, ApartamentId = apartamentId };
+            //var request = new DeleteTodoListCommand { Id = id, ApartamentId = apartamentId };
             request.SetUser(UserId);
 
             var result = await Mediator.Send(request);

@@ -38,11 +38,11 @@ export const DeleteApartament: FC<IDeleteApartament> = ({
     <>
         <Container>
           <Row style={{marginBottom: 10}}>
-            <Col xs={6}>Wypisz mnie z mieszkania:</Col>
+            <Col xs={6}><strong>Wypisz mnie z mieszkania:</strong></Col>
             <Col xs={6}><button className="btn btn-danger" style={{width:80}} onClick={onRemoveUserHandler}>Wypisz</button></Col>
           </Row>
           <Row>
-            <Col xs={6}>Usuń mieszkanie:</Col>
+            <Col xs={6}><strong>Usuń mieszkanie:</strong></Col>
             <Col xs={6}><button className="btn btn-danger" style={{width:80}} onClick={handleShow}>Usuń</button></Col>
           </Row>
         </Container>

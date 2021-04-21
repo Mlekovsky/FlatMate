@@ -13,11 +13,6 @@ export interface ITodoList {
   items: IToDoItem[];
 }
 
-export interface ITodoItemSave {
-  title: string;
-  listId: number;
-}
-
 export interface ITodosVM {
   lists: ITodoList[];
   priorityLevels: IPriorityLevelDto[];
@@ -26,4 +21,39 @@ export interface ITodosVM {
 export interface IPriorityLevelDto {
   value?: number;
   name?: string | undefined;
+}
+
+// Requests
+export interface ITodoItemSave {
+  title: string;
+  listId: number;
+  apartamentId: number;
+}
+
+export interface ITodoItemUpdateRequest {
+  id: number;
+  title: string;
+  done: boolean;
+  apartamentId: number;
+}
+
+export interface ITodoItemDeleteRequest {
+  id: number;
+  apartamentId: number;
+}
+
+export interface ITodoListCreateRequest {
+  apartamentId: number;
+  title: string
+}
+
+export interface ITodoListDeleteRequest {
+  id: number;
+  apartamentId: number;
+}
+
+export interface ITodoListUpdateRequest {
+  id: number;
+  title: string;
+  apartamentId: number;
 }

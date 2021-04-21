@@ -39,6 +39,8 @@ namespace FlatMate_backend.Application.Apartaments.Queries
                 var apartaments = new List<ApartamentDTO>();
                 var apartamentsDb = new List<Apartament>();
 
+                var currentUserApartamentsIds = _context.UserApartaments.Where(x => x.UserId == request.GetUser()).Select(x => x.ApartamentId);
+
                 if (!string.IsNullOrEmpty(request.SearchField))
                 {
                     apartamentsDb = _context.Apartaments.Include(x => x.UserApartaments).Where(x => x.Address.Contains(request.SearchField)
@@ -50,6 +52,8 @@ namespace FlatMate_backend.Application.Apartaments.Queries
                 {
                     apartamentsDb = _context.Apartaments.ToList();
                 }
+
+                apartamentsDb = apartamentsDb.Where(x => !currentUserApartamentsIds.Contains(x.Id)).ToList();
 
                 foreach (var apartament in apartamentsDb)
                 {

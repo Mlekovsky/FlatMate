@@ -6,6 +6,7 @@ import { actionCreatos } from '../../actions/Todo/TodoAction';
 
 const mapStateToProps = (state) => ({
   todoLists: state.toDos.todoItems,
+  apartamentId: state.currentApartament.id
 });
 
 const mapDispatchToProps = (dispatch: any) =>
@@ -13,6 +14,8 @@ const mapDispatchToProps = (dispatch: any) =>
     {
       getTodoLists: actionCreatos.getTodoLists,
       saveTodoItem: actionCreatos.saveTodoItem,
+      addTodoList: actionCreatos.createTodoList,
+      deleteTodoList: actionCreatos.deleteTodoList
     },
     dispatch,
   );
