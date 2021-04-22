@@ -34,10 +34,10 @@ namespace FlatMate_backend.Application.TodoItems.Commands.CreateTodoItem
             var apartamentDb = await _context.Apartaments
            .Include(x => x.UserApartaments)
            .Include(x => x.ApartamentModules)
-           .FirstOrDefaultAsync(x => x.Id == request.ApartamentId);
+           .FirstOrDefaultAsync(x => x.Id == request.ApartamentId && x.IsDeleted != false);
 
             var userId = request.GetUser();
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId && x.IsDeleted != false);
 
             if (apartamentDb == null)
             {

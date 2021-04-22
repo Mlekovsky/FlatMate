@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FlatMate_backend.Domain.Entities
 {
-    public class TodoList : AuditableEntity
+    public class TodoList : AuditableEntity, ISoftDelete
     {
         public TodoList()
         {
@@ -18,5 +18,6 @@ namespace FlatMate_backend.Domain.Entities
 
         public IList<TodoItem> Items { get; set; }
         public Apartament Apartament { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

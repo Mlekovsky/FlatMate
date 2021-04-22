@@ -1,10 +1,11 @@
-﻿using System;
+﻿using FlatMate_backend.Domain.Common;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace FlatMate_backend.Domain.Entities
 {
-    public class UserRole
+    public class UserRole : ISoftDelete
     {
         public UserRole(string name, int userId)
         {
@@ -17,5 +18,6 @@ namespace FlatMate_backend.Domain.Entities
         public int UserId { get; set; }
 
         public User User { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

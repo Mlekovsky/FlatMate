@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FlatMate_backend.Domain.Entities
 {
-    public class Apartament : AuditableEntity
+    public class Apartament : AuditableEntity, ISoftDelete
     {
         public int Id { get; set; }
         public string ShortName { get; set; }
@@ -16,5 +16,6 @@ namespace FlatMate_backend.Domain.Entities
 
         public ICollection<UserApartament> UserApartaments { get; set; }
         public ICollection<ApartamentModule> ApartamentModules { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

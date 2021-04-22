@@ -31,7 +31,7 @@ namespace FlatMate_backend.Application.Apartaments.Queries.GetApartamentInfo
                 var apartamentDb = await _context.Apartaments
                     .Include(x => x.ApartamentModules).ThenInclude(x => x.Module)
                     .Include(x => x.UserApartaments)
-                    .FirstOrDefaultAsync(x => x.Id == request.ApartamentId);
+                    .FirstOrDefaultAsync(x => x.Id == request.ApartamentId && x.IsDeleted != false);
 
                 if (apartamentDb == null)
                 {

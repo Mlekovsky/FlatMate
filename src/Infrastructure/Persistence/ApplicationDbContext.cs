@@ -33,6 +33,8 @@ namespace FlatMate_backend.Infrastructure.Persistence
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
+            ChangeTracker.DetectChanges();
+
             foreach (var entry in ChangeTracker.Entries<AuditableEntity>())
             {
                 switch (entry.State)
@@ -43,6 +45,15 @@ namespace FlatMate_backend.Infrastructure.Persistence
                     case EntityState.Modified:
                         entry.Entity.LastModified = DateTime.Now;
                         break;
+                }
+            }
+
+            foreach (var entry in ChangeTracker.Entries<ISoftDelete>())
+            {
+                if (entry.Entity is ISoftDelete entity)
+                {
+                    entry.State = EntityState.Unchanged;
+                    entity.IsDeleted = true;
                 }
             }
 

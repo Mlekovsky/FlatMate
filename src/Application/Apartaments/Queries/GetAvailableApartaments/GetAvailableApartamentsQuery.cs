@@ -2,6 +2,7 @@
 using FlatMate_backend.Application.Common.Interfaces;
 using FlatMate_backend.Application.Common.Models;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,7 @@ namespace FlatMate_backend.Application.Apartaments.Queries.GetAvailableApartamen
             try
             {
                 var userId = request.GetUser();
-                var apartaments = _context.UserApartaments.Where(x => x.UserId == userId).Select(x => x.Apartament).ToList();
+                var apartaments = _context.UserApartaments.Include(x => x.Apartament).Where(x => x.UserId == userId && x.Apartament.IsDeleted != false).Select(x => x.Apartament).ToList();
                 var result = _mapper.Map<List<ApartamentDTO>>(apartaments);
                 return new Result<List<ApartamentDTO>>(true, result);
 

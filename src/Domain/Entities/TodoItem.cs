@@ -4,7 +4,7 @@ using System;
 
 namespace FlatMate_backend.Domain.Entities
 {
-    public class TodoItem : AuditableEntity
+    public class TodoItem : AuditableEntity, ISoftDelete
     {
         public int Id { get; set; }
 
@@ -22,5 +22,6 @@ namespace FlatMate_backend.Domain.Entities
 
 
         public TodoList List { get; set; }
+        public bool IsDeleted { get; set ; }
     }
 }
