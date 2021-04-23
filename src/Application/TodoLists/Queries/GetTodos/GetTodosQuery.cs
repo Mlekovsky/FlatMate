@@ -36,10 +36,10 @@ namespace FlatMate_backend.Application.TodoLists.Queries.GetTodos
             var apartamentDb = await _context.Apartaments
              .Include(x => x.UserApartaments)
              .Include(x => x.ApartamentModules)
-             .FirstOrDefaultAsync(x => x.Id == request.ApartamentId && x.IsDeleted != false);
+             .FirstOrDefaultAsync(x => x.Id == request.ApartamentId && x.IsDeleted == false);
 
             var userId = request.GetUser();
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId && x.IsDeleted != false);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId && x.IsDeleted == false);
 
             if (apartamentDb == null)
             {
@@ -64,7 +64,7 @@ namespace FlatMate_backend.Application.TodoLists.Queries.GetTodos
                     .ToList(),
 
                 Lists = await _context.TodoLists
-                    .Where(x => x.Apartament.Id == apartamentDb.Id && x.IsDeleted != false)
+                    .Where(x => x.Apartament.Id == apartamentDb.Id && x.IsDeleted == false)
                     .ProjectTo<TodoListDto>(_mapper.ConfigurationProvider)
                     .OrderBy(t => t.Title)
                     .ToListAsync(cancellationToken)

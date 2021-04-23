@@ -57,7 +57,7 @@ namespace FlatMate_backend.Application.Apartaments.Commands.RemoveUserApartament
                     await _context.SaveChangesAsync(cancellationToken);
 
                     //Jeśli usuniemy ostatniego usera z mieszkania, to usuwamy takie mieszkanie
-                    if (_context.UserApartaments.Include(x => x.Apartament).Count(x => x.ApartamentId == request.ApartamentId && x.Apartament.IsDeleted != false) == 0)
+                    if (_context.UserApartaments.Include(x => x.Apartament).Count(x => x.ApartamentId == request.ApartamentId && x.Apartament.IsDeleted == false) == 0)
                     {
                         var apartamentModules = _context.ApartamentModule.Where(x => x.ApartamentId == apartamentDb.Id);
 

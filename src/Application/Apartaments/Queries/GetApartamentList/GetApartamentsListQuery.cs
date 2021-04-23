@@ -45,12 +45,12 @@ namespace FlatMate_backend.Application.Apartaments.Queries
                 {
                     apartamentsDb = _context.Apartaments.Include(x => x.UserApartaments).Where(x => x.Address.Contains(request.SearchField)
                     || x.City.Contains(request.SearchField)
-                    || x.ShortName.Contains(request.SearchField) && x.IsDeleted != false).ToList();
+                    || x.ShortName.Contains(request.SearchField) && x.IsDeleted == false).ToList();
 
                 }
                 else
                 {
-                    apartamentsDb = _context.Apartaments.Where(x => x.IsDeleted != false).ToList();
+                    apartamentsDb = _context.Apartaments.Where(x => x.IsDeleted == false).ToList();
                 }
 
                 apartamentsDb = apartamentsDb.Where(x => !currentUserApartamentsIds.Contains(x.Id)).ToList();

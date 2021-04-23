@@ -34,7 +34,8 @@ namespace FlatMate_backend.Application.Users.Commands.CreateUser
 
         public async Task<bool> BeUniqueEmail(string email, CancellationToken cancellationToken)
         {
-            return await _context.Users.AllAsync(x => x.Email != email && x.IsDeleted != false);
+            var userExists = await _context.Users.FirstOrDefaultAsync(x => x.Email == email && x.IsDeleted == false);
+            return userExists != null ? false : true;
         }
     }
 }

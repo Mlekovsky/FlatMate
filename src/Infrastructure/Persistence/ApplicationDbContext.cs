@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Data;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -47,8 +48,8 @@ namespace FlatMate_backend.Infrastructure.Persistence
                         break;
                 }
             }
-
-            foreach (var entry in ChangeTracker.Entries<ISoftDelete>())
+            var markedAsDeleted = ChangeTracker.Entries().Where(x => x.State == EntityState.Deleted);
+            foreach (var entry in markedAsDeleted)
             {
                 if (entry.Entity is ISoftDelete entity)
                 {
