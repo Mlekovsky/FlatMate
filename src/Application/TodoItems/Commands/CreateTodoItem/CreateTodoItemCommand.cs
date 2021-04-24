@@ -15,6 +15,7 @@ namespace FlatMate_backend.Application.TodoItems.Commands.CreateTodoItem
         public int ListId { get; set; }
         public string Title { get; set; }
         public int ApartamentId { get; set; }
+        public int AssignedUserId { get; set; }
     }
 
     public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemCommand, Result<int>>
@@ -60,7 +61,8 @@ namespace FlatMate_backend.Application.TodoItems.Commands.CreateTodoItem
                 Title = request.Title,
                 Done = false,
                 Created = DateTime.Now,
-                CreatedBy = userId.ToString()
+                CreatedBy = userId.ToString(),
+                AssignedUser = await _context.Users.FirstOrDefaultAsync(x => x.Id == request.AssignedUserId && x.IsDeleted == false)
             };
 
             _context.TodoItems.Add(entity);

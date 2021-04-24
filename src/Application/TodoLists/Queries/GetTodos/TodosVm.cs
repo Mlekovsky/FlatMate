@@ -7,5 +7,6 @@ namespace FlatMate_backend.Application.TodoLists.Queries.GetTodos
         public IList<PriorityLevelDto> PriorityLevels { get; set; }
 
         public IList<TodoListDto> Lists { get; set; }
+        public IList<AssignableUsersDTO> Users { get; set; }
     }
 }

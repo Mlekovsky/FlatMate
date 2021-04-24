@@ -6,9 +6,7 @@ namespace FlatMate_backend.Application.TodoItems.Commands.UpdateTodoItem
     {
         public UpdateTodoItemCommandValidator()
         {
-            RuleFor(v => v.Title)
-                .MaximumLength(200)
-                .NotEmpty();
+
         }
     }
 }

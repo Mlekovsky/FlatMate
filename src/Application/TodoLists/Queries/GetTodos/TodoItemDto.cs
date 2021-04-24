@@ -17,6 +17,8 @@ namespace FlatMate_backend.Application.TodoLists.Queries.GetTodos
         public int Priority { get; set; }
 
         public string Note { get; set; }
+        public string AssignedUser { get; set; }
+        public int AssignedUserId { get; set; }
 
         public void Mapping(Profile profile)
         {

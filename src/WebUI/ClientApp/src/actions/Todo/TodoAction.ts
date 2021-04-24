@@ -1,8 +1,7 @@
 import { actionCreators as loaderActionsCreator } from '../common/loaderAction';
 import { TodoItemsAPI } from '../../api/TodoItemAPI';
 import { FETCH_DATA } from './TodoActionTypes';
-import { ITodoItemSave } from 'src/types/ToDoItem';
-import { ITodoListCreateRequest, ITodoListDeleteRequest } from '../../types/ToDoItem';
+import { ITodoItemUpdateRequest, ITodoListCreateRequest, ITodoListDeleteRequest, ITodoListUpdateRequest, ITodoItemSave, ITodoItemDetailsUpdateRequest, ITodoItemDeleteRequest } from '../../types/ToDoItem';
 
 export const actionCreatos = {
   getTodoLists: (apartamentId: number) => async (dispatch, getState) => {
@@ -22,17 +21,6 @@ export const actionCreatos = {
       console.log(response);
     } finally {
       dispatch(loaderActionsCreator.hideLoader());
-    }
-  },
-
-  saveTodoItem: (item: ITodoItemSave) => async (dispatch, getState) => {
-    try {
-      const token = localStorage.getItem('token');
-      await TodoItemsAPI.saveTodoItem(item, token);
-
-      dispatch(actionCreatos.getTodoLists(item.apartamentId));
-    } catch (response) {
-      console.log(response);
     }
   },
 
@@ -57,4 +45,60 @@ export const actionCreatos = {
       console.log(response);
     }
   },
+
+  updateTodoListName: (item: ITodoListUpdateRequest) => async (dispatch, getState) => {
+    try {
+      const token = localStorage.getItem('token');
+      await TodoItemsAPI.updateTodoList(item, token);
+
+      dispatch(actionCreatos.getTodoLists(item.apartamentId));
+    } catch (response) {
+      console.log(response);
+    }
+  },
+
+  saveTodoItem: (item: ITodoItemSave) => async (dispatch, getState) => {
+    try {
+      const token = localStorage.getItem('token');
+      await TodoItemsAPI.saveTodoItem(item, token);
+
+      dispatch(actionCreatos.getTodoLists(item.apartamentId));
+    } catch (response) {
+      console.log(response);
+    }
+  },
+
+  updateTodoItemStatus: (item: ITodoItemUpdateRequest) => async (dispatch, getState) => {
+    try{
+      const token = localStorage.getItem('token');
+      await TodoItemsAPI.updateTodoItemStatus(item, token);
+
+      dispatch(actionCreatos.getTodoLists(item.apartamentId));
+    }catch (response) {
+      console.log(response);
+    }
+  },
+
+  updateTodoItemDetails: (item: ITodoItemDetailsUpdateRequest) => async (dispatch, getState) => {
+    try{
+      const token = localStorage.getItem('token');
+      await TodoItemsAPI.updateTodoItemDetails(item, token);
+
+      dispatch(actionCreatos.getTodoLists(item.apartamentId));
+    }catch (response) {
+      console.log(response);
+    }
+  },
+
+  deleteTodoItem: (item: ITodoItemDeleteRequest) => async (dispatch, getState) => {
+    try{
+      const token = localStorage.getItem('token');
+      await TodoItemsAPI.deleteTodoItem(item, token);
+
+      dispatch(actionCreatos.getTodoLists(item.apartamentId));
+    }catch (response) {
+      console.log(response);
+    }
+  },
+
 };

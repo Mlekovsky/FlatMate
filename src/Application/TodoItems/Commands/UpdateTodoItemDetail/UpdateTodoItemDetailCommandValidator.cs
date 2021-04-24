@@ -1,7 +1,14 @@
-﻿namespace FlatMate_backend.Application.TodoItems.Commands.UpdateTodoItemDetail
+﻿using FluentValidation;
+
+namespace FlatMate_backend.Application.TodoItems.Commands.UpdateTodoItemDetail
 {
-    public class UpdateTodoItemDetailCommandValidator
+    public class UpdateTodoItemDetailCommandValidator : AbstractValidator<UpdateTodoItemDetailCommand>
     {
-        // TODO: Complete Validator
+        public UpdateTodoItemDetailCommandValidator()
+        {
+            RuleFor(v => v.Title)
+                    .MaximumLength(200)
+                    .NotEmpty();
+        }
     }
 }

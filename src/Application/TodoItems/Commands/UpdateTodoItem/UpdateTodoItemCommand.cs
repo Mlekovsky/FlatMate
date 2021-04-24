@@ -13,7 +13,6 @@ namespace FlatMate_backend.Application.TodoItems.Commands.UpdateTodoItem
     public partial class UpdateTodoItemCommand : BaseRequest, IRequest<Result<bool>>
     {
         public int Id { get; set; }
-        public string Title { get; set; }
         public bool Done { get; set; }
         public int ApartamentId { get; set; }
     }
@@ -62,7 +61,6 @@ namespace FlatMate_backend.Application.TodoItems.Commands.UpdateTodoItem
                 return new Result<bool>(false, new List<string> { "Cannot find any item to update" });
             }
 
-            entity.Title = request.Title;
             entity.Done = request.Done;
 
             await _context.SaveChangesAsync(cancellationToken);

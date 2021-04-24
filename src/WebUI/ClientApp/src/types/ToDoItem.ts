@@ -5,6 +5,8 @@ export interface IToDoItem {
   done: boolean;
   priority: number;
   note: string;
+  assignedUser: string;
+  assignedUserId: number;
 }
 
 export interface ITodoList {
@@ -13,9 +15,15 @@ export interface ITodoList {
   items: IToDoItem[];
 }
 
+export interface IAssignableUserDto {
+  userId: number;
+  user: string;
+}
+
 export interface ITodosVM {
   lists: ITodoList[];
   priorityLevels: IPriorityLevelDto[];
+  users: IAssignableUserDto[];
 }
 
 export interface IPriorityLevelDto {
@@ -28,13 +36,21 @@ export interface ITodoItemSave {
   title: string;
   listId: number;
   apartamentId: number;
+  assignedUserId: number;
 }
 
 export interface ITodoItemUpdateRequest {
   id: number;
-  title: string;
   done: boolean;
   apartamentId: number;
+}
+
+export interface ITodoItemDetailsUpdateRequest {
+  id: number;
+  listId: number;
+  apartamentId: number;
+  title: string;
+  assignedUserId: number;
 }
 
 export interface ITodoItemDeleteRequest {

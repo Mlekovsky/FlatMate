@@ -6,6 +6,7 @@ using FlatMate_backend.Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,9 +16,9 @@ namespace FlatMate_backend.Application.TodoItems.Commands.UpdateTodoItemDetail
     {
         public int Id { get; set; }
         public int ListId { get; set; }
-        public PriorityLevel Priority { get; set; }
-        public string Note { get; set; }
         public int ApartamentId { get; set; }
+        public string Title { get; set; }
+        public int AssignedUserId { get; set; }
     }
 
     public class UpdateTodoItemDetailCommandHandler : IRequestHandler<UpdateTodoItemDetailCommand, Result<bool>>
@@ -52,8 +53,8 @@ namespace FlatMate_backend.Application.TodoItems.Commands.UpdateTodoItemDetail
                 return new Result<bool>(false, new List<string> { "User does not exist in system" });
             }
 
-            if (!await _todoModuleVerification.CheckUserApartament(apartamentDb, user) || 
-                !await _todoModuleVerification.CheckTodoList(request.ListId, apartamentDb) || 
+            if (!await _todoModuleVerification.CheckUserApartament(apartamentDb, user) ||
+                !await _todoModuleVerification.CheckTodoList(request.ListId, apartamentDb) ||
                 !await _todoModuleVerification.CheckTodoItem(request.Id, apartamentDb))
             {
                 return new Result<bool>(false, new List<string> { "Cannot update item form list for this apartament" });
@@ -66,9 +67,11 @@ namespace FlatMate_backend.Application.TodoItems.Commands.UpdateTodoItemDetail
                 return new Result<bool>(false, new List<string> { "Cannot find any item to update" });
             }
 
+            var assignedUser = await _context.Users.FirstOrDefaultAsync(x => x.IsDeleted == false && x.Id == request.AssignedUserId);
+
             entity.ListId = request.ListId;
-            entity.Priority = request.Priority;
-            entity.Note = request.Note;
+            entity.AssignedUser = assignedUser;
+            entity.Title = request.Title;
 
             await _context.SaveChangesAsync(cancellationToken);
 

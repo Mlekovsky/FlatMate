@@ -29,15 +29,8 @@ namespace FlatMate_backend.WebUI.Controllers
             return BadRequest(result.Errors);
         }
 
-        //[HttpGet("{id}")]
-        //public async Task<FileResult> Get(int id)
-        //{
-        //    var vm = await Mediator.Send(new ExportTodosQuery { ListId = id });
-
-        //    return File(vm.Content, vm.ContentType, vm.FileName);
-        //}
-
         [HttpPost]
+        [Route("Create")]
         public async Task<ActionResult> Create(CreateTodoListCommand command)
         {
             command.SetUser(UserId);
@@ -51,15 +44,11 @@ namespace FlatMate_backend.WebUI.Controllers
             return BadRequest(result.Errors);
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int id, UpdateTodoListCommand command)
+        [HttpPost]
+        [Route("Update")]
+        public async Task<ActionResult> Update(UpdateTodoListCommand command)
         {
             command.SetUser(UserId);
-
-            if (id != command.Id)
-            {
-                return BadRequest();
-            }
 
             var result = await Mediator.Send(command);
 
@@ -74,7 +63,6 @@ namespace FlatMate_backend.WebUI.Controllers
         [HttpDelete]
         public async Task<ActionResult> Delete(DeleteTodoListCommand request)
         {
-            //var request = new DeleteTodoListCommand { Id = id, ApartamentId = apartamentId };
             request.SetUser(UserId);
 
             var result = await Mediator.Send(request);

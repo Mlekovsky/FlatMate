@@ -13,9 +13,13 @@ const mapDispatchToProps = (dispatch: any) =>
   bindActionCreators(
     {
       getTodoLists: actionCreatos.getTodoLists,
-      saveTodoItem: actionCreatos.saveTodoItem,
       addTodoList: actionCreatos.createTodoList,
-      deleteTodoList: actionCreatos.deleteTodoList
+      deleteTodoList: actionCreatos.deleteTodoList,
+      updateTodoList: actionCreatos.updateTodoListName,
+      saveTodoItem: actionCreatos.saveTodoItem,
+      updateTodoItem: actionCreatos.updateTodoItemStatus,
+      updateTodoItemDetails: actionCreatos.updateTodoItemDetails,
+      deleteTodoItem: actionCreatos.deleteTodoItem
     },
     dispatch,
   );

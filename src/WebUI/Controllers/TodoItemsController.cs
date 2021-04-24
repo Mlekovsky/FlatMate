@@ -16,6 +16,7 @@ namespace FlatMate_backend.WebUI.Controllers
     public class TodoItemsController : ApiController
     {
         [HttpPost]
+        [Route("Create")]
         public async Task<ActionResult> Create(CreateTodoItemCommand command)
         {
             command.SetUser(UserId);
@@ -29,14 +30,10 @@ namespace FlatMate_backend.WebUI.Controllers
             return BadRequest(result.Errors);
         }
 
-        [HttpPut("{id}")]
+        [HttpPost]
+        [Route("Update")]
         public async Task<ActionResult> Update(int id, UpdateTodoItemCommand command)
         {
-            if (id != command.Id)
-            {
-                return BadRequest();
-            }
-
             command.SetUser(UserId);
             var result = await Mediator.Send(command);
 
@@ -48,14 +45,10 @@ namespace FlatMate_backend.WebUI.Controllers
             return BadRequest(result.Errors);
         }
 
-        [HttpPut("[action]")]
-        public async Task<ActionResult> UpdateItemDetails(int id, UpdateTodoItemDetailCommand command)
+        [HttpPost]
+        [Route("UpdateDetails")]
+        public async Task<ActionResult> UpdateItemDetails(UpdateTodoItemDetailCommand command)
         {
-            if (id != command.Id)
-            {
-                return BadRequest();
-            }
-
             command.SetUser(UserId);
             var result = await Mediator.Send(command);
 
@@ -67,10 +60,9 @@ namespace FlatMate_backend.WebUI.Controllers
             return BadRequest(result.Errors);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id, int apartamentId)
-        {
-            var request = new DeleteTodoItemCommand { Id = id, ApartamentId = apartamentId };
+        [HttpDelete]
+        public async Task<ActionResult> Delete(DeleteTodoItemCommand request)
+        {  
             request.SetUser(UserId);
 
             var result = await Mediator.Send(request);

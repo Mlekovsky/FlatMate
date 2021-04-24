@@ -5,10 +5,12 @@
   padding: 10px;
 }
 
-.list-item {
+.status-box{
   cursor: pointer;
+}
+.list-item {
   position: relative;
-  padding: 12px 8px 12px 15px;
+  padding: 12px 8px 12px 0px;
   background: #eee;
   font-size: 18px;
   transition: 0.2s;
@@ -28,10 +30,6 @@
   background: #3f51b5;
 }
 
-.item-value {
-  padding-left: 10px;
-}
-
 .todo-list {
   list-style-type: none;
   border-top: 1px solid rgba(0, 0, 0, 0.125);
@@ -43,8 +41,12 @@
 }
 
 .title-buttons {
-  margin: auto;
+  margin: '0 px auto';
   margin-bottom: 10px;
   padding: 10px;
   text-align: center;
+}
+.todo-buttons{
+  margin-bottom: 3px;
+  font-size: 14px;
 }

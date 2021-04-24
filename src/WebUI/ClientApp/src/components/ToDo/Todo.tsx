@@ -1,6 +1,15 @@
-import { FC, memo, useCallback, useEffect, useState } from 'react';
+import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import React from 'react';
-import { ITodoItemSave, ITodoListCreateRequest, ITodoListDeleteRequest, ITodosVM } from '../../types/ToDoItem';
+import {
+  ITodoItemDeleteRequest,
+  ITodoItemDetailsUpdateRequest,
+  ITodoItemSave,
+  ITodoItemUpdateRequest,
+  ITodoListCreateRequest,
+  ITodoListDeleteRequest,
+  ITodoListUpdateRequest,
+  ITodosVM,
+} from '../../types/ToDoItem';
 import './Todo.css';
 import { Box, CssBaseline, Grid, makeStyles, Paper } from '@material-ui/core';
 import { Copyright } from '../User/Copyright';
@@ -35,27 +44,35 @@ const useStyles = makeStyles((theme) => ({
 export interface ITodoInterface {
   getTodoLists: (apartamentId: number) => void;
   todoLists: ITodosVM[];
-  saveTodoItem: (item: ITodoItemSave) => void;
   apartamentId: number;
   addTodoList: (request: ITodoListCreateRequest) => void;
   deleteTodoList: (request: ITodoListDeleteRequest) => void;
+  updateTodoList: (request: ITodoListUpdateRequest) => void;
+  saveTodoItem: (item: ITodoItemSave) => void;
+  updateTodoItem: (item: ITodoItemUpdateRequest) => void;
+  updateTodoItemDetails: (item: ITodoItemDetailsUpdateRequest) => void;
+  deleteTodoItem: (item: ITodoItemDeleteRequest) => void;
 }
 
 const Todo: FC<ITodoInterface> = ({
   getTodoLists,
   todoLists,
-  saveTodoItem,
   apartamentId,
   addTodoList,
   deleteTodoList,
+  updateTodoList,
+  saveTodoItem,
+  updateTodoItem,
+  updateTodoItemDetails,
+  deleteTodoItem,
 }) => {
   useEffect(() => {
     getTodoLists(apartamentId);
   }, [apartamentId]);
 
   const onSaveHandler = useCallback(
-    (value: string, listId: number): void => {
-      saveTodoItem({ title: value, listId: listId, apartamentId: apartamentId });
+    (value: string, listId: number, userId: number): void => {
+      saveTodoItem({ title: value, listId: listId, apartamentId: apartamentId, assignedUserId: userId });
     },
     [apartamentId],
   );
@@ -66,6 +83,46 @@ const Todo: FC<ITodoInterface> = ({
     },
     [apartamentId],
   );
+
+  const onListEditHandler = useCallback(
+    (title: string, id: number): void => {
+      updateTodoList({ id: id, title: title, apartamentId: apartamentId });
+    },
+    [apartamentId],
+  );
+
+  const onUpdateTodoItemStatusHandler = useCallback(
+    (id: number, done: boolean) => {
+      updateTodoItem({ apartamentId: apartamentId, id: id, done: done });
+    },
+    [apartamentId],
+  );
+
+  const onTodoItemDetailsUpdateHandler = useCallback(
+    (id: number, listId: number, title: string, assignedUserId: number) => {
+      updateTodoItemDetails({
+        apartamentId: apartamentId,
+        id: id,
+        listId: listId,
+        title: title,
+        assignedUserId: assignedUserId,
+      });
+    },
+    [apartamentId],
+  );
+
+  const onTodoItemDeleteHandler = useCallback(
+    (id: number) => {
+      deleteTodoItem({ apartamentId: apartamentId, id: id });
+    },
+    [apartamentId],
+  );
+
+  const userOptions = useMemo(() => {
+    return todoLists.users.map((item) => {
+      return { value: item.userId, label: '' + item.user };
+    });
+  }, []);
 
   const classes = useStyles();
   return (
@@ -94,6 +151,11 @@ const Todo: FC<ITodoInterface> = ({
                   todoLists={todoLists}
                   onSaveHandler={onSaveHandler}
                   onDeleteHandler={onDeleteHandler}
+                  onEditHandler={onListEditHandler}
+                  options={userOptions}
+                  onTodoItemDeleteHandler={onTodoItemDeleteHandler}
+                  onTodoItemDetailsUpdateHandler={onTodoItemDetailsUpdateHandler}
+                  onTodoItemStatusUpdateHandler={onUpdateTodoItemStatusHandler}
                 ></TodoLists>
               </Paper>
             </Grid>

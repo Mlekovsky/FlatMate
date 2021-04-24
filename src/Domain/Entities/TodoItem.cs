@@ -19,7 +19,7 @@ namespace FlatMate_backend.Domain.Entities
         public DateTime? Reminder { get; set; }
 
         public PriorityLevel Priority { get; set; }
-
+        public User AssignedUser { get; set; }
 
         public TodoList List { get; set; }
         public bool IsDeleted { get; set ; }
