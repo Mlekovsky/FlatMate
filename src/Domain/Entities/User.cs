@@ -16,6 +16,7 @@ namespace FlatMate_backend.Domain.Entities
 
         public IList<RefreshToken> RefreshTokens { get; set; }
         public ICollection<UserApartament> UserApartaments { get; set; }
+        public IList<UserReceiptPosition> UserReceiptPositions { get; set; }
         public bool IsDeleted { get; set; }
     }
 }

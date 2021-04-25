@@ -31,6 +31,10 @@ namespace FlatMate_backend.Infrastructure.Persistence
         public DbSet<Apartament> Apartaments { get; set; }
         public DbSet<ApartamentModule> ApartamentModule { get; set; }
         public DbSet<Domain.Entities.Module> Module { get; set; }
+        public DbSet<Receipt> Receipts { get; set; }
+        public DbSet<ReceiptPosition> ReceiptPositions { get; set; }
+        public DbSet<UserReceiptPosition> UserReceiptPositions { get; set; }
+
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
@@ -139,6 +143,19 @@ namespace FlatMate_backend.Infrastructure.Persistence
                 .HasOne(am => am.Module)
                 .WithMany(m => m.ApartamentModules)
                 .HasForeignKey(am => am.ModuleId);
+
+            builder.Entity<UserReceiptPosition>()
+                .HasOne(x => x.ReceiptPosition)
+                .WithMany(p => p.UserReceiptPositions)
+                .HasForeignKey(x => x.ReceiptPositionId);
+
+            builder.Entity<UserReceiptPosition>()
+                .HasOne(x => x.User)
+                .WithMany(p => p.UserReceiptPositions)
+                .HasForeignKey(x => x.UserId);
+
+            builder.Entity<UserReceiptPosition>()
+                .HasKey(x => new { x.ReceiptPositionId, x.UserId });
 
             base.OnModelCreating(builder);
         }

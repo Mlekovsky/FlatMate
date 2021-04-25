@@ -22,13 +22,11 @@ namespace FlatMate_backend.Application.TodoLists.Queries.GetTodos
     public class GetTodosQueryHandler : IRequestHandler<GetTodosQuery, Result<TodosVm>>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IMapper _mapper;
         private readonly ITodoModuleVerificationService _todoModuleVerification;
 
-        public GetTodosQueryHandler(IApplicationDbContext context, IMapper mapper, ITodoModuleVerificationService todoModuleVerification)
+        public GetTodosQueryHandler(IApplicationDbContext context, ITodoModuleVerificationService todoModuleVerification)
         {
             _context = context;
-            _mapper = mapper;
             _todoModuleVerification = todoModuleVerification;
         }
 

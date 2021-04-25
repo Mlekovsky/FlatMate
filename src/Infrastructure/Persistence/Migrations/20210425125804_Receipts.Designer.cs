@@ -4,14 +4,16 @@ using FlatMate_backend.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FlatMate_backend.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210425125804_Receipts")]
+    partial class Receipts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -134,17 +136,12 @@ namespace FlatMate_backend.Infrastructure.Persistence.Migrations
                     b.Property<bool>("Paid")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("PaidById")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ApartamentId");
-
-                    b.HasIndex("PaidById");
 
                     b.ToTable("Receipt");
                 });
@@ -422,10 +419,6 @@ namespace FlatMate_backend.Infrastructure.Persistence.Migrations
                     b.HasOne("FlatMate_backend.Domain.Entities.Apartament", "Apartament")
                         .WithMany()
                         .HasForeignKey("ApartamentId");
-
-                    b.HasOne("FlatMate_backend.Domain.Entities.User", "PaidBy")
-                        .WithMany()
-                        .HasForeignKey("PaidById");
                 });
 
             modelBuilder.Entity("FlatMate_backend.Domain.Entities.ReceiptPosition", b =>

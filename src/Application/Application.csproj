@@ -25,6 +25,8 @@
 
   <ItemGroup>
     <Folder Include="Common\Mappings\" />
+    <Folder Include="ReceiptsPosition\" />
+    <Folder Include="Receipts\Commands\" />
   </ItemGroup>
 
 </Project>
