@@ -16,9 +16,9 @@ namespace FlatMate_backend.Application.Common.Interfaces
         DbSet<Apartament> Apartaments { get; set; }
         DbSet<ApartamentModule> ApartamentModule { get; set; }
         DbSet<Module> Module { get; set; }
-        DbSet<Receipt> Receipts { get; set; }
-        DbSet<ReceiptPosition> ReceiptPositions { get; set; }
-        DbSet<UserReceiptPosition> UserReceiptPositions { get; set; }
+        DbSet<Receipt> Receipt { get; set; }
+        DbSet<ReceiptPosition> ReceiptPosition { get; set; }
+        DbSet<UserReceiptPosition> UserReceiptPosition { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

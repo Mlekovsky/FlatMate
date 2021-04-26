@@ -10,7 +10,7 @@ namespace FlatMate_backend.Application.Receipts
         public int Id { get; set; }
         public int ReceiptId { get; set; }
         public string Product { get; set; }
-        public decimal Value { get; set; }
+        public double Value { get; set; }
 
         public List<AssignableUsersDTO> AssignedUsers { get; set; }
 

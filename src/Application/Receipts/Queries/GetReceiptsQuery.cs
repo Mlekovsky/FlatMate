@@ -1,5 +1,6 @@
 ﻿using FlatMate_backend.Application.Common.Interfaces;
 using FlatMate_backend.Application.Common.Models;
+using FlatMate_backend.Application.TodoLists.Queries.GetTodos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -48,7 +49,7 @@ namespace FlatMate_backend.Application.Receipts.Queries
                 return new Result<ReceiptsDTO>(false, new List<string> { "User does not exist in system" });
             }
 
-            var receipts = await _context.Receipts
+            var receipts = await _context.Receipt
                 .Include(x => x.Apartament)
                 .Where(x => x.Apartament.Id == request.ApartamentId && x.IsDeleted == false)
                 .ToListAsync();
@@ -56,17 +57,68 @@ namespace FlatMate_backend.Application.Receipts.Queries
             switch (request.Filter)
             {
                 case ReceiptFilterMode.NotPaid:
+                    receipts = receipts.Where(x => x.Paid == false).ToList();
                     break;
                 case ReceiptFilterMode.Paid:
+                    receipts = receipts.Where(x => x.Paid == true).ToList();
                     break;
                 case ReceiptFilterMode.All:
-                    break;
                 default:
                     break;
             }
 
+            ReceiptsDTO result = new ReceiptsDTO();
 
-            throw new NotImplementedException();
+            var currentApartamentUsersIds = await _context.UserApartaments
+              .Include(x => x.User)
+              .Where(x => x.ApartamentId == request.ApartamentId && x.User.IsDeleted == false)
+              .Select(x => x.UserId).ToListAsync();
+
+            var assignableUsers = await _context.Users
+                .Where(x => currentApartamentUsersIds.Contains(x.Id))
+                .Select(x => new AssignableUsersDTO { User = string.Concat(x.FirstName, " ", x.LastName), UserId = x.Id })
+                .ToListAsync();
+
+            result.Users = assignableUsers;
+
+            List<ReceiptListDTO> resultsRecepies = new List<ReceiptListDTO>();
+            foreach (var receipt in receipts)
+            {
+                List<ReceiptPositionDTO> positionsToAdd = new List<ReceiptPositionDTO>();
+
+                var receiptToAdd = new ReceiptListDTO
+                {
+                    Id = receipt.Id,
+                    Date = receipt.Date,
+                    Paid = receipt.Paid,
+                    Title = receipt.Title,
+                };
+
+                var receiptsPositions = _context.ReceiptPosition.Include(x => x.Receipt).Where(x => x.Receipt.Id == receipt.Id);
+
+                foreach (var position in receiptsPositions)
+                {
+                    positionsToAdd.Add(new ReceiptPositionDTO
+                    {
+                        Id = position.Id,
+                        Product = position.Product,
+                        ReceiptId = receipt.Id,
+                        Value = position.Value,
+                        AssignedUsers = await _context.UserReceiptPosition
+                        .Include(x => x.User)
+                        .Where(x => x.ReceiptPositionId == position.Id)
+                        .Select(x => new AssignableUsersDTO { User = string.Concat(x.User.FirstName, " ", x.User.LastName), UserId = x.User.Id }).ToListAsync()
+                    });
+                }
+
+                //TODO: DOKOŃCZYĆ TO
+                var distinctUsers = positionsToAdd.Select(x => x.AssignedUsers).Distinct();
+
+                receiptToAdd.TotalValue = positionsToAdd.Sum(x => x.Value);
+                resultsRecepies.Add(receiptToAdd);
+            }
+
+            return new Result<ReceiptsDTO>(true, result);
         }
     }
 

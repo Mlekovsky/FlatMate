@@ -10,7 +10,7 @@ namespace FlatMate_backend.Application.Receipts
         public bool Paid { get; set; }
         public DateTime Date { get; set; }
         public string Title { get; set; }
-        public decimal TotalValue { get; set; }
+        public double TotalValue { get; set; }
         public List<UserReceiptTotalValueDTO> UserTotalValues { get; set; }
 
         public List<ReceiptPositionDTO> Positions { get; set; }

@@ -119,7 +119,7 @@ const Todo: FC<ITodoInterface> = ({
   );
 
   const userOptions = useMemo(() => {
-    return todoLists.users.map((item) => {
+    return todoLists?.users?.map((item) => {
       return { value: item.userId, label: '' + item.user };
     });
   }, []);
