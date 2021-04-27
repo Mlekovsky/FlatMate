@@ -9,7 +9,7 @@ import DashboardContainer from '../components/Homepage/DashboardContainer';
 import { actionCreators as loaderActionsCreator } from '../actions/common/loaderAction';
 import TodoContainer from '../components/ToDo/TodoContainer';
 import ApartamentSettingsContainer from './Apartaments/ApartamentSettings/ApartamentSettingsContainer';
-import ShoppingListContainer from './ShoppingList/ShoppingListContainer';
+import ReceiptsContainer from './Receipts/ReceiptsContainer';
 
 const Routes = () => (
   <>
@@ -20,7 +20,7 @@ const Routes = () => (
       <Route path="/Todo" component={TodoContainer} />
       <Route path="/Register" component={RegisterContainer} />
       <Route path="/Settings" component={ApartamentSettingsContainer} />
-      <Route path="/ShoppingList" component={ShoppingListContainer} />
+      <Route path="/Receipts" component={ReceiptsContainer} />
     </Switch>
   </>
 );

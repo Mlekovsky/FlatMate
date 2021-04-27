@@ -27,9 +27,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export interface IShoppingList {}
+export interface IReceipts {}
 
-export const ShoppingList: FC<IShoppingList> = ({}) => {
+export const Receipts: FC<IReceipts> = ({}) => {
   const classes = useStyles();
   return (
     <>

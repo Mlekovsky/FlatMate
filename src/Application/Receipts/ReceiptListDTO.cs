@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FlatMate_backend.Application.TodoLists.Queries.GetTodos;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -11,6 +12,7 @@ namespace FlatMate_backend.Application.Receipts
         public DateTime Date { get; set; }
         public string Title { get; set; }
         public double TotalValue { get; set; }
+        public AssignableUsersDTO PaidByUser { get; set; }
         public List<UserReceiptTotalValueDTO> UserTotalValues { get; set; }
 
         public List<ReceiptPositionDTO> Positions { get; set; }
@@ -18,6 +20,7 @@ namespace FlatMate_backend.Application.Receipts
         public ReceiptListDTO()
         {
             Positions = new List<ReceiptPositionDTO>();
+            UserTotalValues = new List<UserReceiptTotalValueDTO>();
         }
     }
 }

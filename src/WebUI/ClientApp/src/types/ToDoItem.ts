@@ -1,3 +1,5 @@
+import { IAssignableUserDto } from "./common";
+
 export interface IToDoItem {
   id: number;
   listId: number;
@@ -13,11 +15,6 @@ export interface ITodoList {
   id: number;
   title: string;
   items: IToDoItem[];
-}
-
-export interface IAssignableUserDto {
-  userId: number;
-  user: string;
 }
 
 export interface ITodosVM {

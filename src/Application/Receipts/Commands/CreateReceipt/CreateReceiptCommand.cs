@@ -14,6 +14,7 @@ namespace FlatMate_backend.Application.Receipts.Commands.CreateReceipt
     public class CreateReceiptCommand : BaseRequest, IRequest<Result<int>>
     {
         public int ApartamentId { get; set; }
+        public int PaidBy { get; set; }
         public string Title { get; set; }
         public DateTime Date { get; set; }
     }
@@ -55,6 +56,7 @@ namespace FlatMate_backend.Application.Receipts.Commands.CreateReceipt
                 entity.CreatedBy = user.Id.ToString();
                 entity.Date = request.Date;
                 entity.Paid = false;
+                entity.PaidBy = await _context.Users.FirstOrDefaultAsync(x => x.Id == request.PaidBy);
                 entity.Title = request.Title;
 
                 await _context.Receipt.AddAsync(entity);

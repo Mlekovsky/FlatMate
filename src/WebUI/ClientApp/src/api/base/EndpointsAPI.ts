@@ -18,3 +18,6 @@ export const ApartamentListUrl = 'api/Apartament/List';
 export const AvailableAparatamentsListUrl = 'api/Apartament/AvailableList';
 
 export const ModulesUrl = 'api/Modules';
+
+export const ReceiptsUrl = 'api/Receipts';
+export const ReceiptPositionsUrl = 'api/ReceiptPositionsUrl';

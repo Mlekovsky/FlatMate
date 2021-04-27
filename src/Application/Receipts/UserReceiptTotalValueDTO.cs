@@ -7,6 +7,6 @@ namespace FlatMate_backend.Application.Receipts
     public class UserReceiptTotalValueDTO
     {
         public string User { get; set; }
-        public decimal TotalValue { get; set; }
+        public double TotalValue { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using FlatMate_backend.Application.Common.Interfaces;
+﻿using FlatMate_backend.Application.Common.Helpers;
+using FlatMate_backend.Application.Common.Interfaces;
 using FlatMate_backend.Application.Common.Models;
 using FlatMate_backend.Application.TodoLists.Queries.GetTodos;
 using MediatR;
@@ -51,6 +52,7 @@ namespace FlatMate_backend.Application.Receipts.Queries
 
             var receipts = await _context.Receipt
                 .Include(x => x.Apartament)
+                .Include(x => x.PaidBy)
                 .Where(x => x.Apartament.Id == request.ApartamentId && x.IsDeleted == false)
                 .ToListAsync();
 
@@ -94,29 +96,59 @@ namespace FlatMate_backend.Application.Receipts.Queries
                     Title = receipt.Title,
                 };
 
-                var receiptsPositions = _context.ReceiptPosition.Include(x => x.Receipt).Where(x => x.Receipt.Id == receipt.Id);
+                var receiptsPositions = await _context.ReceiptPosition.Include(x => x.Receipt).Where(x => x.Receipt.Id == receipt.Id).ToListAsync();
 
                 foreach (var position in receiptsPositions)
                 {
+                    var assignedUsers = await _context.UserReceiptPosition
+                        .Include(x => x.User)
+                        .Where(x => x.ReceiptPositionId == position.Id)
+                        .Select(x => new AssignableUsersDTO { User = string.Concat(x.User.FirstName, " ", x.User.LastName), UserId = x.User.Id }).ToListAsync();
+
                     positionsToAdd.Add(new ReceiptPositionDTO
                     {
                         Id = position.Id,
                         Product = position.Product,
                         ReceiptId = receipt.Id,
                         Value = position.Value,
-                        AssignedUsers = await _context.UserReceiptPosition
-                        .Include(x => x.User)
-                        .Where(x => x.ReceiptPositionId == position.Id)
-                        .Select(x => new AssignableUsersDTO { User = string.Concat(x.User.FirstName, " ", x.User.LastName), UserId = x.User.Id }).ToListAsync()
+                        AssignedUsers = assignedUsers
+                    });
+
+                }
+
+                receiptToAdd.Positions = positionsToAdd;
+
+                var distinctUsers = positionsToAdd.SelectMany(x => x.AssignedUsers).DistinctBy(item => item.UserId).ToList();
+
+                foreach (var distinctUser in distinctUsers)
+                {
+                    var positionsToSplit = positionsToAdd.Where(x => x.AssignedUsers.Exists(y => y.UserId == distinctUser.UserId));
+                    double totalValue = 0;
+
+                    foreach (var positionToSplit in positionsToSplit)
+                    {
+                        //Zakładamy, że skoro ten produkt jest przypisany do kogoś, to nie podzielimy przez liczbę osób 0
+                        totalValue += positionToSplit.Value / positionToSplit.AssignedUsers.Count;
+                    }
+
+                    receiptToAdd.UserTotalValues.Add(new UserReceiptTotalValueDTO
+                    {
+                        User = distinctUser.User,
+                        TotalValue = totalValue
                     });
                 }
 
-                //TODO: DOKOŃCZYĆ TO
-                var distinctUsers = positionsToAdd.Select(x => x.AssignedUsers).Distinct();
-
                 receiptToAdd.TotalValue = positionsToAdd.Sum(x => x.Value);
+
+                if (receipt.PaidBy != null)
+                {
+                    receiptToAdd.PaidByUser = new AssignableUsersDTO { User = string.Concat(receipt.PaidBy.FirstName, " ", receipt.PaidBy.LastName), UserId = receipt.PaidBy.Id };
+                }
+
                 resultsRecepies.Add(receiptToAdd);
             }
+
+            result.Receipts = resultsRecepies;
 
             return new Result<ReceiptsDTO>(true, result);
         }
