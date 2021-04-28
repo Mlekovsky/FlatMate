@@ -180,15 +180,16 @@ export const MenuAuthorized: FC<IMenuAuthroizedInterface> = ({
             icon={<MonetizationOnIcon />}
             text={MenuAuthorizedValues.ShoppingList}
             value={MenuAuthorizedValues.ShoppingList}
-            to="/ShoppingList"
-            moduleId={Modules.SHOPPING_LIST}
+            to="/"
             currentModules = {currentModules}
           />
           <MenuLink
             icon={<ReceiptIcon />}
             text={MenuAuthorizedValues.Receipts}
             value={MenuAuthorizedValues.Receipts}
-            to="/"
+            moduleId={Modules.RECEIPTS}
+            to="/Receipts"
+            currentModules = {currentModules}
           />
           <MenuLink
             icon={<AssignmentIcon />}

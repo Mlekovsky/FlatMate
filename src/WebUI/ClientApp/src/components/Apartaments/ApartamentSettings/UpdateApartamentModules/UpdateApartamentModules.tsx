@@ -42,7 +42,7 @@ export const UpdateApartamentModules: FC<IUpdateApartamentModules> = ({
   const onUpdateHandler = useCallback(async () => {
     let toUpdate = [];
     if (todoCheck) toUpdate.push(Modules.TODO_MODULE);
-    if (shoppingListCheck) toUpdate.push(Modules.SHOPPING_LIST);
+    if (shoppingListCheck) toUpdate.push(Modules.RECEIPTS);
 
     let success = await updateApartamentModules({
       apartamentId: id,
@@ -59,7 +59,7 @@ export const UpdateApartamentModules: FC<IUpdateApartamentModules> = ({
 
   useEffect(() => {
     setTodoCheck(currentModules.includes(Modules.TODO_MODULE));
-    setShoppingListCheck(currentModules.includes(Modules.SHOPPING_LIST));
+    setShoppingListCheck(currentModules.includes(Modules.RECEIPTS));
     getModulesInfo();
   }, [currentModules]);
 
@@ -75,8 +75,8 @@ export const UpdateApartamentModules: FC<IUpdateApartamentModules> = ({
             </Col>
           </Row>
           <Row style={{marginBottom: 10}}>
-            <Col xs={4}><strong>Lista zakupów:</strong></Col>
-            <Col xs={6}>{modulesList?.find(x => x.id == Modules.SHOPPING_LIST)?.description}</Col>
+            <Col xs={4}><strong>Paragony:</strong></Col>
+            <Col xs={6}>{modulesList?.find(x => x.id == Modules.RECEIPTS)?.description}</Col>
             <Col xs={2}>
               <Switch onChange={handleShoppingListCheck} checked={shoppingListCheck}></Switch>
             </Col>

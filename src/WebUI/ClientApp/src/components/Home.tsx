@@ -19,7 +19,7 @@ export class Home extends Component {
             <strong>Lista zadań</strong> - Twórz zadania, które trzeba zrobić, i przypisz je odpowiednim osobom!
           </li>
           <li>
-            <strong>Lista zakupów</strong> - Twórz listy rzeczy, które trzeba zakupić do domu!
+            <strong>Paragony</strong> - Dodawaj paragony, które rozliczą się automatycznie po przypisaniu użyktowników!
           </li>
         </ul>
       </div>
