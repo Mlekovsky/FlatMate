@@ -13,6 +13,12 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch: any) => bindActionCreators({
     getReceipts: receiptActionCreator.getReceipts,
     addReceipt: receiptActionCreator.createReceipt,
+    updateReceipt: receiptActionCreator.updateReceipt,
+    updateReceiptStatus: receiptActionCreator.updateReceiptStatus,
+    deleteReceipt: receiptActionCreator.deleteReceipt,
+    addReceiptPosition: receiptActionCreator.createReceiptPosition,
+    updateReceiptPosition: receiptActionCreator.updateReceiptPosition,
+    deleteReceiptPosition: receiptActionCreator.deleteReceiptPosition
 }, dispatch);
 
 export default memo(connect(mapStateToProps, mapDispatchToProps)(Receipts));
