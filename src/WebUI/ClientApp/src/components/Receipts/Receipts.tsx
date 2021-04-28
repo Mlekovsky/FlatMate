@@ -1,7 +1,18 @@
 import { Box, Container, CssBaseline, Grid, makeStyles, Paper } from '@material-ui/core';
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { IAssignableUserDto, IReactSelectOption } from '../../types/common';
-import { ICreateReceiptRequest, IReceiptListDto, ReceiptFilterMode, ReceiptFilterNames } from '../../types/Receipt';
+import {
+  ICreateReceiptPositionRequest,
+  ICreateReceiptRequest,
+  IDeleteReceiptPositionRequest,
+  IDeleteReceiptRequest,
+  IReceiptListDto,
+  IUpdateReceiptPositionRequest,
+  IUpdateReceiptRequest,
+  IUpdateReceiptStatusRequest,
+  ReceiptFilterMode,
+  ReceiptFilterNames,
+} from '../../types/Receipt';
 import { Copyright } from '../User/Copyright';
 import './Receipts.css';
 import { ReceiptsList } from './ReceiptsList';
@@ -47,9 +58,27 @@ export interface IReceipts {
   receipts: IReceiptListDto[];
   users: IAssignableUserDto[];
   addReceipt: (request: ICreateReceiptRequest) => void;
+  updateReceipt: (request: IUpdateReceiptRequest) => void;
+  updateReceiptStatus: (request: IUpdateReceiptStatusRequest) => void;
+  deleteReceipt: (request: IDeleteReceiptRequest) => void;
+  addReceiptPosition: (request: ICreateReceiptPositionRequest) => void;
+  updateReceiptPosition: (request: IUpdateReceiptPositionRequest) => void;
+  deleteReceiptPosition: (request: IDeleteReceiptPositionRequest) => void;
 }
 
-export const Receipts: FC<IReceipts> = ({ apartamentId, getReceipts, receipts, users, addReceipt }) => {
+export const Receipts: FC<IReceipts> = ({
+  apartamentId,
+  getReceipts,
+  receipts,
+  users,
+  addReceipt,
+  updateReceipt,
+  updateReceiptStatus,
+  deleteReceipt,
+  addReceiptPosition,
+  updateReceiptPosition,
+  deleteReceiptPosition,
+}) => {
   const classes = useStyles();
 
   const [searchMode, setSearchMode] = useState(ReceiptFilterMode.NotPaid);
@@ -83,6 +112,8 @@ export const Receipts: FC<IReceipts> = ({ apartamentId, getReceipts, receipts, u
     },
     [searchMode],
   );
+
+  const onUpdateReceiptHandler = useCallback((request: IUpdateReceiptRequest) => {}, [apartamentId]);
 
   return (
     <>
