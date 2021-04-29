@@ -62,6 +62,13 @@ namespace FlatMate_backend.Application.ReceiptsPosition.Commands.UpdateReceiptPo
             entity.Product = request.Product;
             entity.Value = request.Value;
 
+            //Najpierw usuwamy wszystkie przypisania, a potem nadajemy ewentualne nowe
+            var currentAssignments = await _context.UserReceiptPosition.Where(x => x.ReceiptPositionId == request.Id).ToListAsync();
+
+            _context.UserReceiptPosition.RemoveRange(currentAssignments);
+
+            await _context.SaveChangesAsync(cancellationToken);
+
             if (request?.AssignedUsersId != null && request.AssignedUsersId.Any())
             {
                 var assignedUsers = await _context.Users.Where(x => request.AssignedUsersId.Contains(x.Id)).ToListAsync();
