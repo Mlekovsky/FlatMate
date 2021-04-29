@@ -31,8 +31,6 @@ export const AddReceipt: FC<IAddReceipt> = ({ addReceipt, apartamentId, options 
     [paidBy],
   );
 
-
-
   return (
     <>
       <Form>

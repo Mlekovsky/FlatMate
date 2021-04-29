@@ -20,4 +20,4 @@ export const AvailableAparatamentsListUrl = 'api/Apartament/AvailableList';
 export const ModulesUrl = 'api/Modules';
 
 export const ReceiptsUrl = 'api/Receipts';
-export const ReceiptPositionsUrl = 'api/ReceiptPositionsUrl';
+export const ReceiptPositionsUrl = 'api/ReceiptPositions';

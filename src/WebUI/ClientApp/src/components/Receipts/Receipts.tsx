@@ -113,7 +113,59 @@ export const Receipts: FC<IReceipts> = ({
     [searchMode],
   );
 
-  const onUpdateReceiptHandler = useCallback((request: IUpdateReceiptRequest) => {}, [apartamentId]);
+  const onUpdateReceiptHandler = useCallback(
+    (receiptId: number, title: string, paidBy: number, date: Date) => {
+      updateReceipt({ apartamentId: apartamentId, receiptId: receiptId, date: date, title: title, paidBy: paidBy });
+    },
+    [apartamentId],
+  );
+
+  const onUpdateReceiptStatusHandler = useCallback(
+    (receiptId: number, paid: boolean) => {
+      updateReceiptStatus({ apartamentId: apartamentId, paid: paid, receiptId: receiptId });
+    },
+    [apartamentId],
+  );
+
+  const onDeleteReceiptHandler = useCallback(
+    (receiptId: number) => {
+      deleteReceipt({ apartamentId: apartamentId, receiptId: receiptId });
+    },
+    [apartamentId],
+  );
+
+  const onCreateReceiptPositionHandler = useCallback(
+    (receiptId: number, value: number, product: string, assignedUsersId: number[]) => {
+      addReceiptPosition({
+        apartamentId: apartamentId,
+        receiptId: receiptId,
+        value: value,
+        product: product,
+        assignedUsersId: assignedUsersId,
+      });
+    },
+    [apartamentId],
+  );
+
+  const onUpdateReceiptPositionHandler = useCallback(
+    (id: number, value: number, product: string, assignedUsersId: number[]) => {
+      updateReceiptPosition({
+        apartamentId: apartamentId,
+        id: id,
+        value: value,
+        product: product,
+        assignedUsersId: assignedUsersId,
+      });
+    },
+    [apartamentId],
+  );
+
+  const onDelteReceiptPositionHandler = useCallback(
+    (id: number) => {
+      deleteReceiptPosition({ id: id, apartamentId: apartamentId });
+    },
+    [apartamentId],
+  );
 
   return (
     <>
@@ -147,7 +199,17 @@ export const Receipts: FC<IReceipts> = ({
                   </Col>
                 </Row>
 
-                <ReceiptsList key={0} options={userOptions} receipts={receipts}></ReceiptsList>
+                <ReceiptsList
+                  key={0}
+                  options={userOptions}
+                  receipts={receipts}
+                  onDeleteHandler={onDeleteReceiptHandler}
+                  onUpdateHandler={onUpdateReceiptHandler}
+                  onUpdateStatusHandler={onUpdateReceiptStatusHandler}
+                  onAddPositionHandler={onCreateReceiptPositionHandler}
+                  onDeletePositionHandler={onDelteReceiptPositionHandler}
+                  onUpdatePositionHandler={onUpdateReceiptPositionHandler}
+                ></ReceiptsList>
               </Paper>
             </Grid>
           </Grid>

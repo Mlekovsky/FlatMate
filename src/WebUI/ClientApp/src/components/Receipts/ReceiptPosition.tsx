@@ -1,7 +1,7 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import { Col, Container, Form, Row } from 'react-bootstrap';
 import { IAssignableUserDto, IReactSelectOption } from '../../types/common';
-import { isEmpty, map } from 'lodash';
+import { map } from 'lodash';
 import Select from 'react-select';
 
 export interface IReceiptPosition {
@@ -11,46 +11,91 @@ export interface IReceiptPosition {
   value: number;
   assignedUsers: IAssignableUserDto[];
   options: IReactSelectOption[];
+  onUpdatePositionHandler: (id: number, value: number, product: string, assignedUsersId: number[]) => void;
+  onDeletePositionHandler: (id: number) => void;
 }
 
-export const ReceiptPosition: FC<IReceiptPosition> = ({ id, receiptId, product, value, assignedUsers, options }) => {
+export const ReceiptPosition: FC<IReceiptPosition> = ({
+  id,
+  receiptId,
+  product,
+  value,
+  assignedUsers,
+  options,
+  onUpdatePositionHandler,
+  onDeletePositionHandler,
+}) => {
   const [isEdit, setIsEdit] = useState(false);
-  const [userId, setUserId] = useState(0);
-  const [title, setTitle] = useState('');
-  const [currentValue, setCurrentValue] = useState(0);
-  const [selectedUser, setSelectedUser] = useState({ label: '', value: 0 });
+  const [userId, setUserId] = useState([]);
+  const [title, setTitle] = useState(product);
+  const [currentValue, setCurrentValue] = useState(value);
+  const [currentUsers, setCurrentUsers] = useState([]);
+
+  useEffect(() => {
+    setCurrentUsers(
+      Array.isArray(assignedUsers)
+        ? assignedUsers.map((item) => {
+            return { label: item.user, value: item.userId };
+          })
+        : [],
+    );
+  }, [assignedUsers]);
 
   const toggleEdit = useCallback(() => {
     setIsEdit(!isEdit);
   }, [isEdit]);
 
   const onOptionSelect = useCallback(
-    (value: IReactSelectOption) => {
-      setUserId(value.value);
-      setSelectedUser({ value: value.value, label: value.label });
+    (value: IReactSelectOption[]) => {
+      setUserId(Array.isArray(value) ? value.map((x) => x.value) : []);
+      setCurrentUsers(
+        Array.isArray(value)
+          ? value.map((item) => {
+              return { label: item.label, value: item.value };
+            })
+          : [],
+      );
     },
-    [userId],
+    [userId, currentUsers],
   );
 
-  let taskLabel;
+  const onDeleteHandler = useCallback(() => {
+    onDeletePositionHandler(id);
+  }, [id]);
+
+  const onUpdateHandler = useCallback(() => {
+    onUpdatePositionHandler(id, currentValue, title, userId);
+  }, [title, currentValue, userId, id]);
+
+  let productLabel;
   let userLabel;
   let buttons;
+  let valueLabel;
 
   if (isEdit) {
-    taskLabel = (
+    productLabel = (
       <>
         <Form.Control type="name" value={title} onChange={(e) => setTitle(e.target.value)} />
+      </>
+    );
+    valueLabel = (
+      <>
+        <Form.Control
+          type="number"
+          value={currentValue}
+          onChange={(e) => setCurrentValue(parseFloat(e.target.value))}
+        />
       </>
     );
 
     userLabel = (
       <>
-        <Select options={options} onChange={onOptionSelect} value={selectedUser}></Select>
+        <Select options={options} onChange={onOptionSelect} value={currentUsers} isMulti isClearable></Select>
       </>
     );
     buttons = (
       <>
-        <button className="btn btn-success todo-buttons">
+        <button className="btn btn-success todo-buttons" onClick={onUpdateHandler}>
           <i className="fas fa-check"></i>
         </button>
         <button className="btn btn-secondary todo-buttons" onClick={toggleEdit}>
@@ -59,7 +104,8 @@ export const ReceiptPosition: FC<IReceiptPosition> = ({ id, receiptId, product, 
       </>
     );
   } else {
-    taskLabel = <>{value}</>;
+    productLabel = <>{product}</>;
+    valueLabel = <>{value}</>;
     userLabel = (
       <>
         {map(assignedUsers, (item, index) => {
@@ -72,7 +118,7 @@ export const ReceiptPosition: FC<IReceiptPosition> = ({ id, receiptId, product, 
         <button className="btn btn-warning todo-buttons" onClick={toggleEdit}>
           <i className="far fa-edit"></i>
         </button>
-        <button className="btn btn-danger todo-buttons">
+        <button className="btn btn-danger todo-buttons" onClick={onDeleteHandler}>
           <i className="fas fa-trash"></i>
         </button>
       </>
@@ -84,8 +130,8 @@ export const ReceiptPosition: FC<IReceiptPosition> = ({ id, receiptId, product, 
       <li className="list-item">
         <Container>
           <Row>
-            <Col xs={3}>{product}</Col>
-            <Col xs={3}>{value}</Col>
+            <Col xs={3}>{productLabel}</Col>
+            <Col xs={3}>{valueLabel}</Col>
             <Col xs={4} className="task-owner">
               {userLabel}
             </Col>

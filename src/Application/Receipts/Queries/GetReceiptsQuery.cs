@@ -96,7 +96,7 @@ namespace FlatMate_backend.Application.Receipts.Queries
                     Title = receipt.Title,
                 };
 
-                var receiptsPositions = await _context.ReceiptPosition.Include(x => x.Receipt).Where(x => x.Receipt.Id == receipt.Id).ToListAsync();
+                var receiptsPositions = await _context.ReceiptPosition.Include(x => x.Receipt).Where(x => x.Receipt.Id == receipt.Id && x.IsDeleted == false).ToListAsync();
 
                 foreach (var position in receiptsPositions)
                 {

@@ -6,29 +6,26 @@ import Select from 'react-select';
 export interface IReceiptPositionInput {
   receiptId: number;
   options: IReactSelectOption[];
+  onAddPositionHandler: (receiptId: number, value: number, product: string, assignedUsersId: number[]) => void;
 }
 
-export const ReceiptPositionInput: FC<IReceiptPositionInput> = ({ receiptId, options }) => {
+export const ReceiptPositionInput: FC<IReceiptPositionInput> = ({ receiptId, options, onAddPositionHandler }) => {
+  const [name, setName] = useState('');
+  const [userId, setUserId] = useState([]);
+  const [price, setPrice] = useState(0);
 
-    const [name, setName] = useState('');
-    const [userId, setUserId] = useState(0);
-  
-    const onChangeHandler = useCallback((event: ChangeEvent<HTMLInputElement>): void => {
-      setName(event.target.value);
-    }, []);
-  
-    const onSaveClick = useCallback((): void => {
-      setName('');
-    }, [name, receiptId, userId]);
-  
-    const onOptionSelect = useCallback(
-      (value: IReactSelectOption) => {
-        setUserId(value.value);
-      },
-      [userId],
-    );
+  const onChangeHandler = useCallback((event: ChangeEvent<HTMLInputElement>): void => {
+    setName(event.target.value);
+  }, []);
 
-    
+  const onOptionSelect = useCallback((e: IReactSelectOption[]) => {
+    setUserId(Array.isArray(e) ? e.map((x) => x.value) : []);
+  }, []);
+
+  const addPositionHandler = useCallback(() => {
+    onAddPositionHandler(receiptId, price, name, userId);
+  }, [price, name, userId]);
+
   return (
     <>
       <div style={{ padding: 5 }}>
@@ -39,15 +36,25 @@ export const ReceiptPositionInput: FC<IReceiptPositionInput> = ({ receiptId, opt
                 <Form.Control type="name" placeholder="Produkt..." onChange={onChangeHandler} />
               </Col>
               <Col>
-                <Form.Control type="number" placeholder="Cena..." />
+                <Form.Control
+                  type="number"
+                  placeholder="Cena..."
+                  onChange={(e) => setPrice(parseFloat(e.target.value))}
+                />
               </Col>
               <Col>
-                <Select options={options} onChange={onOptionSelect} placeholder="Przypisz użytkowników..."></Select>
+                <Select
+                  options={options}
+                  onChange={onOptionSelect}
+                  isMulti
+                  isClearable
+                  placeholder="Przypisz użytkowników..."
+                ></Select>
               </Col>
             </Row>
           </Container>
         </Form>
-        <button className="btn btn-success" onClick={onSaveClick} style={{ margin: 15 }}>
+        <button className="btn btn-success" onClick={addPositionHandler} style={{ margin: 15 }}>
           Dodaj!
         </button>
       </div>

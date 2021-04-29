@@ -11,9 +11,24 @@ import { ReceiptSummary } from './ReceiptSummary';
 export interface IReceiptsList {
   receipts: IReceiptListDto[];
   options: IReactSelectOption[];
+  onDeleteHandler: (id: number) => void;
+  onUpdateHandler: (receiptId: number, title: string, paidBy: number, date: Date) => void;
+  onUpdateStatusHandler: (receiptId: number, paid: boolean) => void;
+  onAddPositionHandler: (receiptId: number, value: number, product: string, assignedUsersId: number[]) => void;
+  onUpdatePositionHandler: (id: number, value: number, product: string, assignedUsersId: number[]) => void;
+  onDeletePositionHandler: (id: number) => void;
 }
 
-export const ReceiptsList: FC<IReceiptsList> = ({ receipts, options }) => {
+export const ReceiptsList: FC<IReceiptsList> = ({
+  receipts,
+  options,
+  onDeleteHandler,
+  onUpdateHandler,
+  onUpdateStatusHandler,
+  onAddPositionHandler,
+  onUpdatePositionHandler,
+  onDeletePositionHandler
+}) => {
   return (
     <>
       <div className="container">
@@ -32,6 +47,9 @@ export const ReceiptsList: FC<IReceiptsList> = ({ receipts, options }) => {
                         options={options}
                         paid={fs.paid}
                         userPaid={fs.paidByUser}
+                        onDeleteHandler={onDeleteHandler}
+                        onUpdateHandler={onUpdateHandler}
+                        onUpdateStatusHandler={onUpdateStatusHandler}
                       ></ReceiptHeader>
                       <Row>
                         <Col xs={12}>
@@ -46,6 +64,8 @@ export const ReceiptsList: FC<IReceiptsList> = ({ receipts, options }) => {
                                   product={item.product}
                                   receiptId={fs.id}
                                   value={item.value}
+                                  onDeletePositionHandler={onDeletePositionHandler}
+                                  onUpdatePositionHandler={onUpdatePositionHandler}
                                 ></ReceiptPosition>
                               );
                             })}
@@ -70,6 +90,7 @@ export const ReceiptsList: FC<IReceiptsList> = ({ receipts, options }) => {
                               key={index}
                               options={options}
                               receiptId={fs.id}
+                              onAddPositionHandler={onAddPositionHandler}
                             ></ReceiptPositionInput>
                           </div>
                         </Col>
